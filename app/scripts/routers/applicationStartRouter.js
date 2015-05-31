@@ -13,7 +13,9 @@ function(Backbone, Controller){
 		routes: {
 			'board': 'showBoard',
 			'*notFound': 'notFound',
-			':notFound': 'notFound'
+			':notFound': 'notFound',
+			'/*notFound': 'notFound',
+			'!/*notFound': 'notFound'
 		},
 
 		showBoard: function() {
