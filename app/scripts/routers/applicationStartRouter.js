@@ -4,7 +4,7 @@ define([
 	'application',
 	'../views/layout/boardLayout'
 ],
-function(Backbone, Controller, App, BoardLayout){
+function(Backbone, Marionette, App, BoardLayout){
     'use strict';
 
 	return Backbone.Marionette.AppRouter.extend({
