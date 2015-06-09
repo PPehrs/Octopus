@@ -3,7 +3,7 @@ require.config({
     baseUrl: "/scripts",
 
     /* starting point for application */
-    deps: ['backbone.marionette', 'bootstrap', 'main'],
+    deps: ['backbone.marionette', 'bootstrap', 'bootbox', 'main'],
 
 
     shim: {
@@ -17,6 +17,13 @@ require.config({
         bootstrap: {
             deps: ['jquery'],
             exports: 'jquery'
+        },
+        bootbox: {
+            deps: [
+                'jquery',
+                'bootstrap'
+            ],
+            exports: 'bootbox'
         }
     },
 
@@ -31,7 +38,7 @@ require.config({
         'backbone.babysitter': '../bower_components/backbone.babysitter/lib/amd/backbone.babysitter',
 
         /* alias the bootstrap js lib */
-        bootstrap: 'vendor/bootstrap',
+        bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
 
         /* Alias text.js for template loading and shortcut the templates dir to tmpl */
         text: '../bower_components/requirejs-text/text',
@@ -40,9 +47,9 @@ require.config({
         /* handlebars from the require handlerbars plugin below */
         handlebars: '../bower_components/require-handlebars-plugin/Handlebars',
 
-        tooltipster: '../../node_modules/tooltipster/js/jquery.tooltipster.min.js',
+        tooltipster: 'vendor/jquery.tooltipster.min',
 
-        bootbox: '../../node_modules/bootbox/bootbox.min.js',
+        bootbox: '../bower_components/bootbox/bootbox',
 
         /* require handlebars plugin - Alex Sexton */
         i18nprecompile: '../bower_components/require-handlebars-plugin/hbs/i18nprecompile',
