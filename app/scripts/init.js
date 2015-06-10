@@ -51,6 +51,8 @@ require.config({
 
         bootbox: '../bower_components/bootbox/bootbox',
 
+		'socket.io.client': '../bower_components/socket.io-client/socket.io',
+
         /* require handlebars plugin - Alex Sexton */
         i18nprecompile: '../bower_components/require-handlebars-plugin/hbs/i18nprecompile',
         json2: '../bower_components/require-handlebars-plugin/hbs/json2',
