@@ -33,9 +33,26 @@ function( Backbone, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
 		events: {},
 
 		childEvents: {
-			'scoreItem:new:score': function (value) {
-				alert('DIGGI');
+			'scoreItem:new:score': function (child, value) {
+				this._onNewScore(value);
 			}
+		},
+
+		_onNewScore: function (value) {
+			var isPlayerLeftActive = this.matchStatus.isPlayerLeftActive
+			var activePlayer = this.ScorePlayerLeft.currentView;
+			if(!isPlayerLeftActive) {
+				activePlayer = this.ScorePlayerRight.currentView;
+			}
+			activePlayer.newScore(value);
+
+			var active = !isPlayerLeftActive;
+			this.ScorePlayerLeft.currentView.model.set('isPlayerActive', active);
+			this.ScorePlayerRight.currentView.model.set('isPlayerActive', !active);
+			this.matchStatus.isPlayerLeftActive = active;
+
+			this.ScorePlayerLeft.currentView.refresh();
+			this.ScorePlayerRight.currentView.refresh();
 		},
 
 		_startNewMatch: function () {
@@ -43,7 +60,7 @@ function( Backbone, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
 				playerLeftStartsLeg: true,
 				playerLeftStartsSet: true,
 				playerLeftStartsMatch: true,
-				isplayerLeftActive: true
+				isPlayerLeftActive: true
 			};
 		},
 

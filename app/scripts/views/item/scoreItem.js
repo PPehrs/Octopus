@@ -41,7 +41,7 @@ function( Backbone, ScoreitemTmpl  ) {
 		},
 
 		onKeyPressScoreInput: function(e) {
-			if(e.keyCode > 57) {
+			if(e.keyCode > 57 || (e.keyCode >= 43 && e.keyCode <= 46)) {
 				return false;
 			}
 		},
@@ -54,15 +54,12 @@ function( Backbone, ScoreitemTmpl  ) {
 
 			if(e.keyCode === 13) {
 				this.triggerMethod('scoreItem:new:score', e.target.value);
+				e.target.value = null;
 			}
 		},
 
 		/* on render callback */
 		onRender: function() {},
-
-		onShow: function () {
-			this.ui.scoreInput.focus();
-		}
 	});
 
 });

@@ -11,25 +11,58 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 	/* Return a Layout class definition */
 	return Backbone.Marionette.LayoutView.extend({
 
-		initialize: function() {
-			console.log("initialize a Playerlayout Layout");
+		template: PlayerlayoutTmpl,
+
+
+		/* Layout sub regions */
+		regions: {
+			PlayerMenuRegion: '.octopus_playerMenu',
+			PlayerNameRegion: '.octopus_playerName',
+			PlayerScoresRegion: '.octopus_playerScores'
 		},
 
-    	template: PlayerlayoutTmpl,
-
-
-    	/* Layout sub regions */
-    	regions: {
-    		PlayerMenuRegion: '.octopus_playerMenu',
-    		PlayerNameRegion: '.octopus_playerName',
-    		PlayerScoresRegion: '.octopus_playerScores'
-    	},
-
-    	/* ui selector cache */
-    	ui: {},
+		/* ui selector cache */
+		ui: {},
 
 		/* Ui events hash */
 		events: {},
+
+		newScore: function (value) {
+			var scoresView = this.PlayerScoresRegion.currentView;
+			var col = this.PlayerScoresRegion.currentView.collection;
+
+			var topScore = scoresView.collection.at(0);
+			var total = Number(this._sum(col.pluck('value'))) + Number(value);
+
+			scoresView.collection.add({
+				score: topScore.get('score'),
+				isTop: false,
+				value: topScore.get('value'),
+				isLeft: this.model.get('isLeft')
+			}, {at: 1, silent: true});
+
+			var rest = 501 - Number(total);
+			topScore.set({
+				score: rest,
+				value: value
+			});
+		},
+
+		_sum: function (obj) {
+			if (!$.isArray(obj) || obj.length == 0) {
+				return 0;
+			}
+			return _.reduce(obj, function (sum, n) {
+				var s = Number(sum);
+				return Number(s += Number(n));
+			});
+		},
+
+		refresh: function () {
+			this.PlayerMenuRegion.currentView.render();
+			this.PlayerNameRegion.currentView.render();
+			this.PlayerScoresRegion.currentView.render();
+		},
 
 		/* on render callback */
 		onRender: function() {

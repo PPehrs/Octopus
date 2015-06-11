@@ -12,18 +12,18 @@ function( Backbone, PlayerScoresTmpl, PlayerScore ) {
 		initialize: function() {
 			console.log("initialize a Playerscores CompositeView");
 		},
-		
-    	
+
+
     	template: PlayerScoresTmpl,
-    	
+
 
     	/* ui selector cache */
     	ui: {},
 
-    	itemView: PlayerScore,
+    	childView: PlayerScore,
 
     	/* where are we appending the items views */
-    	itemViewContainer: "#octopus_playerScore",
+    	childViewContainer: "#octopus_playerScore",
 
 		/* Ui events hash */
 		events: {},
