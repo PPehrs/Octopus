@@ -1,13 +1,25 @@
-<div id="octopus_board" style="margin:50px;padding-left:15px; padding-right:15px;background:transparent;border: 1px solid black;border-radius:5px">
+<div class="optional-flex">
+	<div id="octopus_board"  class="optional-flex-w-70 m-l-vb m-t-vb p-l p-r border-5">
+		<div class="well no-m-r no-m-l" style="display: flex;">
+			<button id="btnSetReady" type="button" class="btn btn-default">Beende Set</button>
+			<button id="btnMatchReady" type="button" class="m-l btn btn-default">Beende Match</button>
+		</div>
+		<div id="octopus_scoreContainer" style="z-index:999;margin-top: -70px;">
+			<div></div>
+			<div id="octopus_score"></div>
+			<div></div>
+		</div>
 
-	<div id="octopus_scoreContainer" style="z-index:999;background-color: transparent;">
-		<div></div>
-		<div id="octopus_score"></div>
-		<div></div>
+		<div id="octopus_players" style="display: flex;">
+			<div id="octopus_playerLeft" style="width:50%;height:100%"></div>
+			<div id="octopus_playerRight" style="width:50%;height:100%"></div>
+		</div>
 	</div>
 
-	<div id="octopus_players" style="display: flex;">
-		<div id="octopus_playerLeft" style="width:50%;height:100%"></div>
-		<div id="octopus_playerRight" style="width:50%;height:100%"></div>
+	<div id="octopus_boardInfo" class="optional-flex-w-30 border-5 m-t-vb">
+		<div class="well" style="display: flex;">
+			<button id="btnCreateEncounter" type="button" class="btn btn-default">Begegnung anlegen</button>
+			<button id="btnAddMatch" type="button" class="m-l btn btn-default">Paarung hinzufügen</button>
+		</div>	
 	</div>
 </div>
