@@ -42,8 +42,15 @@
     padding: 20px 30px 15px;
 
     .check {
-		border: 2px solid; 
-		border-radius: 50px; 
-		padding: 2px 8px;    
+		border: 2px solid;
+		border-radius: 50px;
+		padding: 2px 8px;
     }
 }
+
+.blink {
+	-webkit-animation: blink 3s step-end infinite;
+	animation: blink 3s step-end infinite;
+}
+@-webkit-keyframes blink { 50% { visibility: hidden; }}
+@keyframes blink { 50% { visibility: hidden; }}

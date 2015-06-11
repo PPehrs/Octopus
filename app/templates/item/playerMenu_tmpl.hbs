@@ -1,13 +1,18 @@
+<div class="text-success" style="font-size: 4em;opacity:0.3;" title="Warte auf Wurf von diesem Spieler">
+	{{#if isLeft}}
+        <i class="fa fa-bullseye blink" style="{{#if isPlayerActive}}display:block;{{else}}display:none;{{/if}}position:absolute; top:0px; left:0px;margin-left:42px;margin-top:259px"></i>
+	{{else}}
+        <i class="fa fa-bullseye blink" style="{{#if isPlayerActive}}display:block;{{else}}display:none;{{/if}}position:absolute; top:0px; right:0px;margin-right:42px;margin-top:259px"></i>
+	{{/if}}
+</div>
+
 <div style="font-size: 1.5em;">
     {{#if isLeft}}
-		<i class="fa fa-globe"></i>
- 		<i class="fa fa-heart"></i>
- 		<i class="fa fa-pencil"></i>    
-    	<i class="fa fa-arrow-circle-right"></i>
+		<i class="fa fa-globe text-primary" style="float:left"></i>
+    	<i class="fa fa-arrow-circle-right text-success" style="float:right" title="Spielernamen tauschen"></i>
   {{else}}
-		<i class="fa fa-arrow-circle-left"></i>
- 		<i class="fa fa-pencil"></i>    		
- 		<i class="fa fa-heart"></i> 		
-		<i class="fa fa-globe"></i> 		
+		<i class="fa fa-arrow-circle-left text-success" style="float:left" title="Spielernamen tauschen"></i>
+
+		<i class="fa fa-globe text-primary" style="float:right"></i>
   {{/if}}
 </div>

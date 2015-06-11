@@ -1,13 +1,13 @@
 <div style="display:flex">
     {{#if isLeft}}
-		<div style="width: 30%;padding-top: 2.5em;padding-left: 1em;"">
-			<input style="width: 100%;padding:5px;font-size: 2.5em;text-align:left;" placeholder="-">
+		<div style="width: 30%;padding-top: 2.5em;padding-left: 1em;">
+			<input tabindex="-1" style="width: 100%;padding:5px;font-size: 2.5em;text-align:left;" placeholder="-">
 		</div>
 		<div style="padding-right: 0.30em;width: 70%;text-align: right;font-size: 7em;font-weight: 600;">{{score}}</div>
 	{{else}}
 		<div style="padding-left: 0.30em;width: 70%;text-align: left;font-size: 7em;font-weight: 600;">{{score}}</div>
 		<div style="width: 30%;padding-top: 2.5em;padding-right: 1em;">
-			<input style="width: 100%;padding:5px;font-size: 2.5em;text-align:right;" placeholder="-">
+			<input tabindex="-1" style="width: 100%;padding:5px;font-size: 2.5em;text-align:right;" placeholder="-">
 		</div>
 	{{/if}}
 </div>

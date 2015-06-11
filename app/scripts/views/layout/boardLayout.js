@@ -13,9 +13,9 @@ function( Backbone, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
 		initialize: function() {
 			console.log("initialize a Boardlayout Layout");
 		},
-		
+
     	template: BoardlayoutTmpl,
-    	
+
 
     	/* Layout sub regions */
     	regions: {
@@ -35,12 +35,14 @@ function( Backbone, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
 			this.ScoreRegion.show(new ScoreItem({}));
 			this.ScorePlayerLeft.show(new PlayerLayout({
 				model: new Backbone.Model ({
-					isLeft: true
+					isLeft: true,
+					isPlayerActive: true
 				})
 			}));
 			this.ScorePlayerRight.show(new PlayerLayout({
 				model: new Backbone.Model ({
-					isLeft: false
+					isLeft: false,
+					isPlayerActive: false
 				})
 			}));
 		}
