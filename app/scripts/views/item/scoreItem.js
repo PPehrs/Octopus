@@ -13,9 +13,9 @@ function( Backbone, ScoreitemTmpl  ) {
 		initialize: function() {
 			console.log("initialize a Scoreitem ItemView");
 		},
-		
+
     	template: ScoreitemTmpl,
-        
+
 
     	/* ui selector cache */
     	ui: {
@@ -51,10 +51,18 @@ function( Backbone, ScoreitemTmpl  ) {
 			if(Number(value) > 180) {
 				e.target.value = this.scoreInputOldValue;
 			}
+
+			if(e.keyCode === 13) {
+				this.triggerMethod('scoreItem:new:score', e.target.value);
+			}
 		},
 
 		/* on render callback */
-		onRender: function() {}
+		onRender: function() {},
+
+		onShow: function () {
+			this.ui.scoreInput.focus();
+		}
 	});
 
 });

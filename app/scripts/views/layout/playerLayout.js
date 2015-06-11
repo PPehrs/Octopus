@@ -9,14 +9,14 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
     'use strict';
 
 	/* Return a Layout class definition */
-	return Backbone.Marionette.Layout.extend({
+	return Backbone.Marionette.LayoutView.extend({
 
 		initialize: function() {
 			console.log("initialize a Playerlayout Layout");
 		},
-		
+
     	template: PlayerlayoutTmpl,
-    	
+
 
     	/* Layout sub regions */
     	regions: {

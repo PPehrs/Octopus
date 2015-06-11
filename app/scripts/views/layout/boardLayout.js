@@ -8,7 +8,9 @@ function( Backbone, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
     'use strict';
 
 	/* Return a Layout class definition */
-	return Backbone.Marionette.Layout.extend({
+	return Backbone.Marionette.LayoutView.extend({
+
+		matchStatus: null,
 
 		initialize: function() {
 			console.log("initialize a Boardlayout Layout");
@@ -30,20 +32,43 @@ function( Backbone, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
 		/* Ui events hash */
 		events: {},
 
+		childEvents: {
+			'scoreItem:new:score': function (value) {
+				alert('DIGGI');
+			}
+		},
+
+		_startNewMatch: function () {
+			this.matchStatus = {
+				playerLeftStartsLeg: true,
+				playerLeftStartsSet: true,
+				playerLeftStartsMatch: true,
+				isplayerLeftActive: true
+			};
+		},
+
 		/* on render callback */
 		onRender: function() {
+			//---------------------------------------------
+			this._startNewMatch();
+
+			var playerLeft = {
+				isLeft: true,
+				isPlayerActive: true
+			};
+
+			var playerRight = {
+				isLeft: false,
+				isPlayerActive: false
+			};
+			//---------------------------------------------
+
 			this.ScoreRegion.show(new ScoreItem({}));
 			this.ScorePlayerLeft.show(new PlayerLayout({
-				model: new Backbone.Model ({
-					isLeft: true,
-					isPlayerActive: true
-				})
+				model: new Backbone.Model (playerLeft)
 			}));
 			this.ScorePlayerRight.show(new PlayerLayout({
-				model: new Backbone.Model ({
-					isLeft: false,
-					isPlayerActive: false
-				})
+				model: new Backbone.Model (playerRight)
 			}));
 		}
 	});

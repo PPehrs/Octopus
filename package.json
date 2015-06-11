@@ -10,7 +10,7 @@
     "socket.io": "~0.9.14",
     "baucis": "~0.4.6",
     "express-hbs": "~0.2.0",
-    "underscore": "~1.4.4"
+    "underscore": "~1.8.3"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

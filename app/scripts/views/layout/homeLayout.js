@@ -1,20 +1,20 @@
 define([
 	'backbone',
-	'bootbox',	
+	'bootbox',
 	'hbs!tmpl/layout/homeLayout_tmpl'
 ],
 function( Backbone, Bootbox, HomelayoutTmpl ) {
     'use strict';
 
 	/* Return a Layout class definition */
-	return Backbone.Marionette.Layout.extend({
+	return Backbone.Marionette.LayoutView.extend({
 
 		initialize: function() {
 			console.log("initialize a Homelayout Layout");
 		},
-		
+
     	template: HomelayoutTmpl,
-    	
+
 
     	/* Layout sub regions */
     	regions: {},
@@ -43,7 +43,7 @@ function( Backbone, Bootbox, HomelayoutTmpl ) {
 
 		_onClickButtonLoginPlayer: function() {
 			Bootbox.alert("Hello world!", function() {
-			  
+
 			});
 		},
 

@@ -23,7 +23,7 @@ function ( Backbone, Marionette, App, Communicator, SocketModule, ApplicationSta
 		Communicator.mediator.trigger("APP:START");
 	});
 
-    App.on("initialize:after", function(){
+    App.on("start", function(){
       // Start Backbone history a necessary step for bookmarkable URL's
       Backbone.history.start();
     });
