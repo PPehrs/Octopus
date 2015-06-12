@@ -1,10 +1,12 @@
 define([
 	'backbone',
+	'backbone.marionette',
+	'application',
 	'hbs!tmpl/layout/boardLayout_tmpl',
 	'./playerLayout',
 	'../item/scoreItem'
 ],
-function( Backbone, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
+function( Backbone, Marionette, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -58,7 +60,10 @@ function( Backbone, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
 		},
 
 		_startNewMatch: function () {
+			var matchUuid = octopus.uuid.v4();
+
 			this.matchStatus = {
+				uuid: matchUuid,
 				playerLeftStartsLeg: true,
 				playerLeftStartsSet: true,
 				playerLeftStartsMatch: true,

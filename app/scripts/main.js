@@ -3,12 +3,15 @@ require([
 	'backbone.marionette',
 	'application',
 	'communicator',
-	'./modules/socketModule',
 	'./routers/applicationStartRouter',
 	'./controllers/applicationStartController',
-	'regionManager'
+	'uuid',
+	'regionManager',
+	'./modules/socketModule',
+	'./modules/matchModule',
+	'./global'
 ],
-function ( Backbone, Marionette, App, Communicator, SocketModule, ApplicationStartRouter, ApplicationStartController ) {
+function ( Backbone, Marionette, App, Communicator, ApplicationStartRouter, ApplicationStartController) {
     'use strict';
 
 	var controller = new ApplicationStartController({});

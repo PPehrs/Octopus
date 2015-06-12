@@ -1,14 +1,15 @@
 define([
 	'backbone',
-	'communicator'
+	'backbone.marionette',
 ],
 
-function( Backbone, Communicator ) {
+function( Backbone, Marionette ) {
     'use strict';
 
 	var App = new Backbone.Marionette.Application();
 	App.addRegions({
   		mainRegion: "#octopus"
 	});
+	window.App = App;
 	return App;
 });

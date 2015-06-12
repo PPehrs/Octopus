@@ -1,9 +1,10 @@
 define([
 	'backbone',
+	'backbone.marionette',
 	'bootbox',
 	'hbs!tmpl/layout/homeLayout_tmpl'
 ],
-function( Backbone, Bootbox, HomelayoutTmpl ) {
+function( Backbone, Marionette, Bootbox, HomelayoutTmpl ) {
     'use strict';
 
 	/* Return a Layout class definition */
