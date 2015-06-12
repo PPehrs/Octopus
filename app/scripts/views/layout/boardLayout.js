@@ -1,25 +1,20 @@
 define([
 	'backbone',
 	'backbone.marionette',
-	'application',
+	'bootbox',
 	'hbs!tmpl/layout/boardLayout_tmpl',
 	'./playerLayout',
 	'../item/scoreItem'
 ],
-function( Backbone, Marionette, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
+function( Backbone, Marionette, Bootbox, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
     'use strict';
 
 	/* Return a Layout class definition */
 	return Backbone.Marionette.LayoutView.extend({
 
-		matchStatus: null,
-
-		initialize: function() {
-			console.log("initialize a Boardlayout Layout");
-		},
+		matchModule: App.module('MatchModule'),
 
     	template: BoardlayoutTmpl,
-
 
     	/* Layout sub regions */
     	regions: {
@@ -30,11 +25,15 @@ function( Backbone, Marionette, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
 
     	/* ui selector cache */
     	ui: {
-			CheckBoxTransmit: '#chkTransmit'
+			CheckBoxTransmit: '#chkTransmit',
+
+			ButtonNewMatch:  '#btnNewMatch'
 		},
 
 		/* Ui events hash */
-		events: {},
+		events: {
+			'click @ui.ButtonNewMatch': '_onClickNewMatch'
+		},
 
 		childEvents: {
 			'scoreItem:new:score': function (child, value) {
@@ -42,8 +41,22 @@ function( Backbone, Marionette, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
 			}
 		},
 
+		_onClickNewMatch: function () {
+			var self = this;
+			if(this.matchModule.started) {
+				Bootbox.confirm('Aktuelles Match verwerfen und neues starten?', function (result) {
+					if (result) {
+						self.matchModule.stop();
+						self._startNewMatch();
+					}
+				});
+			} else {
+				self._startNewMatch();
+			}
+		},
+
 		_onNewScore: function (value) {
-			var isPlayerLeftActive = this.matchStatus.isPlayerLeftActive
+			var isPlayerLeftActive = this.matchModule.matchStatus.isPlayerLeftActive
 			var activePlayer = this.ScorePlayerLeft.currentView;
 			if(!isPlayerLeftActive) {
 				activePlayer = this.ScorePlayerRight.currentView;
@@ -53,31 +66,14 @@ function( Backbone, Marionette, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
 			var active = !isPlayerLeftActive;
 			this.ScorePlayerLeft.currentView.model.set('isPlayerActive', active);
 			this.ScorePlayerRight.currentView.model.set('isPlayerActive', !active);
-			this.matchStatus.isPlayerLeftActive = active;
+			this.matchModule.matchStatus.isPlayerLeftActive = active;
 
 			this.ScorePlayerLeft.currentView.refresh();
 			this.ScorePlayerRight.currentView.refresh();
 		},
 
 		_startNewMatch: function () {
-			var matchUuid = octopus.uuid.v4();
-
-			this.matchStatus = {
-				uuid: matchUuid,
-				playerLeftStartsLeg: true,
-				playerLeftStartsSet: true,
-				playerLeftStartsMatch: true,
-				isPlayerLeftActive: true
-			};
-		},
-
-		/* on render callback */
-		onRender: function() {
-			this.ui.CheckBoxTransmit.bootstrapSwitch();
-
-			//---------------------------------------------
-			this._startNewMatch();
-
+			this.matchModule.start();
 			var playerLeft = {
 				isLeft: true,
 				isPlayerActive: true
@@ -87,15 +83,23 @@ function( Backbone, Marionette, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
 				isLeft: false,
 				isPlayerActive: false
 			};
-			//---------------------------------------------
-
-			this.ScoreRegion.show(new ScoreItem({}));
 			this.ScorePlayerLeft.show(new PlayerLayout({
 				model: new Backbone.Model (playerLeft)
 			}));
 			this.ScorePlayerRight.show(new PlayerLayout({
 				model: new Backbone.Model (playerRight)
 			}));
+		},
+
+		/* on render callback */
+		onRender: function() {
+			this.ui.CheckBoxTransmit.bootstrapSwitch();
+
+			//---------------------------------------------
+			this._startNewMatch();
+			//---------------------------------------------
+
+			this.ScoreRegion.show(new ScoreItem({}));
 		}
 	});
 
