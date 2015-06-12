@@ -27,7 +27,9 @@ function( Backbone, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
     	},
 
     	/* ui selector cache */
-    	ui: {},
+    	ui: {
+			CheckBoxTransmit: '#chkTransmit'
+		},
 
 		/* Ui events hash */
 		events: {},
@@ -66,6 +68,8 @@ function( Backbone, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
 
 		/* on render callback */
 		onRender: function() {
+			this.ui.CheckBoxTransmit.bootstrapSwitch();
+
 			//---------------------------------------------
 			this._startNewMatch();
 

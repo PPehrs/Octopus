@@ -1,10 +1,12 @@
 <div class="optional-flex">
 	<div id="octopus_board"  class="optional-flex-w-70 m-l-vb m-t-vb p-l p-r border-5">
 		<div class="well no-m-r no-m-l" style="display: flex;">
-			<button id="btnSetReady" type="button" class="btn btn-default">Beende Set</button>
-			<button id="btnMatchReady" type="button" class="m-l btn btn-default">Beende Match</button>
+            <input title="Blau: das Spiel wird Live übertragen" data-on-color="info" data-on-text="Live" data-off-text="Live" type="checkbox" name="checkboxTransmit" id="chkTransmit" class="btn btn-success" checked>
+            <button id="btnNewMatch" type="button" class="m-l-vs btn btn-default">Neues Match</button>
+			<button id="btnSetReady" type="button" class="m-l-vs btn btn-default" title="...wenn das Spiel über mehrere Sätze z.B. Best of 5 of 5 geht">Beende Set</button>
+			<button id="btnMatchReady" type="button" class="m-l-vs btn btn-default">Beende Match</button>
 		</div>
-		<div id="octopus_scoreContainer" style="z-index:999;margin-top: -70px;">
+		<div id="octopus_scoreContainer" style="z-index:999;margin-top: -60px;">
 			<div></div>
 			<div id="octopus_score"></div>
 			<div></div>
@@ -19,7 +21,7 @@
 	<div id="octopus_boardInfo" class="optional-flex-w-30 border-5 m-t-vb">
 		<div class="well" style="display: flex;">
 			<button id="btnCreateEncounter" type="button" class="btn btn-default">Begegnung anlegen</button>
-			<button id="btnAddMatch" type="button" class="m-l btn btn-default">Paarung hinzufügen</button>
-		</div>	
+			<button id="btnAddMatch" type="button" class="m-l-vs btn btn-default">Paarung hinzuf&auml;gen</button>
+		</div>
 	</div>
 </div>
