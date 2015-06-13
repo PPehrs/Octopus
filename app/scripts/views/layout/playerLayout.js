@@ -60,6 +60,8 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 			}, {at: 1, silent: true});
 
 			var rest = 501 - Number(total);
+			if(rest <= 0) { rest = topScore.get('value');}
+
 			topScore.set({
 				score: rest,
 				value: value,

@@ -89,9 +89,97 @@ function(App) {
 
 		//----------------------------------------------------------------------
 
-		MatchModule.newScore = function(value, check, checkVal, isLeftActive, uid) {
+		MatchModule.wonLegsAndSets = function(value, check) {
+			var leftLegs = 0;
+			var rightLegs = 0;
+			var leftDarts = 0;
+			var rightDarts = 0;
+			var isLeftChecked = false;
+
+			var legsEntries = _.pluck(this.match.sets[this.match.set].legs, 'entries');
+			_.each(legsEntries, function(legEntries) {
+			_.each(legEntries, function(entry) {
+				var darts = 3;
+				if(entry.isLeft) {
+					if(entry.check) {
+						darts = Number(entry.check);
+						leftLegs += 1;
+						isLeftChecked = true;
+					}	
+					leftDarts += darts;
+
+				} else {
+					if(entry.check) {
+						darts = Number(entry.check);
+						rightLegs += 1;
+						isLeftChecked = false;
+					}	
+					rightDarts += darts;
+				}
+			})
+			})
+			
+			return {
+				left: {
+					darts: leftDarts,
+					legsWon: leftLegs
+				},
+				right: {
+					darts: rightDarts,
+					legsWon: rightLegs
+				},
+				countLegs: this.match.leg,
+				isLeftCheck: isLeftChecked, 
+			}
+		},
+
+		MatchModule.check = function(value, check) {
+			if(!this.match.started) {
+				return; 
+			}
+			var playerLeftStartsSet = this.match.state.playerLeftStartsSet;
+			var playerLeftStartsLeg = this.match.state.playerLeftStartsLeg;
+			var isPlayerLeftActive = this.match.state.isPlayerLeftActive;
+
+			if(!this.match.sets) {
+				this.match.sets = [];
+			}
+
+			if(this.match.sets.length <= this.match.set) {
+				this.match.sets.push({
+					playerLeftStartsSet: this.match.state.playerLeftStartsSet,
+					legs: []
+				})
+			}
+
+			var set = this.match.sets[this.match.set];
+			var entry = {
+				value: value,
+				check: check,
+				playerLeftStartsLeg: playerLeftStartsLeg,
+				playerLeftCheckedleg: isPlayerLeftActive
+			};
+
+			var activeLeg = this.match.activeLeg;
+			activeLeg.entries.push(entry);
+			set.legs.push(activeLeg);
+
+			this.match.state.playerLeftStartsLeg = !playerLeftStartsLeg;
+			this.match.state.isPlayerLeftActive = !playerLeftStartsLeg;
+			this.match.activeLeg = {};
+
+			this.match.leg += 1;
+
+			this.saveMatchToLocalStorage();
+			//--> fire
+		}
+
+		MatchModule.newScore = function(value, isLeftActive, uid) {
 			if(!this.match.started) {
 				this.match.started = true;
+			}
+
+			if(_.isEmpty(this.match.activeLeg)) {
 				this.match.activeLeg = {
 					uid: _.uniqueId('l_'),
 					startDateTime: Date.now(),
@@ -101,21 +189,9 @@ function(App) {
 
 			var entry = {
 				value: value,
-				uid: uid
+				uid: uid,
+				isLeft: !isLeftActive
 			};
-
-			if(!this.match.activeLeg.entries.length) {
-				_.extend(entry, {
-					isLeft: !isLeftActive
-				});
-			}
-
-			if(check) {
-				_.extend(entry, {
-					check: check,
-					checkVal: checkVal
-				});
-			}
 
 			this.match.activeLeg.entries.push(entry);
 			this.match.state.isPlayerLeftActive = isLeftActive;	

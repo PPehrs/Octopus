@@ -54,7 +54,7 @@ require.config({
         /* handlebars from the require handlerbars plugin below */
         handlebars: '../bower_components/require-handlebars-plugin/Handlebars',
 
-        tooltipster: 'vendor/jquery.tooltipster.min',
+        tooltipster: '../bower_components/tooltipster/js/jquery.tooltipster.min',
 
         bootbox: '../bower_components/bootbox/bootbox',
 

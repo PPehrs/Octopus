@@ -28,12 +28,21 @@ function( Backbone, ScoreitemTmpl  ) {
 
 		/* Ui events hash */
 		events: {
+			'click @ui.checkButton': 'onClickCheckButton',
+
 			'click @ui.enterButton': 'onClickEnterButton',
 			'click @ui.strgZButton': 'onClickStrgZButton',
 
 			'keydown @ui.scoreInput': 'onKeyDownScoreInput',
 			'keypress @ui.scoreInput': 'onKeyPressScoreInput',
 			'keyup @ui.scoreInput': 'onKeyUpScoreInput'
+		},
+
+		onClickCheckButton: function(e) {
+			var value = this.ui.scoreInput.val();
+			var checkDart = $(e.target).data('id');
+			this.triggerMethod('scoreItem:new:score', value, checkDart);
+			this.ui.scoreInput.val('');
 		},
 
 		onClickEnterButton: function() {

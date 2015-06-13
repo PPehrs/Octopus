@@ -36,8 +36,8 @@ function( Backbone, Marionette, Bootbox, BoardlayoutTmpl, PlayerLayout, ScoreIte
 		},
 
 		childEvents: {
-			'scoreItem:new:score': function (child, value) {
-				this._onNewScore(value);
+			'scoreItem:new:score': function (child, value, check) {
+				this._onNewScore(value, check);
 			},
 			'scoreItem:undo:score': function (child) {
 				this._onUndoScore();
@@ -46,7 +46,7 @@ function( Backbone, Marionette, Bootbox, BoardlayoutTmpl, PlayerLayout, ScoreIte
 
 		_onClickNewMatch: function () {
 			var self = this;
-			if(this.matchModule.started && this.matchModule.match && !this.matchModule.match.started) {
+			if(this.matchModule.started && this.matchModule.match && this.matchModule.match.started) {
 				Bootbox.confirm('Aktuelles Match verwerfen und neues starten?', function (result) {
 					if (result) {
 						self.matchModule.stop();
@@ -117,17 +117,44 @@ function( Backbone, Marionette, Bootbox, BoardlayoutTmpl, PlayerLayout, ScoreIte
 		 *
 		 *
 		 */
-		_onNewScore: function (value, check, checkVal) {
-			var uid = _.uniqueId('t_');
+		_onNewScore: function (value, check) {
+			if(check) {
+				this.matchModule.check(value, check);
+				this._startNewLeg(this.matchModule.match.state.isPlayerLeftActive, this.matchModule.wonLegsAndSets());
+			} else {
+				var uid = _.uniqueId('t_');
+				//send to player-------------------------------------
+				var activePlayer = this._getActivePlayerView();
+				activePlayer.newScore(value, uid);
+				//----------------------------------------------------
+				var isLeftActive = this._switchActivePlayer();
+				this._refreshPlayerViews();				
+				this.matchModule.newScore(value, isLeftActive, uid);
+			}
+		},
 
-			//send to player-------------------------------------
-			var activePlayer = this._getActivePlayerView();
-			activePlayer.newScore(value, uid);
-			//----------------------------------------------------
-			var isLeftActive = this._switchActivePlayer();
-			this._refreshPlayerViews();
+		_startNewLeg: function(isPlayerLeftActive, result) {
+			var playerLeft = {
+				isLeft: true,
+				isPlayerActive: isPlayerLeftActive
+			};
 
-			this.matchModule.newScore(value, check, checkVal, isLeftActive, uid);
+			var playerRight = {
+				isLeft: false,
+				isPlayerActive: !isPlayerLeftActive
+			};
+
+			if(result) {
+				_.extend(playerLeft, result);
+				_.extend(playerRight, result);
+			}
+
+			this.ScorePlayerLeft.show(new PlayerLayout({
+				model: new Backbone.Model (playerLeft)
+			}));
+			this.ScorePlayerRight.show(new PlayerLayout({
+				model: new Backbone.Model (playerRight)
+			}));			
 		},
 
 		_startNewMatch: function () {
@@ -135,21 +162,7 @@ function( Backbone, Marionette, Bootbox, BoardlayoutTmpl, PlayerLayout, ScoreIte
 				this.matchModule.stop();
 			}
 			this.matchModule.start();
-			var playerLeft = {
-				isLeft: true,
-				isPlayerActive: true
-			};
-
-			var playerRight = {
-				isLeft: false,
-				isPlayerActive: false
-			};
-			this.ScorePlayerLeft.show(new PlayerLayout({
-				model: new Backbone.Model (playerLeft)
-			}));
-			this.ScorePlayerRight.show(new PlayerLayout({
-				model: new Backbone.Model (playerRight)
-			}));
+			this._startNewLeg(true);
 		},
 
 		/* on render callback */

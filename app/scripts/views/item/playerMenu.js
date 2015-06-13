@@ -1,8 +1,9 @@
 define([
 	'backbone',
+	'tooltipster',
 	'hbs!tmpl/item/playerMenu_tmpl'
 ],
-function( Backbone, PlayermenuTmpl  ) {
+function( Backbone, Tooltip, PlayermenuTmpl  ) {
     'use strict';
 
 	/* Return a ItemView class definition */
@@ -16,13 +17,51 @@ function( Backbone, PlayermenuTmpl  ) {
         
 
     	/* ui selector cache */
-    	ui: {},
+    	ui: {
+    		WonLegs: '.wonLegs'
+    	},
 
 		/* Ui events hash */
-		events: {},
+		events: {
+		},
 
 		/* on render callback */
-		onRender: function() {}
+		onRender: function() {
+			var isLeft = this.model.get('isLeft');
+			var countLegs = this.model.get('countLegs');
+			var isLeftCheck = this.model.get('isLeftCheck');
+
+			var wonWith = 0;
+			var legsWon = 0;
+			var showInfo = false;
+
+			if(countLegs) {
+				if(isLeft) {
+					legsWon = this.model.get('left').legsWon;
+					if(isLeftCheck) {
+						showInfo = true;
+						wonWith = this.model.get('left').darts;
+					}
+				} else {
+					legsWon = this.model.get('right').legsWon;
+					if(!isLeftCheck) {
+						showInfo = true;
+						wonWith = this.model.get('right').darts;
+					}
+				}
+			}
+
+			this.ui.WonLegs.html(legsWon);
+
+			if(showInfo) {
+				this.ui.WonLegs.tooltipster({
+                	content: $(
+                		'<span>' + countLegs +'. Leg gewonnen<br><strong>' + wonWith + ' Darts</strong></span>'
+                	)
+            	});
+            	
+			}
+		}
 	});
 
 });
