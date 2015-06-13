@@ -1,8 +1,9 @@
 define([
 	'backbone',
+	'tooltipster',
 	'hbs!tmpl/item/scoreItem_tmpl'
 ],
-function( Backbone, ScoreitemTmpl  ) {
+function( Backbone, Tooltip, ScoreitemTmpl  ) {
     'use strict';
 
 	/* Return a ItemView class definition */
@@ -38,17 +39,26 @@ function( Backbone, ScoreitemTmpl  ) {
 			'keyup @ui.scoreInput': 'onKeyUpScoreInput'
 		},
 
+		focusInput: function() {
+			var self = this;
+			setTimeout(function(){
+				self.ui.scoreInput.focus();
+			})
+		},
+
 		onClickCheckButton: function(e) {
 			var value = this.ui.scoreInput.val();
 			var checkDart = $(e.target).data('id');
 			this.triggerMethod('scoreItem:new:score', value, checkDart);
 			this.ui.scoreInput.val('');
+			this.focusInput();
 		},
 
 		onClickEnterButton: function() {
 			var value = this.ui.scoreInput.val();
 			this.triggerMethod('scoreItem:new:score', value);
 			this.ui.scoreInput.val('');
+			this.focusInput();
 		},
 
 		onClickStrgZButton: function() {
@@ -56,6 +66,17 @@ function( Backbone, ScoreitemTmpl  ) {
 		},
 
 		onKeyDownScoreInput: function(e) {
+
+			if(e.keyCode >= 112  && e.keyCode <= 114) {
+				e.preventDefault();
+				this.ui.checkButton[e.keyCode - 112].click();
+				return false;
+			}
+
+			if(e.ctrlKey && e.keyCode === 89) {
+				this.triggerMethod('scoreItem:redo:score');
+				return false;
+			}
 
 			if(e.ctrlKey && e.keyCode === 90) {
 				this.triggerMethod('scoreItem:undo:score');
@@ -91,7 +112,21 @@ function( Backbone, ScoreitemTmpl  ) {
 		},
 
 		/* on render callback */
-		onRender: function() {},
+		onRender: function() {
+			this.ui.checkButton.tooltipster({
+            	content: $(
+            		'<span>Eingabe des getroffenen Doppel in [Score Eingabe] und klick hier (oder <strong>F1 - F2 - F3)</strong></span>'
+            	),
+            	position: 'bottom'
+        	});
+
+			this.ui.strgZButton.tooltipster({
+            	content: $(
+            		'<span>Letzte Eingabe l&ouml;schen klick hier (oder <strong> Strg-Z)</strong></span>'
+            	)
+        	});
+        	
+		},
 	});
 
 });

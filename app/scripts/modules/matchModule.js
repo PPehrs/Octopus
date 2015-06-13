@@ -20,9 +20,36 @@ function(App, Communicator) {
 		MatchModule.undoLast = function() {
 			if(this.isUndoPossible()) {
 				//first check active leg
-				if(this.match.activeLeg && this.match.activeLeg.entries.length > 0) {
+				if(this.match.activeLeg && !_.isEmpty(this.match.activeLeg.entries) && this.match.activeLeg.entries.length > 0) {
 					var entry = _.last(this.match.activeLeg.entries);
 					return entry;
+				}
+
+				if(!_.isEmpty(this.match.sets)) {
+					var lastSet = _.last(this.match.sets);
+					if(!_.isEmpty(lastSet)) {
+						var lastLeg = _.last(lastSet.legs);
+						if(!_.isEmpty(lastLeg)) {
+							lastLeg.entries.splice(lastLeg.entries.length-1, 1)
+							this.match.activeLeg = lastLeg;
+							lastSet.legs.splice(lastSet.legs.length-1, 1);
+
+							this.match.leg = lastSet.legs.length;
+
+							var result = this.wonLegsAndSets();
+							var activeLeg = this.match.activeLeg;
+							var isPlayerLeftActive = !(_.last(lastLeg.entries)).isLeft;
+
+							this.match.state.playerLeftStartsLeg =  (_.first(activeLeg.entries)).isLeft;
+							this.match.state.isPlayerLeftActive = isPlayerLeftActive;
+
+							this.saveMatchToLocalStorage();
+
+							setTimeout(function() {
+								Communicator.mediator.trigger('load:match', isPlayerLeftActive, result, activeLeg);
+							})
+						}
+					}
 				}
 			}
 		};		
