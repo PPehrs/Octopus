@@ -1,12 +1,13 @@
 define([
 	'backbone',
 	'backbone.marionette',
+	'communicator',
 	'bootbox',
 	'hbs!tmpl/layout/boardLayout_tmpl',
 	'./playerLayout',
 	'../item/scoreItem'
 ],
-function( Backbone, Marionette, Bootbox, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
+function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -133,6 +134,39 @@ function( Backbone, Marionette, Bootbox, BoardlayoutTmpl, PlayerLayout, ScoreIte
 			}
 		},
 
+		_loadStoredMatch: function(isPlayerLeftActive, result, activeLeg) {
+			delete result.isLeftCheck;
+
+			var playerLeft = {
+				load: true,
+				isLeft: true,
+				isPlayerActive: isPlayerLeftActive
+			};
+
+			var playerRight = {
+				load: true,
+				isLeft: false,
+				isPlayerActive: !isPlayerLeftActive
+			};
+
+			_.extend(playerLeft, result);
+			_.extend(playerRight, result);
+
+			if(activeLeg && !_.isEmpty(activeLeg.entries)) {
+				var scoresLeft = _.where(activeLeg.entries, {isLeft:true});
+				var scoresRight = _.where(activeLeg.entries, {isLeft:false});
+				_.extend(playerLeft, {scores: scoresLeft});
+				_.extend(playerRight, {scores: scoresRight});
+			}
+
+			this.ScorePlayerLeft.show(new PlayerLayout({
+				model: new Backbone.Model (playerLeft)
+			}));
+			this.ScorePlayerRight.show(new PlayerLayout({
+				model: new Backbone.Model (playerRight)
+			}));
+		},
+
 		_startNewLeg: function(isPlayerLeftActive, result) {
 			var playerLeft = {
 				isLeft: true,
@@ -163,6 +197,10 @@ function( Backbone, Marionette, Bootbox, BoardlayoutTmpl, PlayerLayout, ScoreIte
 			}
 			this.matchModule.start();
 			this._startNewLeg(true);
+		},
+
+		initialize: function() {
+			this.listenTo(Communicator.mediator, 'load:match', this._loadStoredMatch);
 		},
 
 		/* on render callback */

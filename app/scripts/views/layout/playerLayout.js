@@ -93,14 +93,34 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 			this.PlayerNameRegion.show(new PlayerName({
 				model: this.model
 			}))
-			this.PlayerScoresRegion.show(new PlayerScores({
-				collection: new Backbone.Collection({
-					score: 501,
-					isTop: true,
-					value: null,
-					isLeft: this.model.get('isLeft')
+			var load = this.model.get('load');
+			var collection = new Backbone.Collection({
+				score: 501,
+				isTop: true,
+				value: null,
+				isLeft: this.model.get('isLeft')
+			});
+
+			var scores = this.model.get('scores');
+			if(load && !_.isEmpty(scores)) {
+				var self = this;
+				_.each(scores, function(score, pos) {
+					var scoreBefore = collection.at(0);
+					scoreBefore.set('isTop', false);
+					var rest = scoreBefore.get('score') - score.value;
+					collection.add({
+						uid: score.uid,
+						score: rest,
+						isTop: true,
+						value: score.value,
+						isLeft: self.model.get('isLeft')
+					}, {at: 0, silent: true});					
 				})
-			}))
+			}
+
+			this.PlayerScoresRegion.show(new PlayerScores({
+				collection: collection
+			}));
 		}
 	});
 

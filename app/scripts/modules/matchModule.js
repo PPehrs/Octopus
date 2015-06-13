@@ -1,7 +1,8 @@
 define([
-	'application'
+	'application',
+	'communicator'
 ],
-function(App) {
+function(App, Communicator) {
 	App.module('MatchModule', function(MatchModule) {
 		'use strict';
 
@@ -36,7 +37,6 @@ function(App) {
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 
 			if(!octopusStore.match || _.isEmpty(octopusStore.match)) {
-
 				var matchUid = octopus.uuid();
 
 				var matchStatus = {
@@ -57,8 +57,15 @@ function(App) {
 				_.extend(octopusStore, {match: this.match});
 				localStorage.setItem('octopus', JSON.stringify(octopusStore));
 			} else {
-				console.log('heavy load - load match from store');
 				this.match = octopusStore.match;
+				console.log('heavy load - load match from store');
+				var result = this.wonLegsAndSets();
+				var activeLeg = this.match.activeLeg;
+				var isPlayerLeftActive = this.match.state.isPlayerLeftActive;
+
+				setTimeout(function() {
+					Communicator.mediator.trigger('load:match', isPlayerLeftActive, result, activeLeg);
+				})
 			}
 			this.started = true;
 
@@ -96,28 +103,30 @@ function(App) {
 			var rightDarts = 0;
 			var isLeftChecked = false;
 
-			var legsEntries = _.pluck(this.match.sets[this.match.set].legs, 'entries');
-			_.each(legsEntries, function(legEntries) {
-			_.each(legEntries, function(entry) {
-				var darts = 3;
-				if(entry.isLeft) {
-					if(entry.check) {
-						darts = Number(entry.check);
-						leftLegs += 1;
-						isLeftChecked = true;
-					}	
-					leftDarts += darts;
+			if(!_.isEmpty(this.match.sets)) {
+				var legsEntries = _.pluck(this.match.sets[this.match.set].legs, 'entries');
+				_.each(legsEntries, function(legEntries) {
+					_.each(legEntries, function(entry) {
+						var darts = 3;
+						if(entry.isLeft) {
+							if(entry.check) {
+								darts = Number(entry.check);
+								leftLegs += 1;
+								isLeftChecked = true;
+							}	
+							leftDarts += darts;
 
-				} else {
-					if(entry.check) {
-						darts = Number(entry.check);
-						rightLegs += 1;
-						isLeftChecked = false;
-					}	
-					rightDarts += darts;
-				}
-			})
-			})
+						} else {
+							if(entry.check) {
+								darts = Number(entry.check);
+								rightLegs += 1;
+								isLeftChecked = false;
+							}	
+							rightDarts += darts;
+						}
+					})
+				})
+			}
 			
 			return {
 				left: {
@@ -157,7 +166,7 @@ function(App) {
 				value: value,
 				check: check,
 				playerLeftStartsLeg: playerLeftStartsLeg,
-				playerLeftCheckedleg: isPlayerLeftActive
+				isLeft: isPlayerLeftActive
 			};
 
 			var activeLeg = this.match.activeLeg;

@@ -18,15 +18,22 @@ function( Backbone, Tooltip, PlayermenuTmpl  ) {
 
     	/* ui selector cache */
     	ui: {
-    		WonLegs: '.wonLegs'
+    		WonLegs: '.wonLegs',
+    		SwitchPlayernames: '.switchPlayernames'
     	},
-
+ 
 		/* Ui events hash */
 		events: {
 		},
 
 		/* on render callback */
 		onRender: function() {
+			this.ui.SwitchPlayernames.tooltipster({
+            	content: $(
+            		'<span>Spielernamen tauschen</span>'
+            	)
+        	});
+
 			var isLeft = this.model.get('isLeft');
 			var countLegs = this.model.get('countLegs');
 			var isLeftCheck = this.model.get('isLeftCheck');
