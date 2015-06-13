@@ -27,7 +27,24 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 		/* Ui events hash */
 		events: {},
 
-		newScore: function (value) {
+		deleteLastScore: function() {
+			var scoresView = this.PlayerScoresRegion.currentView;
+			
+			var lastScore = scoresView.collection.at(1);
+			scoresView.collection.remove(lastScore);
+
+			var topScore = scoresView.collection.at(0);
+			topScore.set({
+				uid: lastScore.get('uid'),
+				score: lastScore.get('score'),
+				isTop: true,
+				value: lastScore.get('value'),
+				isLeft: this.model.get('isLeft')				
+			});
+
+		},
+
+		newScore: function (value, uid) {
 			var scoresView = this.PlayerScoresRegion.currentView;
 			var col = this.PlayerScoresRegion.currentView.collection;
 
@@ -35,6 +52,7 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 			var total = Number(this._sum(col.pluck('value'))) + Number(value);
 
 			scoresView.collection.add({
+				uid: topScore.get('uid'),
 				score: topScore.get('score'),
 				isTop: false,
 				value: topScore.get('value'),
@@ -44,7 +62,8 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 			var rest = 501 - Number(total);
 			topScore.set({
 				score: rest,
-				value: value
+				value: value,
+				uid: uid
 			});
 		},
 

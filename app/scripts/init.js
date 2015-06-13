@@ -65,9 +65,7 @@ require.config({
         /* require handlebars plugin - Alex Sexton */
         i18nprecompile: '../bower_components/require-handlebars-plugin/hbs/i18nprecompile',
         json2: '../bower_components/require-handlebars-plugin/hbs/json2',
-        hbs: '../bower_components/require-handlebars-plugin/hbs',
-
-		'uuid': '../bower_components/node-uuid/uuid'
+        hbs: '../bower_components/require-handlebars-plugin/hbs'
     },
 
     hbs: {

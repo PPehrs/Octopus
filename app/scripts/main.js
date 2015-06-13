@@ -5,7 +5,6 @@ require([
 	'communicator',
 	'./routers/applicationStartRouter',
 	'./controllers/applicationStartController',
-	'uuid',
 	'regionManager',
 	'./modules/socketModule',
 	'./modules/matchModule',
@@ -18,6 +17,10 @@ function ( Backbone, Marionette, App, Communicator, ApplicationStartRouter, Appl
 
 	/* Add initializers here */
 	App.addInitializer( function () {
+		var octopusStore = localStorage.getItem('octopus');
+		if(_.isEmpty(octopusStore)) {
+			localStorage.setItem('octopus', JSON.stringify({}));
+		}
         // initialize the router
         var router = new ApplicationStartRouter({
         	controller: controller

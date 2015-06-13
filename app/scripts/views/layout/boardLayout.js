@@ -38,12 +38,15 @@ function( Backbone, Marionette, Bootbox, BoardlayoutTmpl, PlayerLayout, ScoreIte
 		childEvents: {
 			'scoreItem:new:score': function (child, value) {
 				this._onNewScore(value);
+			},
+			'scoreItem:undo:score': function (child) {
+				this._onUndoScore();
 			}
 		},
 
 		_onClickNewMatch: function () {
 			var self = this;
-			if(this.matchModule.started) {
+			if(this.matchModule.started && this.matchModule.match && !this.matchModule.match.started) {
 				Bootbox.confirm('Aktuelles Match verwerfen und neues starten?', function (result) {
 					if (result) {
 						self.matchModule.stop();
@@ -55,24 +58,82 @@ function( Backbone, Marionette, Bootbox, BoardlayoutTmpl, PlayerLayout, ScoreIte
 			}
 		},
 
-		_onNewScore: function (value) {
-			var isPlayerLeftActive = this.matchModule.matchStatus.isPlayerLeftActive
-			var activePlayer = this.ScorePlayerLeft.currentView;
+		_getInActivePlayerView: function() {
+			var isPlayerLeftActive = this.matchModule.match.state.isPlayerLeftActive;
 			if(!isPlayerLeftActive) {
-				activePlayer = this.ScorePlayerRight.currentView;
+				return this.ScorePlayerLeft.currentView;
+			} else {
+				return this.ScorePlayerRight.currentView;
 			}
-			activePlayer.newScore(value);
+		},
 
-			var active = !isPlayerLeftActive;
-			this.ScorePlayerLeft.currentView.model.set('isPlayerActive', active);
-			this.ScorePlayerRight.currentView.model.set('isPlayerActive', !active);
-			this.matchModule.matchStatus.isPlayerLeftActive = active;
+		_getActivePlayerView: function() {
+			var isPlayerLeftActive = this.matchModule.match.state.isPlayerLeftActive;
+			if(isPlayerLeftActive) {
+				return this.ScorePlayerLeft.currentView;
+			} else {
+				return this.ScorePlayerRight.currentView;
+			}
+		},
 
+		_switchActivePlayer: function() {
+			var isLeftActive = !this.matchModule.match.state.isPlayerLeftActive; //switch active player
+			this.ScorePlayerLeft.currentView.model.set('isPlayerActive', isLeftActive);
+			this.ScorePlayerRight.currentView.model.set('isPlayerActive', !isLeftActive);
+			return isLeftActive;
+		},
+
+		_refreshPlayerViews: function() {
 			this.ScorePlayerLeft.currentView.refresh();
 			this.ScorePlayerRight.currentView.refresh();
 		},
 
+		/*
+		 *
+		 *  +++ NEW SCORE +++ NEW SCORE +++ NEW SCORE +++ NEW SCORE +++
+		 *
+		 *
+		 */
+		 _onUndoScore: function() {
+		 	var undo = this.matchModule.undoLast();
+		 	if(undo) {
+		 		var undoPrefix = undo.uid[0];
+		 		if(undoPrefix === 't') {
+		 			//send to player-------------------------------------
+					var activePlayer = this._getInActivePlayerView();
+					activePlayer.deleteLastScore();
+					//----------------------------------------------------
+					var isLeftActive = this._switchActivePlayer();
+					this._refreshPlayerViews();
+
+					this.matchModule.deleteLastScore(isLeftActive);
+		 		}
+		 	}
+		 },
+
+		/*
+		 *
+		 *  +++ NEW SCORE +++ NEW SCORE +++ NEW SCORE +++ NEW SCORE +++
+		 *
+		 *
+		 */
+		_onNewScore: function (value, check, checkVal) {
+			var uid = _.uniqueId('t_');
+
+			//send to player-------------------------------------
+			var activePlayer = this._getActivePlayerView();
+			activePlayer.newScore(value, uid);
+			//----------------------------------------------------
+			var isLeftActive = this._switchActivePlayer();
+			this._refreshPlayerViews();
+
+			this.matchModule.newScore(value, check, checkVal, isLeftActive, uid);
+		},
+
 		_startNewMatch: function () {
+			if(this.matchModule.started) {
+				this.matchModule.stop();
+			}
 			this.matchModule.start();
 			var playerLeft = {
 				isLeft: true,
