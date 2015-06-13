@@ -18,6 +18,7 @@ function( Backbone, Tooltip, PlayermenuTmpl  ) {
 
     	/* ui selector cache */
     	ui: {
+    		ActivePlayer: '.activePlayer',
     		WonLegs: '.wonLegs',
     		SwitchPlayernames: '.switchPlayernames'
     	},
@@ -33,6 +34,12 @@ function( Backbone, Tooltip, PlayermenuTmpl  ) {
             		'<span>Spielernamen tauschen</span>'
             	)
         	});
+
+			this.ui.ActivePlayer.tooltipster({
+            	content: $(
+            		'<span>Dieser Spieler steht am Oche und muss werfen</span>'
+            	)
+        	});        	
 
 			var isLeft = this.model.get('isLeft');
 			var countLegs = this.model.get('countLegs');

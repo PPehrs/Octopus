@@ -125,7 +125,13 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
             		'<span>Letzte Eingabe l&ouml;schen klick hier (oder <strong> Strg-Z)</strong></span>'
             	)
         	});
-        	
+
+			this.ui.enterButton.tooltipster({
+            	content: $(
+            		'<span>Eingabe best&auml;tigen klick hier (oder <strong> Enter)</strong></span>'
+            	)
+        	});
+      	
 		},
 	});
 
