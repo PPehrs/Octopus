@@ -19,6 +19,10 @@ function(App, Communicator) {
 				return 1;
 			}
 
+			if(value === 110 || value === 107 || value == 104 || value == 101 || value == 100) {
+				return 2;
+			}
+
 			if(value === 50) {
 				return 1;
 			}
@@ -34,7 +38,7 @@ function(App, Communicator) {
 					return 2;
 				}
 			}
-		},
+		};
 
 
 		MatchModule.isUndoPossible = function() {
@@ -193,7 +197,7 @@ function(App, Communicator) {
 				countLegs: this.match.leg,
 				isLeftCheck: isLeftChecked, 
 			}
-		},
+		};
 
 		MatchModule.check = function(value, check) {
 			if(!this.match.started) {
@@ -234,7 +238,19 @@ function(App, Communicator) {
 
 			this.saveMatchToLocalStorage();
 			//--> fire
-		}
+		};
+
+		MatchModule.changeScore  = function(value, uid) {
+			var entry = _.findWhere(this.match.activeLeg.entries, {uid:uid});
+			entry.value = value;
+			this.saveMatchToLocalStorage();
+			//--> fire
+
+			return {
+				isLeft: entry.isLeft,
+				entries: _.where(value.entries, {isLeft:entry.isLeft})
+			}
+		};
 
 		MatchModule.newScore = function(value, miss, isLeftActive, uid) {
 			if(!this.match.started) {
@@ -264,6 +280,6 @@ function(App, Communicator) {
 			this.saveMatchToLocalStorage();
 
 			//===> fire active leg
-		}
+		};
 	});
 });

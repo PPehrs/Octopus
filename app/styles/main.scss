@@ -199,6 +199,14 @@
   }
 }
 
+.scoreText {
+  span:hover {
+    color: blue;
+    border-bottom: 3px blue dotted;
+    cursor: pointer;
+  }
+}
+
 .blink {
 	-webkit-animation: blink 3s step-end infinite;
 	animation: blink 3s step-end infinite;

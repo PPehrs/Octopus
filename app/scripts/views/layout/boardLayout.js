@@ -46,6 +46,9 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, PlayerLa
 			'playerName:change:activePlayer': function (child, isLeft) {
 				this._onActivePlayerChange(isLeft);
 			},
+			'playerScore:change:value': function (child, value, uid) {
+				this._onChangeScore(value, uid);
+			}			
 		},
 
 		_onActivePlayerChange: function(isLeft) {
@@ -106,7 +109,7 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, PlayerLa
 
 		/*
 		 *
-		 *  +++ NEW SCORE +++ NEW SCORE +++ NEW SCORE +++ NEW SCORE +++
+		 *  +++ UNDO SCORE +++ UNDO SCORE +++ UNDO SCORE +++ UNDO SCORE +++
 		 *
 		 *
 		 */
@@ -125,6 +128,22 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, PlayerLa
 					this.matchModule.deleteLastScore(isLeftActive);
 		 		}
 		 	}
+		 },
+
+		/*
+		 *
+		 *  +++ CHANGE SCORE +++ CHANGE SCORE +++ CHANGE SCORE +++ CHANGE SCORE +++
+		 *
+		 *
+		 */
+		 _onChangeScore: function(value, uid) {
+			var change = this.matchModule.changeScore(value, uid);
+
+			if(change.isLeft) {
+				this.ScorePlayerLeft.currentView.loadPlayerScores(value.scores);
+			} else {
+				this.ScorePlayerRight.currentView.loadPlayerScores(value.scores);
+			}
 		 },
 
 		/*

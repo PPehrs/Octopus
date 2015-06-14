@@ -31,6 +31,9 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 			'playerName:change:activePlayer': function (child, isLeft) {
 				this.triggerMethod('playerName:change:activePlayer', isLeft);
 			},
+			'playerScore:change:value': function (child, value, uid) {
+				this.triggerMethod('playerScore:change:value', value, uid);
+			}
 		},		
 
 		deleteLastScore: function() {
@@ -91,14 +94,16 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 			this.PlayerScoresRegion.currentView.render();
 		},
 
-		/* on render callback */
-		onRender: function() {
-			this.PlayerMenuRegion.show(new PlayerMenu({
-				model: this.model
-			}))
-			this.PlayerNameRegion.show(new PlayerName({
-				model: this.model
-			}))
+		reloadPlayerScores: function(scores) {
+			this.model.set({
+				load:true,
+				scores: scores
+			});
+			this.loadPlayerScores();
+			this.PlayerScoresRegion.currentView.render();
+		},
+
+		loadPlayerScores: function() {
 			var load = this.model.get('load');
 			var collection = new Backbone.Collection({
 				score: 501,
@@ -127,6 +132,18 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 			this.PlayerScoresRegion.show(new PlayerScores({
 				collection: collection
 			}));
+		},
+
+		/* on render callback */
+		onRender: function() {
+			this.PlayerMenuRegion.show(new PlayerMenu({
+				model: this.model
+			}))
+			this.PlayerNameRegion.show(new PlayerName({
+				model: this.model
+			}))
+
+			this.loadPlayerScores();
 		}
 	});
 
