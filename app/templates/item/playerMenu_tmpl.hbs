@@ -1,0 +1,22 @@
+<div style="font-size: 1.5em;height:30px">
+    {{#if isLeft}}
+
+<div style="margin-top:-175px;float:left">
+ <div class="wonLegs fz-5 fw-9">0</div>
+ <div class="fz-2">Legs</div>
+</div>    
+		<i class="c-p fa fa-globe text-primary" style="float:left"></i>
+    	<i class="c-p switchPlayernames fa fa-arrow-circle-right text-success" style="color:darkgray;float:right"></i>
+		<i class="c-p activePlayer fa fa-bullseye text-success m-r-s" style="color:darkgray;float:right"></i>    	
+  {{else}}
+		<i class="c-p switchPlayernames fa fa-arrow-circle-left text-success" style="color:darkgray;float:left"></i>
+		<i class="c-p activePlayer fa fa-bullseye text-success m-l-s" style="color:darkgray;float:left"></i>
+		<i class="c-p fa fa-globe text-primary" style="float:right"></i>
+
+<div style="margin-top:-175px;float:right">
+ <div class="wonLegs fz-5 fw-9">0</div>
+ <div class="fz-2">Legs</div>
+</div>
+
+  {{/if}}
+</div>

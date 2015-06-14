@@ -1,0 +1,15 @@
+<div style="display:flex">
+    {{#if isLeft}}
+		<div style="width: 30%;padding-top: 2.5vw;padding-left: 1vw;">
+            <div style="font-size: 4.5vw;text-align:left;{{#if isTop}}font-weight: 900;{{else}}opacity: 0.8;{{/if}}">{{value}}</div>
+			<!--input tabindex="-1" style="width: 100%;padding:5px;font-size: 2.5vw;text-align:left;" placeholder="-"-->
+		</div>
+		<div style="padding-right: 0.30vw;width: 70%;text-align: right;font-size: 7vw;{{#if isTop}}font-weight: 900;{{else}}opacity: 0.8;{{/if}}">{{score}}</div>
+	{{else}}
+		<div style="padding-left: 0.30vw;width: 70%;text-align: left;font-size: 7vw;{{#if isTop}}font-weight: 900;{{else}}opacity: 0.8;{{/if}}">{{score}}</div>
+		<div style="width: 30%;padding-top: 2.5vw;padding-right: 1vw;">
+            <div style="font-size: 4.5vw;text-align:right;{{#if isTop}}font-weight: 900;{{else}}opacity: 0.8;{{/if}}">{{value}}</div>
+			<!--input tabindex="-1" style="width: 100%;padding:5px;font-size: 2.5vw;text-align:right;" placeholder="-"-->
+		</div>
+	{{/if}}
+</div>

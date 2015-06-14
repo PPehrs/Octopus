@@ -1,0 +1,25 @@
+<div class="flex"> 
+
+	{{#if isLeft}}
+	<div style="background-color:#98fb98;min-height: 40px;min-width: 40px;width: 40px;border-radius: 100px;height: 40px;">
+		<div {{#if isPlayerActive}}class="blink"{{/if}} style="min-height: 40px;height: 40px;border: 1px solid gray;border-radius: 100px;">
+			<img style="max-height:100%; max-width:100%;" src="images/avatar.png" class="img-circle" alt="player avatar"></img>
+		</div>
+		</div>
+	{{/if}}
+
+	<div style="padding: 0px 15px;width:90%">
+	
+		<input class="playerName" style="text-align:center;width: 100%;border: 1px solid black;border-radius: 10px;padding: 5px;font-size: 1.5em;" placeholder="Name">
+	</div>
+
+	{{#unless isLeft}}
+	<div style="background-color:#98fb98;min-height: 40px;min-width: 40px;width: 40px;border-radius: 100px;height: 40px;">	
+		<div {{#if isPlayerActive}}class="blink"{{/if}} style="min-height: 40px;height: 40px;border: 1px solid gray;border-radius: 100px;">
+			<img style="max-height:100%; max-width:100%;" src="images/avatar.png" class="img-circle" alt="player avatar"></img>
+		</div>
+		</div>
+	{{/unless}}
+
+</div>
+
