@@ -207,9 +207,18 @@
   }
 }
 
+.octopus_playerMenu {
+	.text-success {
+		color: darkgray;
+		&:hover {
+			color: #356635;
+		}
+	}
+}
 .blink {
 	-webkit-animation: blink 3s step-end infinite;
 	animation: blink 3s step-end infinite;
 }
 @-webkit-keyframes blink { 50% { visibility: hidden; }}
 @keyframes blink { 50% { visibility: hidden; }}
+

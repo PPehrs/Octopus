@@ -8,11 +8,12 @@ function(App, Communicator) {
 
 		MatchModule.started = false;
 		MatchModule.match = {};
+		MatchModule.players = [];
 
 		MatchModule.startWithParent = false;
 
 		MatchModule.possibleCheckWith = function(value) {
-			if(value === 170 || value === 167 || value === 164 || 
+			if(value === 170 || value === 167 || value === 164 ||
 			   value === 161 || value === 160 || (value <= 158 && value > 110) ||
 			   value === 109 || value === 108 || value === 106 || value === 105 ||
 			   value === 103 || value === 102 || value == 99) {
@@ -82,18 +83,24 @@ function(App, Communicator) {
 					}
 				}
 			}
-		};		
+		};
 
 		MatchModule.deleteLastScore = function(isLeftActive) {
-			this.match.activeLeg.entries.pop();			
+			this.match.activeLeg.entries.pop();
 			this.saveMatchToLocalStorage();
-			this.match.state.isPlayerLeftActive = isLeftActive;	
-		};				
+			this.match.state.isPlayerLeftActive = isLeftActive;
+		};
 
 		MatchModule.addInitializer(function() {
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 
 			if(!octopusStore.match || _.isEmpty(octopusStore.match)) {
+
+				var players = [];
+				if(!octopusStore.players || _.isEmpty(octopusStore.players)) {
+					players = octopusStore.players;
+				}
+
 				var matchUid = octopus.uuid();
 
 				var matchStatus = {
@@ -108,7 +115,8 @@ function(App, Communicator) {
 					set: 0,
 					leg: 0,
 					state: matchStatus,
-					started: false
+					started: false,
+					players: players
 				}
 
 				_.extend(octopusStore, {match: this.match});
@@ -119,7 +127,8 @@ function(App, Communicator) {
 				var result = this.wonLegsAndSets();
 				var activeLeg = this.match.activeLeg;
 				var isPlayerLeftActive = this.match.state.isPlayerLeftActive;
-
+				this.players = this.match.players;
+				this.savePlayersToLocalStorage();
 				setTimeout(function() {
 					Communicator.mediator.trigger('load:match', isPlayerLeftActive, result, activeLeg);
 				})
@@ -151,6 +160,30 @@ function(App, Communicator) {
 			localStorage.setItem('octopus', JSON.stringify(octopusStore));
 		};
 
+		MatchModule.savePlayersToLocalStorage = function() {
+			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+			octopusStore.players = this.players;
+			localStorage.setItem('octopus', JSON.stringify(octopusStore));
+		};
+
+		MatchModule.savePlayer = function (player) {
+			if(_.isEmpty(this.players)) {
+				this.players = [];
+				this.players.push(player);
+			} else {
+				var savedPlayer = _.findWhere(this.players, {isLeft: player.isLeft})
+				if(_.isEmpty(savedPlayer)) {
+					this.players.push(player);
+				} else {
+					savedPlayer.name = player.name;
+				}
+			}
+			this.savePlayersToLocalStorage();
+
+			this.match.players = this.players;
+			this.saveMatchToLocalStorage();
+		},
+
 		//----------------------------------------------------------------------
 
 		MatchModule.wonLegsAndSets = function(value, check) {
@@ -170,7 +203,7 @@ function(App, Communicator) {
 								darts = Number(entry.check);
 								leftLegs += 1;
 								isLeftChecked = true;
-							}	
+							}
 							leftDarts += darts;
 
 						} else {
@@ -178,13 +211,13 @@ function(App, Communicator) {
 								darts = Number(entry.check);
 								rightLegs += 1;
 								isLeftChecked = false;
-							}	
+							}
 							rightDarts += darts;
 						}
 					})
 				})
 			}
-			
+
 			return {
 				left: {
 					darts: leftDarts,
@@ -195,13 +228,13 @@ function(App, Communicator) {
 					legsWon: rightLegs
 				},
 				countLegs: this.match.leg,
-				isLeftCheck: isLeftChecked, 
+				isLeftCheck: isLeftChecked,
 			}
 		};
 
 		MatchModule.check = function(value, check) {
 			if(!this.match.started) {
-				return; 
+				return;
 			}
 			var playerLeftStartsSet = this.match.state.playerLeftStartsSet;
 			var playerLeftStartsLeg = this.match.state.playerLeftStartsLeg;
@@ -276,7 +309,7 @@ function(App, Communicator) {
 			}
 
 			this.match.activeLeg.entries.push(entry);
-			this.match.state.isPlayerLeftActive = isLeftActive;	
+			this.match.state.isPlayerLeftActive = isLeftActive;
 			this.saveMatchToLocalStorage();
 
 			//===> fire active leg

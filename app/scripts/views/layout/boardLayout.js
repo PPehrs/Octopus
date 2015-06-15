@@ -37,6 +37,9 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, PlayerLa
 		},
 
 		childEvents: {
+			'playerMenu:player:active': function (child, isLeft) {
+				this._onActivatePlayer(isLeft);
+			},
 			'scoreItem:new:score': function (child, value, miss, check) {
 				this._onNewScore(value, miss, check);
 			},
@@ -46,9 +49,62 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, PlayerLa
 			'playerName:change:activePlayer': function (child, isLeft) {
 				this._onActivePlayerChange(isLeft);
 			},
+			'playerName:change:name': function (child, name, isLeft) {
+				this._onPlayerNameChange(name, isLeft);
+			},
 			'playerScore:change:value': function (child, value, uid) {
 				this._onChangeScore(value, uid);
-			}			
+			},
+			'playerMenu:switch:names': function () {
+				this._onSwitchPlayerNames();
+			},
+		},
+
+		_onActivatePlayer: function (isLeft) {
+			if(this.matchModule.match.state.isPlayerLeftActive === isLeft) {
+				return;
+			}
+
+			var playerViewLeft = this.ScorePlayerLeft.currentView.PlayerScoresRegion.currentView;
+			var playerViewRight = this.ScorePlayerRight.currentView.PlayerScoresRegion.currentView;
+			if(isLeft) {
+				if(playerViewLeft.collection.length > playerViewRight.collection.length) {
+					return;
+				}
+			} else {
+				if(playerViewRight.collection.length > playerViewLeft.collection.length) {
+					return;
+				}
+			}
+
+			this.matchModule.match.state.isPlayerLeftActive = isLeft;
+			this.ScorePlayerLeft.currentView.model.set('isPlayerActive', isLeft);
+			this.ScorePlayerRight.currentView.model.set('isPlayerActive', !isLeft);
+			this._refreshPlayerViews();
+		},
+
+		_onSwitchPlayerNames: function () {
+			var player = this.getPlayer();
+			player[0].isLeft = !player[0].isLeft;
+			player[1].isLeft = !player[1].isLeft;
+			this.matchModule.savePlayer(player[0]);
+			this.matchModule.savePlayer(player[1]);
+			var playerLeft = this.ScorePlayerLeft.currentView.PlayerNameRegion.currentView;
+			var playerRight = this.ScorePlayerRight.currentView.PlayerNameRegion.currentView;
+
+			var n1 = _.findWhere(player, {isLeft: true}).name;
+			var n2 = _.findWhere(player, {isLeft: false}).name;
+
+			playerLeft.setPlayerName(n1);
+			playerRight.setPlayerName(n2);
+		},
+
+		_onPlayerNameChange: function(name, isLeft) {
+			var player = {
+				name: name,
+				isLeft: isLeft
+			}
+			this.matchModule.savePlayer(player);
 		},
 
 		_onActivePlayerChange: function(isLeft) {
@@ -163,19 +219,20 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, PlayerLa
 				activePlayer.newScore(value, uid);
 				//----------------------------------------------------
 				var isLeftActive = this._switchActivePlayer();
-				this._refreshPlayerViews();				
+				this._refreshPlayerViews();
 				this.matchModule.newScore(value, miss, isLeftActive, uid);
 			}
 		},
 
 		_loadStoredMatch: function(isPlayerLeftActive, result, activeLeg) {
-			delete result.isLeftCheck;
+			if(result) {
+				delete result.isLeftCheck;
+			}
 
 			var playerLeft = {
 				load: true,
 				isLeft: true,
-				isPlayerActive: isPlayerLeftActive
-			};
+				isPlayerActive: isPlayerLeftActive			};
 
 			var playerRight = {
 				load: true,
@@ -183,8 +240,10 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, PlayerLa
 				isPlayerActive: !isPlayerLeftActive
 			};
 
-			_.extend(playerLeft, result);
-			_.extend(playerRight, result);
+			if(result) {
+				_.extend(playerLeft, result);
+				_.extend(playerRight, result);
+			}
 
 			if(activeLeg && !_.isEmpty(activeLeg.entries)) {
 				var scoresLeft = _.where(activeLeg.entries, {isLeft:true});
@@ -227,12 +286,12 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, PlayerLa
 			}));
 			this.ScorePlayerRight.show(new PlayerLayout({
 				model: new Backbone.Model (playerRight)
-			}));	
+			}));
 
 			var self = this;
 			setTimeout(function() {
 				self._onActivePlayerChange(isPlayerLeftActive);
-			})		
+			})
 		},
 
 		_startNewMatch: function () {
@@ -247,6 +306,17 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, PlayerLa
 			this.listenTo(Communicator.mediator, 'load:match', this._loadStoredMatch);
 		},
 
+		getPlayer: function () {
+			var player = [];
+
+			var playerLeft = this.ScorePlayerLeft.currentView.PlayerNameRegion.currentView.getPlayer();
+			var playerRight = this.ScorePlayerRight.currentView.PlayerNameRegion.currentView.getPlayer();
+
+			player.push(playerLeft);
+			player.push(playerRight);
+
+			return player;
+		},
 		/* on render callback */
 		onRender: function() {
 			this.ui.CheckBoxTransmit.bootstrapSwitch();

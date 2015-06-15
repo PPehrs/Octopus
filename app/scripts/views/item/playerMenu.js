@@ -12,9 +12,9 @@ function( Backbone, Tooltip, PlayermenuTmpl  ) {
 		initialize: function() {
 			console.log("initialize a Playermenu ItemView");
 		},
-		
+
     	template: PlayermenuTmpl,
-        
+
 
     	/* ui selector cache */
     	ui: {
@@ -22,9 +22,19 @@ function( Backbone, Tooltip, PlayermenuTmpl  ) {
     		WonLegs: '.wonLegs',
     		SwitchPlayernames: '.switchPlayernames'
     	},
- 
+
 		/* Ui events hash */
 		events: {
+			'click @ui.ActivePlayer': '_onClickActivePlayer',
+			'click @ui.SwitchPlayernames': '_onClickSwitchPlayernames'
+		},
+
+		_onClickSwitchPlayernames: function () {
+			this.triggerMethod('playerMenu:switch:names');
+		},
+
+		_onClickActivePlayer: function () {
+			this.triggerMethod('playerMenu:player:active', this.model.get('isLeft'));
 		},
 
 		/* on render callback */
@@ -39,7 +49,7 @@ function( Backbone, Tooltip, PlayermenuTmpl  ) {
             	content: $(
             		'<span>Dieser Spieler steht am Oche und muss werfen</span>'
             	)
-        	});        	
+        	});
 
 			var isLeft = this.model.get('isLeft');
 			var countLegs = this.model.get('countLegs');
@@ -73,7 +83,7 @@ function( Backbone, Tooltip, PlayermenuTmpl  ) {
                 		'<span>' + countLegs +'. Leg gewonnen<br><strong>' + wonWith + ' Darts</strong></span>'
                 	)
             	});
-            	
+
 			}
 		}
 	});
