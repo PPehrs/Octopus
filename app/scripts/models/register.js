@@ -1,7 +1,7 @@
 define([
 	'backbone'
 ],
-function( Backbone, Validation ) {
+function(Backbone) {
     'use strict';
 
 	/* Return a model class definition */

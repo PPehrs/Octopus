@@ -3,7 +3,7 @@ require.config({
     baseUrl: "/scripts",
 
     /* starting point for application */
-    deps: ['backbone', 'backbone.marionette', 'backbone.stickit', 'backbone.validation', 'bootstrap', 'bootbox', 'bootstrapswitch', 'main'],
+    deps: ['backbone', 'backbone.marionette', 'bootstrap', 'bootbox', 'bootstrapswitch', 'main'],
 
 
     shim: {
@@ -14,16 +14,6 @@ require.config({
             ],
             exports: 'Backbone'
         },
-		'backbone.stickit': {
-			deps: [
-				'backbone'
-			]
-		},
-		'backbone.validation': {
-			deps: [
-				'backbone'
-			]
-		},
         bootstrap: {
             deps: ['jquery'],
             exports: 'jquery'
@@ -54,7 +44,7 @@ require.config({
         'backbone.wreqr': '../bower_components/backbone.wreqr/lib/backbone.wreqr',
         'backbone.babysitter': '../bower_components/backbone.babysitter/lib/backbone.babysitter',
 		'backbone.stickit': '../bower_components/backbone.stickit/backbone.stickit',
-		'backbone.validation': '../bower_components/backbone-validation/dist/backbone-validation-min',
+		'backbone.validation': '../bower_components/backbone-validation/dist/backbone-validation',
 
         /* alias the bootstrap js lib */
         bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',

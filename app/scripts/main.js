@@ -1,6 +1,7 @@
 require([
 	'backbone',
 	'backbone.marionette',
+	'backbone.stickit',
 	'application',
 	'communicator',
 	'./routers/applicationStartRouter',
@@ -9,7 +10,7 @@ require([
 	'./modules/socketModule',
 	'./global'
 ],
-function ( Backbone, Marionette, App, Communicator, ApplicationStartRouter, ApplicationStartController) {
+function ( Backbone, Marionette, Stickit, App, Communicator, ApplicationStartRouter, ApplicationStartController) {
     'use strict';
 
 	var controller = new ApplicationStartController({});
