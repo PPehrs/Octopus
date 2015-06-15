@@ -1,7 +1,6 @@
 define([
 	'backbone',
 	'backbone.stickit',
-	'backbone.validation',
 	'models/register',
 	'hbs!tmpl/item/dialogRegister_tmpl'
 ],
