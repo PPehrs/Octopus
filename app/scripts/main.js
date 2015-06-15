@@ -8,6 +8,7 @@ require([
 	'./controllers/applicationStartController',
 	'regionManager',
 	'./modules/socketModule',
+	'modules/dialogModule',
 	'./global'
 ],
 function ( Backbone, Marionette, Stickit, App, Communicator, ApplicationStartRouter, ApplicationStartController) {

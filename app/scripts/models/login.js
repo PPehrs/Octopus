@@ -6,10 +6,6 @@ function( Backbone ) {
 
 	/* Return a model class definition */
 	return Backbone.Model.extend({
-		initialize: function() {
-			console.log("initialize a Login model");
-		},
-
 		defaults: {
 			username: '',
 			pw: ''

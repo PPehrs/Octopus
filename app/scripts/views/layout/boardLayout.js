@@ -4,11 +4,12 @@ define([
 	'communicator',
 	'bootbox',
 	'hbs!tmpl/layout/boardLayout_tmpl',
+	'./boardPanelLayout',
 	'./playerLayout',
 	'../item/scoreItem',
 	'modules/matchModule'
 ],
-function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, PlayerLayout, ScoreItem, MatchModule  ) {
+function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPanel, PlayerLayout, ScoreItem, MatchModule  ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -22,7 +23,8 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, PlayerLa
     	regions: {
     		ScoreRegion: '#octopus_score',
     		ScorePlayerLeft: '#octopus_playerLeft',
-    		ScorePlayerRight: '#octopus_playerRight'
+    		ScorePlayerRight: '#octopus_playerRight',
+    		BoardPanelRegion: '#octopus_boardPanel'
     	},
 
     	/* ui selector cache */
@@ -327,6 +329,7 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, PlayerLa
 			//---------------------------------------------
 
 			this.ScoreRegion.show(new ScoreItem({}));
+			this.BoardPanelRegion.show(new BoardPanel({}));
 		}
 	});
 
