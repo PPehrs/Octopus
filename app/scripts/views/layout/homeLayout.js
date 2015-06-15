@@ -2,9 +2,12 @@ define([
 	'backbone',
 	'backbone.marionette',
 	'bootbox',
-	'hbs!tmpl/layout/homeLayout_tmpl'
+	'hbs!tmpl/layout/homeLayout_tmpl',
+	'../composite/registeredPlayers',
+	'../item/dialogRegister',
+	'../item/dialogLogin'
 ],
-function( Backbone, Marionette, Bootbox, HomelayoutTmpl ) {
+function( Backbone, Marionette, Bootbox, HomelayoutTmpl, RegisteredPlayers, DialogRegister, DialogLogin ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -18,13 +21,15 @@ function( Backbone, Marionette, Bootbox, HomelayoutTmpl ) {
 
 
     	/* Layout sub regions */
-    	regions: {},
+    	regions: {
+			panelPlayerRegisteredRegion: '#panelPlayerRegisteredRegion'
+		},
 
     	/* ui selector cache */
     	ui: {
     		buttonStartNewGame: '#btnStartNewGame',
     		buttonLoginPlayer: '#btnLoginPlayer',
-    		buttonRegisterPlayer: '#btnRegisterPlayer'
+    		buttonRegisterPlayer: '#btnRegisterPlayer',
     	},
 
 		/* Ui events hash */
@@ -35,7 +40,9 @@ function( Backbone, Marionette, Bootbox, HomelayoutTmpl ) {
 		},
 
 		/* on render callback */
-		onRender: function() {},
+		onRender: function() {
+			this.panelPlayerRegisteredRegion.show(new RegisteredPlayers());
+		},
 
 		_onClickButtonStartNewGame: function() {
 			var router = new Backbone.Router();
@@ -43,13 +50,11 @@ function( Backbone, Marionette, Bootbox, HomelayoutTmpl ) {
 		},
 
 		_onClickButtonLoginPlayer: function() {
-			Bootbox.alert("Hello world!", function() {
-
-			});
+			App.module('DialogModule').showConfirm('Anmelden', DialogLogin);
 		},
 
 		_onClickButtonRegisterPlayer: function() {
-
+			App.module('DialogModule').showConfirm('Registrieren', DialogRegister, 'RegisterUser');
 		}
 
 

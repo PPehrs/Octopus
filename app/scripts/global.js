@@ -13,5 +13,4 @@
 		    return uuid;
 		};
 	}
-
 }).call(this);

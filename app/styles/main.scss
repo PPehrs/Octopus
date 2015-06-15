@@ -222,3 +222,8 @@
 @-webkit-keyframes blink { 50% { visibility: hidden; }}
 @keyframes blink { 50% { visibility: hidden; }}
 
+.dialog-error-text {
+	position: absolute;
+	bottom: 20px;
+	color: red;
+}

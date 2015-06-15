@@ -7,6 +7,7 @@ require([
 	'./controllers/applicationStartController',
 	'regionManager',
 	'./modules/socketModule',
+	'./modules/dialogModule',
 	'./modules/matchModule',
 	'./global'
 ],

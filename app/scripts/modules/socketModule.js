@@ -45,14 +45,14 @@ function(App, SocketIo, Communicator) {
 			}
 		});
 
-		SocketModule.emit = function (event, data) {
+		SocketModule.emit = function (event, data, callback) {
 			if (this.socketIo.disconnected) {
 				Communicator.mediator.trigger('APP:SOCKET:DISCONNECTED');
 				return;
 			};
 
-			this.socketIo.send(event, data, function(response) {
-				console.log(event, response);
+			this.socketIo.emit(event, data, function(response) {
+				callback(response);
 			});
 		},
 
@@ -63,15 +63,28 @@ function(App, SocketIo, Communicator) {
 			};
 
 			this.socketIo.send(event, data, function(response) {
-				console.log(event, response);
+				callback(response);
 			});
+		},
+
+		//THE API ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+		SocketModule.RegisterUser = function (model, callback, self) {
+			var socketIo = App.module('SocketModule').socketIo;
+			socketIo.emit('register-user', model.attributes, function (data) {
+				callback(data, self);
+			});
+		},
+
+		SocketModule.GetRegisteredUser = function (callback) {
+			this.emit('get-registered-users', null, callback);
 		},
 
 		SocketModule.OnlineInformation = function () {
 			var self = this;
 			setTimeout(function() {
 				console.log('send online-information to server');
-				self.emit('online-information', {id: 'IM ONLINE'});
+				this.socketIo.emit('online-information', {id: 'IM ONLINE'});
 				self.OnlineInformation();
 			}, 10000);
 		};

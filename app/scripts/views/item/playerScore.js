@@ -12,9 +12,9 @@ function( Backbone, Tooltip, PlayerScoreTmpl  ) {
 		initialize: function() {
 			console.log("initialize a Playerscore ItemView");
 		},
-		
+
     	template: PlayerScoreTmpl,
-        
+
 
     	/* ui selector cache */
     	ui: {
@@ -72,7 +72,7 @@ function( Backbone, Tooltip, PlayerScoreTmpl  ) {
 			if(this.model.get('uid')) {
 				this.ui.ScoreText.tooltipster({
 	            	content: $(
-	            		'<span>Klick zum Ändern des Scores</span>'
+	            		'<span>Klick zum &Auml;ndern des Scores</span>'
 	            	)
 	        	});
 			}
