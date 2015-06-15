@@ -3,7 +3,7 @@ require.config({
     baseUrl: "/scripts",
 
     /* starting point for application */
-    deps: ['backbone', 'backbone.marionette', 'bootstrap', 'bootbox', 'bootstrapswitch', 'main'],
+    deps: ['backbone', 'backbone.marionette', 'backbone.stickit', 'backbone.validation', 'bootstrap', 'bootbox', 'bootstrapswitch', 'main'],
 
 
     shim: {
@@ -14,6 +14,16 @@ require.config({
             ],
             exports: 'Backbone'
         },
+		'backbone.stickit': {
+			deps: [
+				'backbone'
+			]
+		},
+		'backbone.validation': {
+			deps: [
+				'backbone'
+			]
+		},
         bootstrap: {
             deps: ['jquery'],
             exports: 'jquery'

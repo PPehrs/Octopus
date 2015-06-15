@@ -31,6 +31,7 @@ function( Backbone, PlayerNameTmpl  ) {
 		},
 
 		_onFocusOutInputPlayerName: function () {
+			this.setPlayerNameToModel();
 			this.triggerMethod('playerName:change:name', this.ui.InputPlayerName.val(), this.model.get('isLeft'));
 		},
 
@@ -43,6 +44,11 @@ function( Backbone, PlayerNameTmpl  ) {
 
 		setPlayerName: function (playerName) {
 			this.ui.InputPlayerName.val(playerName);
+			this.setPlayerNameToModel();
+		},
+
+		setPlayerNameToModel: function () {
+			var playerName = this.ui.InputPlayerName.val;
 			if(this.model.get('player')) {
 				this.model.get('player').name = playerName;
 			} else {

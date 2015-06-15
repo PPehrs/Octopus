@@ -5,9 +5,10 @@ define([
 	'bootbox',
 	'hbs!tmpl/layout/boardLayout_tmpl',
 	'./playerLayout',
-	'../item/scoreItem'
+	'../item/scoreItem',
+	'modules/matchModule'
 ],
-function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, PlayerLayout, ScoreItem  ) {
+function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, PlayerLayout, ScoreItem, MatchModule  ) {
     'use strict';
 
 	/* Return a Layout class definition */

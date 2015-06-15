@@ -5,9 +5,10 @@ define([
 	'hbs!tmpl/layout/homeLayout_tmpl',
 	'../composite/registeredPlayers',
 	'../item/dialogRegister',
-	'../item/dialogLogin'
+	'../item/dialogLogin',
+	'modules/dialogModule'
 ],
-function( Backbone, Marionette, Bootbox, HomelayoutTmpl, RegisteredPlayers, DialogRegister, DialogLogin ) {
+function( Backbone, Marionette, Bootbox, HomelayoutTmpl, RegisteredPlayers, DialogRegister, DialogLogin, DialogModule ) {
     'use strict';
 
 	/* Return a Layout class definition */
