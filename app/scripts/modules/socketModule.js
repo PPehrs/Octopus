@@ -22,6 +22,10 @@ function(App, SocketIo, Communicator) {
 				console.log('socket event', data);
 				Communicator.mediator.trigger('APP:SOCKET:EVENT', data);
 			});
+			this.socketIo.on('user-registered', function(data){
+				console.log('SERVER-IS-ONLINE', data);
+				Communicator.mediator.trigger('APP:SOCKET:USER-REGISTERED', data);
+			});
 			this.socketIo.on('SERVER-IS-ONLINE', function(data){
 				console.log('SERVER-IS-ONLINE', data);
 				Communicator.mediator.trigger('APP:SOCKET:SERVER-IS-ONLINE', data);
@@ -76,6 +80,10 @@ function(App, SocketIo, Communicator) {
 			});
 		},
 
+		SocketModule.GetLiveMatches = function (callback) {
+			this.emit('get-matches', null, callback);
+		},
+
 		SocketModule.GetRegisteredUser = function (callback) {
 			this.emit('get-registered-users', null, callback);
 		},
@@ -84,7 +92,7 @@ function(App, SocketIo, Communicator) {
 			var self = this;
 			setTimeout(function() {
 				console.log('send online-information to server');
-				this.socketIo.emit('online-information', {id: 'IM ONLINE'});
+				this.emit('online-information', {id: 'IM ONLINE'});
 				self.OnlineInformation();
 			}, 10000);
 		};

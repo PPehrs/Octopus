@@ -147,6 +147,11 @@
     padding-bottom: 15px;
 }
 
+.mm-h-200 {
+	min-height: 200px;
+	max-height: 200px;
+}
+
 .oo_btn {
 	&:hover {
 		color: lightgreen;

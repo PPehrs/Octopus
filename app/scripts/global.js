@@ -1,5 +1,13 @@
+define(['jquery', 'underscore'],
 (function() {
 	var _global = this;
+
+	_.templateSettings =
+	{
+		escape: /<%[=-]([\s\S]+?)%>/g,
+		interpolate: /<%cleanHtml([\s\S]+?)cleanHtml%>/g,
+		evaluate: /<%([\s\S]+?)%>/g
+	};
 
 	_global.octopus = {};
 	if (!_global.octopus.uuid) {
@@ -13,4 +21,4 @@
 		    return uuid;
 		};
 	}
-}).call(this);
+}).call(this));

@@ -3,11 +3,23 @@ define([
 	'backbone.marionette',
 	'bootbox',
 	'hbs!tmpl/layout/homeLayout_tmpl',
+
 	'../composite/registeredPlayers',
+	'../composite/liveMatches',
+
 	'../item/dialogRegister',
 	'../item/dialogLogin'
 ],
-function( Backbone, Marionette, Bootbox, HomelayoutTmpl, RegisteredPlayers, DialogRegister, DialogLogin ) {
+function( Backbone,
+		  Marionette,
+		  Bootbox,
+		  HomelayoutTmpl,
+
+		  RegisteredPlayers,
+		  LiveMatches,
+
+		  DialogRegister,
+		  DialogLogin ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -22,7 +34,8 @@ function( Backbone, Marionette, Bootbox, HomelayoutTmpl, RegisteredPlayers, Dial
 
     	/* Layout sub regions */
     	regions: {
-			panelPlayerRegisteredRegion: '#panelPlayerRegisteredRegion'
+			panelPlayerRegisteredRegion: '#panelPlayerRegisteredRegion',
+			panelEncounterLiveRegion: '#panelEncounterLiveRegion'
 		},
 
     	/* ui selector cache */
@@ -42,6 +55,7 @@ function( Backbone, Marionette, Bootbox, HomelayoutTmpl, RegisteredPlayers, Dial
 		/* on render callback */
 		onRender: function() {
 			this.panelPlayerRegisteredRegion.show(new RegisteredPlayers());
+			this.panelEncounterLiveRegion.show(new LiveMatches());
 		},
 
 		_onClickButtonStartNewGame: function() {
