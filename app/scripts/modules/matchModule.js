@@ -281,7 +281,7 @@ function(App, Communicator) {
 
 			return {
 				isLeft: entry.isLeft,
-				entries: _.where(value.entries, {isLeft:entry.isLeft})
+				entries: _.where(this.match.activeLeg.entries, {isLeft:entry.isLeft})
 			}
 		};
 
