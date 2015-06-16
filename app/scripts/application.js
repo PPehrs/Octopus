@@ -11,5 +11,6 @@ function( Backbone, Marionette ) {
   		mainRegion: "#octopus"
 	});
 	window.App = App;
+
 	return App;
 });

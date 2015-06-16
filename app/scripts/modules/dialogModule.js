@@ -51,7 +51,7 @@ function(App, Bootbox, Tooltip, Communicator) {
 					var txt = $('.modal-footer .btn-primary').html();
 					$('.modal-footer .btn-primary').html(self.dialogWaitInfo);
 
-					var validationText = null; //view.model.validate();
+					var validationText = view.model.validate();
 					if(validationText) {
 						$('.modal-footer').append(self.dialogErrorText);
 						$('.modal-footer .btn-primary').html('Ok');
