@@ -21,4 +21,24 @@ define(['jquery', 'underscore'],
 		    return uuid;
 		};
 	}
+
+	_global.octopus.replace = function(value, params) {
+		if(!params) {
+			return value;
+		}
+
+		if(_.isArray(params)) {
+			var newValue = value;
+			_.each(params, function(val, pos) {
+				var reg = new RegExp('{[' + pos + ']}', 'g');
+				newValue = newValue.replace(reg, val);
+			});
+			value = newValue;
+		} else {
+			value = value.replace(/{[0]}/g, params);
+		}
+
+		return value;
+	};
+
 }).call(this));
