@@ -1,10 +1,11 @@
 define([
 	'backbone',
 	'backbone.stickit',
+	'backbone.validation',
 	'models/register',
 	'hbs!tmpl/item/dialogRegister_tmpl'
 ],
-function( Backbone, Stickit, Model, DialogregisterTmpl  ) {
+function( Backbone, Stickit, Validation, Model, DialogregisterTmpl  ) {
     'use strict';
 
 	/* Return a ItemView class definition */

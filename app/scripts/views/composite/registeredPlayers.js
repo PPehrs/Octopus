@@ -34,6 +34,7 @@ function( Backbone, Communicator, RegisteredplayersTmpl, RegisteredPlayer  ) {
 
 		/* on render callback */
 		onRender: function() {
+			this.listenTo(Communicator.mediator, 'APP:SOCKET:USER-REGISTERED', this._loadRegisteredUsers);
 			this.listenTo(Communicator.mediator, 'APP:SOCKET:CONNECTED', this._loadRegisteredUsers);
 		},
 

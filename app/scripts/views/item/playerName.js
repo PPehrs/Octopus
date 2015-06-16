@@ -48,7 +48,7 @@ function( Backbone, PlayerNameTmpl  ) {
 		},
 
 		setPlayerNameToModel: function () {
-			var playerName = this.ui.InputPlayerName.val;
+			var playerName = this.ui.InputPlayerName.val();
 			if(this.model.get('player')) {
 				this.model.get('player').name = playerName;
 			} else {
@@ -68,7 +68,8 @@ function( Backbone, PlayerNameTmpl  ) {
 		/* on render callback */
 		onRender: function() {
 			if(this.model.get('player')) {
-				this.ui.InputPlayerName.val(this.model.get('player').name);
+				var name = this.model.get('player').name;
+				this.ui.InputPlayerName.val(name);
 			}
 		}
 	});

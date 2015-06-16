@@ -1,5 +1,13 @@
+define(['jquery', 'underscore'],
 (function() {
 	var _global = this;
+
+	_.templateSettings =
+	{
+		escape: /<%[=-]([\s\S]+?)%>/g,
+		interpolate: /<%cleanHtml([\s\S]+?)cleanHtml%>/g,
+		evaluate: /<%([\s\S]+?)%>/g
+	};
 
 	_global.octopus = {};
 	if (!_global.octopus.uuid) {
@@ -12,5 +20,25 @@
 		    });
 		    return uuid;
 		};
-	}
-}).call(this);
+	};
+
+	_global.octopus.replace = function(value, params) {
+		if(!params) {
+			return value;
+		}
+
+		if(_.isArray(params)) {
+			var newValue = value;
+			_.each(params, function(val, pos) {
+				var reg = new RegExp('{[' + pos + ']}', 'g');
+				newValue = newValue.replace(reg, val);
+			});
+			value = newValue;
+		} else {
+			value = value.replace(/{[0]}/g, params);
+		}
+
+		return value;
+	};
+
+}).call(this));

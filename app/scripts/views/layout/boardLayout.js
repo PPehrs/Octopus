@@ -83,6 +83,7 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 			this.matchModule.match.state.isPlayerLeftActive = isLeft;
 			this.ScorePlayerLeft.currentView.model.set('isPlayerActive', isLeft);
 			this.ScorePlayerRight.currentView.model.set('isPlayerActive', !isLeft);
+
 			this._refreshPlayerViews();
 		},
 
@@ -199,9 +200,9 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 			var change = this.matchModule.changeScore(value, uid);
 
 			if(change.isLeft) {
-				this.ScorePlayerLeft.currentView.loadPlayerScores(value.scores);
+				this.ScorePlayerLeft.currentView.reloadPlayerScores(change.entries);
 			} else {
-				this.ScorePlayerRight.currentView.loadPlayerScores(value.scores);
+				this.ScorePlayerRight.currentView.reloadPlayerScores(change.entries);
 			}
 		 },
 
