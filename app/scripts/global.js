@@ -20,7 +20,7 @@ define(['jquery', 'underscore'],
 		    });
 		    return uuid;
 		};
-	}
+	};
 
 	_global.octopus.replace = function(value, params) {
 		if(!params) {
