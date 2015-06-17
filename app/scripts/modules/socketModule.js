@@ -76,29 +76,35 @@ function(App, SocketIo, Communicator) {
 		SocketModule.RegisterUser = function (model, callback, self) {
 			var socketIo = App.module('SocketModule').socketIo;
 			socketIo.emit('register-user', model.attributes, function (data) {
-				callback(data, self);
+				//callback(data, self);
 			});
+			callback(null, self);
 		},
 
 		SocketModule.NewTeam = function (model, callback, self) {
 			var socketIo = App.module('SocketModule').socketIo;
 			socketIo.emit('update-or-create-team', model.attributes, function (data) {
-				callback(data, self);
+				//callback(data, self);
 			});
+			callback(null, self);
 		},
 
 		SocketModule.NewEncounterMatch = function (model, callback, self) {
 			var socketIo = App.module('SocketModule').socketIo;
 			socketIo.emit('new-encounter-match', model.attributes, function (data) {
-				callback(data, self);
+				//callback(data, self);
 			});
+
+			callback(null, self);
 		},
 
 		SocketModule.NewEncounter = function (model, callback, self) {
 			var socketIo = App.module('SocketModule').socketIo;
 			socketIo.emit('new-encounter', model.attributes, function (data) {
-				callback(data, self);
+				//callback(data, self);
 			});
+
+			callback(null, self);
 		},
 
 		SocketModule.GetTeams = function (callback) {

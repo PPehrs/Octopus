@@ -216,6 +216,14 @@
   }
 }
 
+.directEdit {
+  &:hover {
+    color: blue;
+    border-bottom: 3px blue dotted;
+    cursor: pointer;
+    }
+}
+
 .octopus_playerMenu {
 	.text-success {
 		color: darkgray;
@@ -239,7 +247,7 @@
 
 .bb-alert {
   position: fixed;
-  top: 50px;
+  top: 100px;
   right: 0;
   margin-bottom: 0;
   font-size: 6vw;

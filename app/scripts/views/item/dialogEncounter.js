@@ -52,9 +52,6 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 				return validationText;
 			}
 
-			this.model.unset('h');
-			this.model.unset('g');
-
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 			var teamHome = _.findWhere(this.teams, {_id: this.model.get('home').fkTeam});
 			if(_.isEmpty(teamHome)) {
@@ -64,8 +61,17 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 			if(_.isEmpty(teamGuest)) {
 				teamHome = this.model.get('guest');
 			}
-			octopusStore.home = teamHome;
-			octopusStore.guest =  teamGuest;
+
+			this.model.get('home').name = this.model.get('h');
+			this.model.get('guest').name = this.model.get('g');
+			this.model.unset('h');
+			this.model.unset('g');
+
+			octopusStore.activeEncounter = {
+				uui: this.model.get('uid'),
+				home: teamHome,
+				guest: teamGuest
+			}				
 
 			localStorage.setItem('octopus', JSON.stringify(octopusStore));
 		},
