@@ -9,10 +9,6 @@ function( Backbone, Tooltip, PlayerScoreTmpl  ) {
 	/* Return a ItemView class definition */
 	return Backbone.Marionette.ItemView.extend({
 
-		initialize: function() {
-			console.log("initialize a Playerscore ItemView");
-		},
-
     	template: PlayerScoreTmpl,
 
 

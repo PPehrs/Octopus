@@ -46,12 +46,18 @@ function(App, Bootbox, Tooltip, Communicator) {
 					if(!result) {
 						return true;
 					}
+					if(typeof view.afterConfirm === 'function') {
+						view.afterConfirm();
+					}
 					$('.modal-footer .dialog-error-text').remove();
 
 					var txt = $('.modal-footer .btn-primary').html();
 					$('.modal-footer .btn-primary').html(self.dialogWaitInfo);
 
 					var validationText = view.model.validate();
+					if(typeof view.validate === 'function') {
+						validationText = view.validate();
+					}
 					if(validationText) {
 						$('.modal-footer').append(self.dialogErrorText);
 						$('.modal-footer .btn-primary').html('Ok');
@@ -63,7 +69,8 @@ function(App, Bootbox, Tooltip, Communicator) {
 						return false;
 					}
 
-					socketAction = eval('App.module("SocketModule").' + 'RegisterUser');
+
+					socketAction = eval('App.module("SocketModule").' + socketAction);
 					socketAction(view.model, self.showConfirmSocketResult, self );
 
 					return false;

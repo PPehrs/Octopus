@@ -25,10 +25,6 @@ function( Backbone,
 	/* Return a Layout class definition */
 	return Backbone.Marionette.LayoutView.extend({
 
-		initialize: function() {
-			console.log("initialize a Homelayout Layout");
-		},
-
     	template: HomelayoutTmpl,
 
 

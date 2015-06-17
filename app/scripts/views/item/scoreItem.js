@@ -18,10 +18,6 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
 
 		scoreInputOldValue: '',
 
-		initialize: function() {
-			console.log("initialize a Scoreitem ItemView");
-		},
-
     	template: ScoreitemTmpl,
 
 
@@ -60,7 +56,7 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
 		showMissButton: function(pos) {
 			$(this.ui.missButton[pos]).css('pointer-events', 'auto');
 			$(this.ui.missButton[pos]).css('display', 'inline');
-			 
+
 		},
 
 		hideConfirmButton: function() {
@@ -69,7 +65,7 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
 			this.ui.checkButton.css('display', 'none');
 			this.ui.missButton.css('pointer-events', 'none');
 			this.ui.missButton.css('display', 'none');
-			this.ui.confirmScoreButtons.hide();				
+			this.ui.confirmScoreButtons.hide();
 
 			this.checkWith.F1 = false;
 			this.checkWith.F2 = false;
@@ -82,7 +78,7 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
 				this.hideConfirmButton();
 				if(canCheck >= 1) {
 					this.showCheckButton(2);
-					this.showMissButton(0);		
+					this.showMissButton(0);
 					this.ui.confirmScoreCheckButtons.css('margin-left', '-83px');
 					this.checkWith.F3 = true;
 				}
@@ -96,7 +92,7 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
 					this.showMissButton(2);
 					this.ui.confirmScoreCheckButtons.css('margin-left', '-113px');
 					this.checkWith.F1 = true;
-				}				
+				}
 				this.ui.confirmScoreButtons.show();
 			} else {
 				this.hideConfirmButton();
@@ -124,7 +120,7 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
 			this.triggerMethod('scoreItem:new:score', value, missedDarts);
 			this.ui.scoreInput.val('');
 			this.focusInput();
-		},		
+		},
 
 		onClickEnterButton: function() {
 			var value = this.ui.scoreInput.val();
@@ -152,7 +148,7 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
 					e.preventDefault();
 					if(e.keyCode === 112 && !this.checkWith.F1) e.keyCode = 113;
 					if(e.keyCode === 113 && !this.checkWith.F2) e.keyCode = 114;
-					if(e.keyCode === 114 && !this.checkWith.F3) return;					
+					if(e.keyCode === 114 && !this.checkWith.F3) return;
 					this.ui.checkButton[e.keyCode - 112].click();
 					return false;
 				}
@@ -210,7 +206,7 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
             		'<span>Fehlversuche auf Doppel in diesem Wurf.<br>Geworfenen Score eingeben und klick hier (oder <strong>Strg-F1 / Strg-F2 / Strg-F3)</strong></span>'
             	),
             	position: 'bottom'
-        	});        	
+        	});
 
 			this.ui.strgZButton.tooltipster({
             	content: $(
@@ -223,7 +219,7 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
             		'<span>Eingabe best&auml;tigen klick hier (oder <strong> Enter)</strong></span>'
             	)
         	});
-      	
+
 		},
 	});
 

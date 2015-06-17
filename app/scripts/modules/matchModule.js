@@ -232,13 +232,15 @@ function(App, Communicator) {
 			return {
 				left: {
 					darts: leftDartsTotal,
-					legsWon: leftLegs
+					legsWon: leftLegs,
+					endOf: true
 				},
 				right: {
 					darts: rightDartsTotal,
-					legsWon: rightLegs
+					legsWon: rightLegs,
+					endOf: true
 				},
-				countLegs: this.match.leg
+				countLegs: this.match.leg,
 			}
 		};
 

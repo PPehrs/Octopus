@@ -36,7 +36,8 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 
 		/* Ui events hash */
 		events: {
-			'click @ui.ButtonNewMatch': '_onClickNewMatch'
+			'click @ui.ButtonNewMatch': '_onClickNewMatch',
+			'click @ui.ButtonEndMatch': '_onClickNewMatch'
 		},
 
 		childEvents: {

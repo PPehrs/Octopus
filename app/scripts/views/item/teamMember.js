@@ -10,12 +10,8 @@ function( Backbone, Stickit, TeammembersTmpl  ) {
 	/* Return a ItemView class definition */
 	return Backbone.Marionette.ItemView.extend({
 
-		initialize: function() {
-			console.log("initialize a Teammembers ItemView");
-		},
-		
     	template: TeammembersTmpl,
-        
+
         bindings: {
         	'.form_membername': 'name'
         },
@@ -27,10 +23,10 @@ function( Backbone, Stickit, TeammembersTmpl  ) {
 
 		/* Ui events hash */
 		events: {
-			'click @ui.buttonSuccess': '_onButtonSuccess'
+			'click @ui.buttonSuccess': '_onClickButtonSuccess'
 		},
 
-		_onButtonSuccess: function() {
+		_onClickButtonSuccess: function() {
 			var name = this.model.get('name');
 			if(name) {
 				this.triggerMethod('teamMember:name:confirmed')

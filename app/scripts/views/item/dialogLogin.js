@@ -10,10 +10,6 @@ function( Backbone, Stickit, Model, DialogloginTmpl  ) {
 	/* Return a ItemView class definition */
 	return Backbone.Marionette.ItemView.extend({
 
-		initialize: function() {
-			console.log("initialize a Dialoglogin ItemView");
-		},
-
     	template: DialogloginTmpl,
 
 

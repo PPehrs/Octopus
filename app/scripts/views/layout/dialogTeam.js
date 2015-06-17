@@ -1,12 +1,13 @@
 define([
 	'backbone',
 	'backbone.stickit',
+	'backbone.validation',
 	'hbs!tmpl/layout/dialogTeam_tmpl',
 	'../composite/teamMembers',
 	'models/team',
 	'models/member'
 ],
-function( Backbone, Stickit, DialogteamTmpl, TeamMembers, Team, Member  ) {
+function( Backbone, Stickit, Validation, DialogteamTmpl, TeamMembers, Team, Member  ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -15,9 +16,9 @@ function( Backbone, Stickit, DialogteamTmpl, TeamMembers, Team, Member  ) {
 		initialize: function() {
 			this.model = new Team();
 		},
-		
+
     	template: DialogteamTmpl,
-    	
+
 
     	/* Layout sub regions */
     	regions: {
@@ -26,7 +27,8 @@ function( Backbone, Stickit, DialogteamTmpl, TeamMembers, Team, Member  ) {
 
 
         bindings: {
-        	'#form_teamname': 'name'
+        	'#form_teamname': 'name',
+			'#form_teamcaptain': 'captain'
         },
 
 
@@ -38,6 +40,7 @@ function( Backbone, Stickit, DialogteamTmpl, TeamMembers, Team, Member  ) {
 
 		/* on render callback */
 		onRender: function() {
+			Backbone.Validation.bind(this);
 			this.stickit();
 			var member = new Member({
 					name: '',
@@ -45,6 +48,14 @@ function( Backbone, Stickit, DialogteamTmpl, TeamMembers, Team, Member  ) {
 			});
 			var members = new Backbone.Collection([member])
 			this.TeamMembersRegion.show(new TeamMembers({collection: members}))
+		},
+
+		validate: function () {
+			var validationText = this.model.validate();
+			if(validationText) {
+				return validationText;
+			}
+			this.model.set('members', this.TeamMembersRegion.currentView.collection.toJSON());
 		}
 	});
 

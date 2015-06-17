@@ -9,10 +9,6 @@ function( Backbone, Tooltip, PlayermenuTmpl  ) {
 	/* Return a ItemView class definition */
 	return Backbone.Marionette.ItemView.extend({
 
-		initialize: function() {
-			console.log("initialize a Playermenu ItemView");
-		},
-
     	template: PlayermenuTmpl,
 
 
@@ -67,16 +63,20 @@ function( Backbone, Tooltip, PlayermenuTmpl  ) {
 				if(isLeft) {
 					legsWon = this.model.get('left').legsWon;
 					var checked = _.last(this.model.get('left').darts).checked;
-					totalWon = _.pluck(_.where(this.model.get('left').darts, {checked:true}), 'darts');					
-					if(checked) {
+					totalWon = _.pluck(_.where(this.model.get('left').darts, {checked:true}), 'darts');
+					var endOf = this.model.get('left').endOf;
+					if(checked && endOf) {
+						this.model.get('left').endOf = false;
 						showInfo = true;
 						wonWith = _.last(this.model.get('left').darts).darts;
 					}
 				} else {
 					legsWon = this.model.get('right').legsWon;
 					var checked = _.last(this.model.get('right').darts).checked;
-					totalWon = _.pluck(_.where(this.model.get('right').darts, {checked:true}), 'darts');					
-					if(checked) {
+					totalWon = _.pluck(_.where(this.model.get('right').darts, {checked:true}), 'darts');
+					var endOf = this.model.get('right').endOf;
+					if(checked && endOf) {
+						this.model.get('right').endOf = false;
 						showInfo = true;
 						wonWith = _.last(this.model.get('right').darts).darts;
 					}
@@ -90,9 +90,9 @@ function( Backbone, Tooltip, PlayermenuTmpl  ) {
 				this.ui.AlertText.text(wonWith + " Darts");
 				this.ui.Alert.fadeIn('slow','swing',function() {
 					setTimeout(function() {
-						self.ui.Alert.fadeOut('slow', 'swing');	
+						self.ui.Alert.fadeOut('slow', 'swing');
 					}, 5000);
-					
+
 				});
 			}
 

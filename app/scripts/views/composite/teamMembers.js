@@ -10,10 +10,6 @@ function( Backbone, TeammembersTmpl, TeamMember, Member  ) {
 	/* Return a CompositeView class definition */
 	return Backbone.Marionette.CompositeView.extend({
 
-		initialize: function() {
-			console.log("initialize a Teammembers CompositeView");
-		},
-		
 		childEvents: {
 			'teamMember:name:confirmed': function(child) {
 				var member = new Member({
@@ -24,9 +20,9 @@ function( Backbone, TeammembersTmpl, TeamMember, Member  ) {
 				this.render();
 			}
 		},
-    	
+
     	template: TeammembersTmpl,
-    	
+
 
     	/* ui selector cache */
     	ui: {},

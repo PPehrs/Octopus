@@ -9,11 +9,6 @@ function( Backbone, PlayerScoresTmpl, PlayerScore ) {
 	/* Return a CompositeView class definition */
 	return Backbone.Marionette.CompositeView.extend({
 
-		initialize: function() {
-			console.log("initialize a Playerscores CompositeView");
-		},
-
-
     	template: PlayerScoresTmpl,
 
 

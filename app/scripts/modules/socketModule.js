@@ -80,6 +80,27 @@ function(App, SocketIo, Communicator) {
 			});
 		},
 
+		SocketModule.NewTeam = function (model, callback, self) {
+			var socketIo = App.module('SocketModule').socketIo;
+			socketIo.emit('update-or-create-team', model.attributes, function (data) {
+				callback(data, self);
+			});
+		},
+
+		SocketModule.NewEncounterMatch = function (model, callback, self) {
+			var socketIo = App.module('SocketModule').socketIo;
+			socketIo.emit('new-encounter-match', model.attributes, function (data) {
+				callback(data, self);
+			});
+		},
+
+		SocketModule.NewEncounter = function (model, callback, self) {
+			var socketIo = App.module('SocketModule').socketIo;
+			socketIo.emit('new-encounter', model.attributes, function (data) {
+				callback(data, self);
+			});
+		},
+
 		SocketModule.GetLiveMatches = function (callback) {
 			this.emit('get-matches', null, callback);
 		},

@@ -8,12 +8,8 @@ function( Backbone, RegisteredplayerTmpl  ) {
 	/* Return a ItemView class definition */
 	return Backbone.Marionette.ItemView.extend({
 
-		initialize: function() {
-			console.log("initialize a Registeredplayer ItemView");
-		},
-		
     	template: RegisteredplayerTmpl,
-        
+
 
     	/* ui selector cache */
     	ui: {},
