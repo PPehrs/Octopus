@@ -23,6 +23,7 @@
     <file url="file://$PROJECT_DIR$/app/scripts/views/layout/boardLayout.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/layout/boardPanelLayout.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/layout/dialogTeam.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/views/layout/encounterPanelLayout.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/layout/homeLayout.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/styles/main.scss" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/item/dialogEncounter_tmpl.hbs" charset="UTF-8" />
