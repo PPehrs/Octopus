@@ -1,13 +1,13 @@
-define(['jquery', 'underscore'],
-(function() {
+define(['jquery'],
+(function($) {
 	var _global = this;
 
-	_.templateSettings =
+	/*_.templateSettings =
 	{
 		escape: /<%[=-]([\s\S]+?)%>/g,
 		interpolate: /<%cleanHtml([\s\S]+?)cleanHtml%>/g,
 		evaluate: /<%([\s\S]+?)%>/g
-	};
+	};*/
 
 	_global.octopus = {};
 	if (!_global.octopus.uuid) {

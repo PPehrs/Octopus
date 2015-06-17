@@ -1,4 +1,6 @@
 require([
+	'jquery',
+	'underscore',
 	'backbone',
 	'backbone.marionette',
 	'backbone.stickit',
@@ -11,13 +13,19 @@ require([
 	'modules/dialogModule',
 	'./global'
 ],
-function ( Backbone, Marionette, Stickit, App, Communicator, ApplicationStartRouter, ApplicationStartController) {
+function ( $, _, Backbone, Marionette, Stickit, App, Communicator, ApplicationStartRouter, ApplicationStartController) {
     'use strict';
 
 	var controller = new ApplicationStartController({});
 
 	/* Add initializers here */
 	App.addInitializer( function () {
+		_.templateSettings =
+		{
+			escape: /<%[=-]([\s\S]+?)%>/g,
+			interpolate: /<%cleanHtml([\s\S]+?)cleanHtml%>/g,
+			evaluate: /<%([\s\S]+?)%>/g
+		};
 		var octopusStore = localStorage.getItem('octopus');
 		if(_.isEmpty(octopusStore)) {
 			localStorage.setItem('octopus', JSON.stringify({}));

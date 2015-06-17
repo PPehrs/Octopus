@@ -237,6 +237,16 @@
 	color: red;
 }
 
+.bb-alert {
+  position: fixed;
+  top: 50px;
+  right: 0;
+  margin-bottom: 0;
+  font-size: 6vw;
+  padding: 1em 1.3em;
+  z-index: 2000;
+}
+
 .d-f {
 	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
 	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */

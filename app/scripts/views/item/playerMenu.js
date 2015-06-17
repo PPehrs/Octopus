@@ -20,7 +20,9 @@ function( Backbone, Tooltip, PlayermenuTmpl  ) {
     	ui: {
     		ActivePlayer: '.activePlayer',
     		WonLegs: '.wonLegs',
-    		SwitchPlayernames: '.switchPlayernames'
+    		SwitchPlayernames: '.switchPlayernames',
+    		Alert: '.bb-alert',
+    		AlertText: '.bb-alert span',
     	},
 
 		/* Ui events hash */
@@ -53,24 +55,30 @@ function( Backbone, Tooltip, PlayermenuTmpl  ) {
 
 			var isLeft = this.model.get('isLeft');
 			var countLegs = this.model.get('countLegs');
-			var isLeftCheck = this.model.get('isLeftCheck');
+
 
 			var wonWith = 0;
 			var legsWon = 0;
 			var showInfo = false;
+			var totalWon = [];
+
 
 			if(countLegs) {
 				if(isLeft) {
 					legsWon = this.model.get('left').legsWon;
-					if(isLeftCheck) {
+					var checked = _.last(this.model.get('left').darts).checked;
+					totalWon = _.pluck(_.where(this.model.get('left').darts, {checked:true}), 'darts');					
+					if(checked) {
 						showInfo = true;
-						wonWith = this.model.get('left').darts;
+						wonWith = _.last(this.model.get('left').darts).darts;
 					}
 				} else {
 					legsWon = this.model.get('right').legsWon;
-					if(!isLeftCheck) {
+					var checked = _.last(this.model.get('right').darts).checked;
+					totalWon = _.pluck(_.where(this.model.get('right').darts, {checked:true}), 'darts');					
+					if(checked) {
 						showInfo = true;
-						wonWith = this.model.get('right').darts;
+						wonWith = _.last(this.model.get('right').darts).darts;
 					}
 				}
 			}
@@ -78,12 +86,22 @@ function( Backbone, Tooltip, PlayermenuTmpl  ) {
 			this.ui.WonLegs.html(legsWon);
 
 			if(showInfo) {
+				var self = this;
+				this.ui.AlertText.text(wonWith + " Darts");
+				this.ui.Alert.fadeIn('slow','swing',function() {
+					setTimeout(function() {
+						self.ui.Alert.fadeOut('slow', 'swing');	
+					}, 5000);
+					
+				});
+			}
+
+			if(!_.isEmpty(totalWon)) {
 				this.ui.WonLegs.tooltipster({
                 	content: $(
-                		'<span>' + countLegs +'. Leg gewonnen<br><strong>' + wonWith + ' Darts</strong></span>'
+                		'<span><strong>' + totalWon.join(', ') + '</strong> Darts</span>'
                 	)
             	});
-
 			}
 		}
 	});

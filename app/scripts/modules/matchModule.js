@@ -149,7 +149,7 @@ function(App, Communicator) {
 
 		MatchModule.deleteMatchFromLocalStorage = function() {
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
-			if(octopusStore.match) {
+			if(octopusStore && octopusStore.match) {
 				octopusStore.match = {};
 				localStorage.setItem('octopus', JSON.stringify(octopusStore));
 			}
@@ -190,13 +190,15 @@ function(App, Communicator) {
 		MatchModule.wonLegsAndSets = function(value, check) {
 			var leftLegs = 0;
 			var rightLegs = 0;
-			var leftDarts = 0;
-			var rightDarts = 0;
-			var isLeftChecked = false;
+			var leftDartsTotal = [];
+			var rightDartsTotal = [];
 
 			if(!_.isEmpty(this.match.sets)) {
 				var legsEntries = _.pluck(this.match.sets[this.match.activeSet].legs, 'entries');
 				_.each(legsEntries, function(legEntries) {
+					var rightDarts = 0;
+					var leftDarts = 0;
+					var isLeftChecked = false;
 					_.each(legEntries, function(entry) {
 						var darts = 3;
 						if(entry.isLeft) {
@@ -216,20 +218,27 @@ function(App, Communicator) {
 							rightDarts += darts;
 						}
 					})
+					leftDartsTotal.push({
+						darts: leftDarts,
+						checked: isLeftChecked
+					})
+					rightDartsTotal.push({
+						darts: rightDarts,
+						checked: !isLeftChecked
+					})
 				})
 			}
 
 			return {
 				left: {
-					darts: leftDarts,
+					darts: leftDartsTotal,
 					legsWon: leftLegs
 				},
 				right: {
-					darts: rightDarts,
+					darts: rightDartsTotal,
 					legsWon: rightLegs
 				},
-				countLegs: this.match.leg,
-				isLeftCheck: isLeftChecked,
+				countLegs: this.match.leg
 			}
 		};
 
@@ -245,7 +254,7 @@ function(App, Communicator) {
 				this.match.sets = [];
 			}
 
-			if(this.match.sets.length <= this.match.set) {
+			if(this.match.sets.length <= this.match.activeSet) {
 				this.match.sets.push({
 					playerLeftStartsSet: this.match.state.playerLeftStartsSet,
 					legs: []
