@@ -3,7 +3,7 @@ require.config({
     baseUrl: "/scripts",
 
     /* starting point for application */
-    deps: ['backbone', 'backbone.marionette', 'bootstrap', 'bootbox', 'bootstrapswitch', 'main'],
+    deps: ['backbone', 'backbone.marionette', 'bootstrap', 'bootbox', 'bootstrapswitch', 'bootstrapselect', 'main'],
 
 
     shim: {
@@ -35,7 +35,14 @@ require.config({
                 'bootstrap'
             ],
             exports: 'bootstrapswitch'
-        }
+        },
+		bootstrapselect: {
+			deps: [
+				'jquery',
+				'bootstrap'
+			],
+			exports: 'bootstrapselect'
+		}
     },
 
     paths: {
@@ -67,6 +74,7 @@ require.config({
 		'socket.io.client': '../bower_components/socket.io-client/socket.io',
 
         bootstrapswitch: '../bower_components/bootstrap-switch/dist/js/bootstrap-switch.min',
+		bootstrapselect: '../bower_components/bootstrap-select/dist/js/bootstrap-select.min',
 
         /* require handlebars plugin - Alex Sexton */
         i18nprecompile: '../bower_components/require-handlebars-plugin/hbs/i18nprecompile',

@@ -101,6 +101,10 @@ function(App, SocketIo, Communicator) {
 			});
 		},
 
+		SocketModule.GetTeams = function (callback) {
+			this.emit('get-teams', null, callback);
+		},
+
 		SocketModule.GetLiveMatches = function (callback) {
 			this.emit('get-matches', null, callback);
 		},

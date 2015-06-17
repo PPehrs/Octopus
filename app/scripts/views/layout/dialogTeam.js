@@ -55,7 +55,16 @@ function( Backbone, Stickit, Validation, DialogteamTmpl, TeamMembers, Team, Memb
 			if(validationText) {
 				return validationText;
 			}
-			this.model.set('members', this.TeamMembersRegion.currentView.collection.toJSON());
+
+			var members = this.TeamMembersRegion.currentView.collection.toJSON();
+			var captain = this.model.get('captain');
+			if (_.isEmpty(_.findWhere(members, {'name': captain}))) {
+				members.push({
+					name: captain,
+					fkUser: this.model.get('fkUser')
+				})
+			}
+			this.model.set('members', members);
 		}
 	});
 

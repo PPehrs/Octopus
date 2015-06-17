@@ -9,6 +9,7 @@ function( Backbone ) {
 		defaults: {
 			name: '',
 			captain: '',
+			fkUser: -1,
 			members: []
 		},
 
