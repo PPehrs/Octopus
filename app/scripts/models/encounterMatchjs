@@ -1,0 +1,22 @@
+define([
+	'backbone'
+],
+function( Backbone ) {
+    'use strict';
+
+	/* Return a model class definition */
+	return Backbone.Model.extend({
+		defaults: {
+			p1: {
+				name: '',
+				fkUser: -1
+			},
+			p2: {
+				name: '',
+				fkUser: -1
+			},
+			uid: ''
+		},
+
+    });
+});
