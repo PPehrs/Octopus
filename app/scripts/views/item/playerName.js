@@ -75,13 +75,13 @@ function( Backbone, Communicator, PlayerNameTmpl  ) {
 					this.model.set('player', octopusStore.activeEncounterMatch.player1);
 					var self = this;
 					setTimeout(function () {
-						self.triggerMethod('playerName:change:name', self.model.get('player').name, self.model.get('isLeft'), self.model.get('player').fkUser);
+						self.triggerMethod('playerName:change:name', self.model.get('player').name, self.model.get('isLeft'), self.model.get('player').fkTeamPlayer);
 					})
 				} else if(!_.isEmpty(octopusStore.activeEncounterMatch.player2)) {
 					this.model.set('player', octopusStore.activeEncounterMatch.player2);
 					var self = this;
 					setTimeout(function () {
-						self.triggerMethod('playerName:change:name', self.model.get('player').name, self.model.get('isLeft'), self.model.get('player').fkUser);
+						self.triggerMethod('playerName:change:name', self.model.get('player').name, self.model.get('isLeft'), self.model.get('player').fkTeamPlayer);
 					})
 				}
 			}

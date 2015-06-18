@@ -44,13 +44,18 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
 			matchModule.stop();
 
 			this.model.set('done', true);
-			Communicator.mediator.trigger('encounterMatch:match:ready');
 
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 			var encounterMatch = _.findWhere(octopusStore.encounterMatches, {uid:octopusStore.activeEncounterMatch.uid});
 			encounterMatch.done = true;
 			octopusStore.activeEncounterMatch = {};
 			localStorage.setItem('octopus', JSON.stringify(octopusStore));
+
+			this.ui.ButtonEnd.hide();
+			setTimeout(function() {
+				Communicator.mediator.trigger('encounterMatch:match:ready');
+			});
+
 		},
 
 		_startNewMatch: function () {
@@ -60,10 +65,6 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
 
 			this.ui.ButtonEnd.show();
 			Communicator.mediator.trigger('encounterMatch:match:start');
-		},
-
-		_onEncounterMatchMatchReady: function () {
-			this.ui.ButtonEnd.hide();
 		},
 
 		_check: function () {
@@ -94,9 +95,9 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
 
 					_.each(players, function (player) {
 						var wonLegs = player.isLeft?lcheck:rcheck;
-						if(player.uid === encounterMatch.player1.fkUser) {
+						if(player.uid === encounterMatch.player1.fkTeamPlayer) {
 							encounterMatch.player1.legs = wonLegs;
-						} else if(player.uid === encounterMatch.player2.fkUser) {
+						} else if(player.uid === encounterMatch.player2.fkTeamPlayer) {
 							encounterMatch.player2.legs = wonLegs;
 						}
 					});
@@ -110,7 +111,6 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
 		},
 
 		initialize: function () {
-			this.listenTo(Communicator.mediator, 'encounterMatch:match:ready', this._onEncounterMatchMatchReady );
 			this.listenTo(Communicator.mediator, 'matchModule:check', this._check);
 			if(!this.model.get('player1').legs) {
 				this.model.get('player1').legs = 0;

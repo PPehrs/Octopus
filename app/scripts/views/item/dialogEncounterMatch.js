@@ -64,6 +64,19 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 
 			this.model.get('p1').name = this.model.get('n1');
 			this.model.get('p2').name = this.model.get('n2');
+
+			if(!this.model.get('p1').fkTeamPlayer) {
+				var uniqueId = _.uniqueId('u_')
+				this.model.get('p1').uid = uniqueId;
+				this.model.get('p1').fkTeamPlayer = uniqueId;
+			}
+
+			if(!this.model.get('p2').fkTeamPlayer) {
+				var uniqueId = _.uniqueId('u_')
+				this.model.get('p2').uid = uniqueId;
+				this.model.get('p2').fkTeamPlayer = uniqueId;
+			}
+
 			this.model.unset('n1');
 			this.model.unset('n2');
 
@@ -88,7 +101,7 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 			this.model.set('n1', member.name);
 			var p1 = {
 				name: member.name,
-				fkUser: _id,
+				fkTeamPlayer: _id,
 			}
 			this.model.set('p1', p1);
 			this.ui.P1Toggle.toggle();
@@ -100,7 +113,7 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 			this.model.set('n2', member.name);
 			var p2 = {
 				name: member.name,
-				fkUser: _id,
+				fkTeamPlayer: _id,
 			}
 			this.model.set('p2', p2);
 			this.ui.P2Toggle.toggle();
@@ -149,7 +162,7 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 				if(!_.isEmpty(membersHome)) {
 					_.each(membersHome, function (member) {
 						var member = {
-							_id: (member.fkUser  || member.fkUser > 0) ? member.fkUser : octopus.uuid(),
+							_id: (member._id  || member._id > 0) ? member._id: _.uniqueId('u_'),
 							team: this.name,
 							name: member.name
 						};
@@ -163,7 +176,7 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 				if(!_.isEmpty(membersGuest)) {
 					_.each(membersGuest, function (member) {
 						var member = {
-							_id: (member.fkUser > member.fkUser > 0) ? member.fkUser : octopus.uuid(),
+							_id: (member._id || member._id > 0) ? member._id : _.uniqueId('u_'),
 							team: this.name,
 							name: member.name
 						};

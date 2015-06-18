@@ -233,8 +233,8 @@
 	}
 }
 .blink {
-	-webkit-animation: blink 3s step-end infinite;
-	animation: blink 3s step-end infinite;
+	-webkit-animation: blink 2s step-end infinite;
+	animation: blink 2s step-end infinite;
 }
 @-webkit-keyframes blink { 50% { visibility: hidden; }}
 @keyframes blink { 50% { visibility: hidden; }}

@@ -63,10 +63,6 @@ function( Backbone, Tooltip, Bootbox, Communicator, BoardpanellayoutTmpl, Dialog
 				});
 		},
 
-		initialize: function () {
-			this.listenTo(Communicator.mediator, 'encounterMatch:match:ready');
-		},
-
 		/* on render callback */
 		onRender: function() {
 			this.ui.createTeam.tooltipster({
