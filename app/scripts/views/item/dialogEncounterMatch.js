@@ -149,27 +149,27 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 				if(!_.isEmpty(membersHome)) {
 					_.each(membersHome, function (member) {
 						var member = {
-							_id: member.fkUser ? member.fkUser : octopus.uuid(),
+							_id: (member.fkUser  || member.fkUser > 0) ? member.fkUser : octopus.uuid(),
 							team: this.name,
 							name: member.name
 						};
 						var htmlval = _.template('<option value="<%= _id %>" data-subtext="<%= team %>"><%= name %></option>', member);
 						self.members.push(member);
 						self.ui.P1Selectpicker.append(htmlval);
-						self.ui.P2Selectpicker.append(htmlval);
+						//self.ui.P2Selectpicker.append(htmlval);
 					}, home);
 				}
 
 				if(!_.isEmpty(membersGuest)) {
 					_.each(membersGuest, function (member) {
 						var member = {
-							_id: member.fkUser ? member.fkUser : octopus.uuid(),
+							_id: (member.fkUser > member.fkUser > 0) ? member.fkUser : octopus.uuid(),
 							team: this.name,
 							name: member.name
 						};
 						var htmlval = _.template('<option value="<%= _id %>" data-subtext="<%= team %>"><%= name %></option>', member);
 						self.members.push(member);
-						self.ui.P1Selectpicker.append(htmlval);
+						//self.ui.P1Selectpicker.append(htmlval);
 						self.ui.P2Selectpicker.append(htmlval);
 					}, guest);
 				}

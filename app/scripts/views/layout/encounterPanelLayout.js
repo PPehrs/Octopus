@@ -17,9 +17,9 @@ function( Backbone, Communicator, EncounterpanellayoutTmpl, EncounterMatches  ) 
 		regions: {
 			ActiveEncounterMatchesRegion: '#octopus_activeEncounterMatches'
 		},
-		
+
     	template: EncounterpanellayoutTmpl,
-    	
+
 		onEncounterMatchConfirmed: function() {
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 			if(!_.isEmpty(octopusStore.encounterMatches)) {
@@ -65,7 +65,7 @@ function( Backbone, Communicator, EncounterpanellayoutTmpl, EncounterMatches  ) 
 					home: octopusStore.activeEncounter.home,
 					guest: octopusStore.activeEncounter.guest
 				})
-			} 
+			}
 		},
 
     	/* ui selector cache */
@@ -74,10 +74,34 @@ function( Backbone, Communicator, EncounterpanellayoutTmpl, EncounterMatches  ) 
 		/* Ui events hash */
 		events: {},
 
+		_onEncounterMatchReady: function () {
+			var home = 0;
+			var guest = 0;
+			var matches = this.ActiveEncounterMatchesRegion.currentView.collection.toJSON();
+			_.each(matches, function (match) {
+				if(!match.done) {
+					return;
+				}
+				if(match.player1.legs > match.player2.legs) {
+					home += 1;
+				} else if(match.player1.legs < match.player2.legs) {
+					guest += 1;
+				}
+			});
+			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+			octopusStore.activeEncounter.home.matchesWon = home;
+			octopusStore.activeEncounter.guest.matchesWon = guest;
+			this.model.set('home').matchesWon = home;
+			this.model.set('guest').matchesWon = guest;
+			localStorage.setItem('octopus', JSON.stringify(octopusStore));
+			this.render();
+		},
+
 		/* on render callback */
 		onRender: function() {
 			this.listenTo(Communicator.mediator, 'dialogEncounter:encounter:confirmed', this.onEncounterConfirmed);
 			this.listenTo(Communicator.mediator, 'dialogEncounterMatch:encounter:confirmed', this.onEncounterMatchConfirmed);
+			this.listenTo(Communicator.mediator, 'encounterMatch:match:ready', this._onEncounterMatchReady);
 
 			this.onEncounterMatchConfirmed();
 		},

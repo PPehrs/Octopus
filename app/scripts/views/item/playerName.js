@@ -1,8 +1,9 @@
 define([
 	'backbone',
+	'communicator',
 	'hbs!tmpl/item/playerName_tmpl'
 ],
-function( Backbone, PlayerNameTmpl  ) {
+function( Backbone, Communicator, PlayerNameTmpl  ) {
     'use strict';
 
 	/* Return a ItemView class definition */
@@ -32,7 +33,7 @@ function( Backbone, PlayerNameTmpl  ) {
 
 		_onFocusOutInputPlayerName: function () {
 			this.setPlayerNameToModel();
-			this.triggerMethod('playerName:change:name', this.ui.InputPlayerName.val(), this.model.get('isLeft'));
+			this.triggerMethod('playerName:change:name', this.ui.InputPlayerName.val(), this.model.get('isLeft'), this.model.get('player').fkUser);
 		},
 
 		onPlayerIsActiveChanged: function() {
@@ -67,6 +68,24 @@ function( Backbone, PlayerNameTmpl  ) {
 
 		/* on render callback */
 		onRender: function() {
+			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+			if(!_.isEmpty(octopusStore.activeEncounterMatch)) {
+				var isLeft = this.model.get('isLeft');
+				if(isLeft && !_.isEmpty(octopusStore.activeEncounterMatch.player1)) {
+					this.model.set('player', octopusStore.activeEncounterMatch.player1);
+					var self = this;
+					setTimeout(function () {
+						self.triggerMethod('playerName:change:name', self.model.get('player').name, self.model.get('isLeft'), self.model.get('player').fkUser);
+					})
+				} else if(!_.isEmpty(octopusStore.activeEncounterMatch.player2)) {
+					this.model.set('player', octopusStore.activeEncounterMatch.player2);
+					var self = this;
+					setTimeout(function () {
+						self.triggerMethod('playerName:change:name', self.model.get('player').name, self.model.get('isLeft'), self.model.get('player').fkUser);
+					})
+				}
+			}
+
 			if(this.model.get('player')) {
 				var name = this.model.get('player').name;
 				this.ui.InputPlayerName.val(name);
@@ -75,3 +94,4 @@ function( Backbone, PlayerNameTmpl  ) {
 	});
 
 });
+

@@ -281,10 +281,12 @@ function(App, Communicator) {
 
 			this.match.leg += 1;
 
+			this.addEncounterInfoToMatch();
 			this.saveMatchToLocalStorage();
 
 			//--> fire
 			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
+			Communicator.mediator.trigger('matchModule:check', this.match);
 		};
 
 		MatchModule.changeScore  = function(value, uid) {
@@ -324,10 +326,16 @@ function(App, Communicator) {
 
 			this.match.activeLeg.entries.push(entry);
 			this.match.state.isPlayerLeftActive = isLeftActive;
+
+			this.addEncounterInfoToMatch();
 			this.saveMatchToLocalStorage();
 
 			//===> fire active leg
 			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
+		};
+
+		MatchModule.addEncounterInfoToMatch = function(){
+			//TODO AD ENCOUNTER INFO ADD ADD ADD
 		};
 	});
 });

@@ -15,6 +15,7 @@
     <file url="file://$PROJECT_DIR$/app/scripts/views/composite/registeredPlayers.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/item/dialogEncounter.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/item/dialogRegister.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/views/item/encounterMatch.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/item/liveMatch.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/item/playerMenu.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/item/playerName.js" charset="UTF-8" />
@@ -25,12 +26,14 @@
     <file url="file://$PROJECT_DIR$/app/scripts/views/layout/dialogTeam.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/layout/encounterPanelLayout.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/layout/homeLayout.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/views/layout/playerLayout.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/styles/main.scss" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/item/dialogEncounter_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/item/liveMatch_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/item/teamMember_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/layout/boardLayout_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/layout/dialogTeam_tmpl.hbs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/templates/layout/encounterPanelLayout_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/layout/homeLayout_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/bower.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/package.json" charset="UTF-8" />

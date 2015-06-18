@@ -34,8 +34,8 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 			'playerMenu:switch:names': function () {
 				this.triggerMethod('playerMenu:switch:names');
 			},
-			'playerName:change:name': function (child, name, isLeft) {
-				this.triggerMethod('playerName:change:name', name, isLeft);
+			'playerName:change:name': function (child, name, isLeft, uid) {
+				this.triggerMethod('playerName:change:name', name, isLeft, uid);
 			},
 			'playerName:change:activePlayer': function (child, isLeft) {
 				this.triggerMethod('playerName:change:activePlayer', isLeft);

@@ -55,11 +55,16 @@ function( Backbone, Tooltip, Bootbox, Communicator, BoardpanellayoutTmpl, Dialog
 						var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 				    	octopusStore.encounterMatches = [];
 				    	octopusStore.activeEncounter = {};
+						octopusStore.activeEncounterMatch = {};
 				    	localStorage.setItem('octopus', JSON.stringify(octopusStore));
 						Communicator.mediator.trigger('dialogEncounter:encounter:confirmed');
 						Communicator.mediator.trigger('dialogEncounterMatch:encounter:confirmed');
 					}
 				});
+		},
+
+		initialize: function () {
+			this.listenTo(Communicator.mediator, 'encounterMatch:match:ready');
 		},
 
 		/* on render callback */

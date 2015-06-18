@@ -55,8 +55,8 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 			'playerName:change:activePlayer': function (child, isLeft) {
 				this._onActivePlayerChange(isLeft);
 			},
-			'playerName:change:name': function (child, name, isLeft) {
-				this._onPlayerNameChange(name, isLeft);
+			'playerName:change:name': function (child, name, isLeft, uid) {
+				this._onPlayerNameChange(name, isLeft, uid);
 			},
 			'playerScore:change:value': function (child, value, uid) {
 				this._onChangeScore(value, uid);
@@ -106,10 +106,11 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 			playerRight.setPlayerName(n2);
 		},
 
-		_onPlayerNameChange: function(name, isLeft) {
+		_onPlayerNameChange: function(name, isLeft, uid) {
 			var player = {
 				name: name,
-				isLeft: isLeft
+				isLeft: isLeft,
+				uid: uid
 			}
 			this.matchModule.savePlayer(player);
 		},
@@ -248,6 +249,8 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 			};
 
 			if(result) {
+				result.left.endOf = false;
+				result.right.endOf = false;
 				_.extend(playerLeft, result);
 				_.extend(playerRight, result);
 			}
@@ -311,6 +314,7 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 
 		initialize: function() {
 			this.listenTo(Communicator.mediator, 'load:match', this._loadStoredMatch);
+			this.listenTo(Communicator.mediator, 'encounterMatch:match:start', this._startNewMatch);
 		},
 
 		getPlayer: function () {

@@ -11,11 +11,13 @@ function( Backbone ) {
 			n2: '',
 			p1: {
 				name: '',
-				fkUser: -1
+				fkUser: -1,
+				legs: 0,
 			},
 			p2: {
 				name: '',
-				fkUser: -1
+				fkUser: -1,
+				legs: 0
 			},
 			uid: ''
 		},
