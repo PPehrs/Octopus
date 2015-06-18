@@ -10,6 +10,8 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
 	return Backbone.Marionette.ItemView.extend({
 
 		check: false,
+		miss: 0,
+
 		checkWith: {
 			F1: false,
 			F2: false,
@@ -75,21 +77,25 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
 		canCheck: function(canCheck) {
 			if(canCheck) {
 				this.check = true;
+				this.miss = 0;
 				this.hideConfirmButton();
 				if(canCheck >= 1) {
 					this.showCheckButton(2);
 					this.showMissButton(0);
+					this.miss = 1;
 					this.ui.confirmScoreCheckButtons.css('margin-left', '-83px');
 					this.checkWith.F3 = true;
 				}
 				if(canCheck >= 2) {
 					this.showCheckButton(1);
 					this.showMissButton(1);
+					this.miss = 2;
 					this.checkWith.F2 = true;
 				}
 				if(canCheck === 3) {
 					this.showCheckButton(0);
 					this.showMissButton(2);
+					this.miss = 3;
 					this.ui.confirmScoreCheckButtons.css('margin-left', '-113px');
 					this.checkWith.F1 = true;
 				}
@@ -124,7 +130,7 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
 
 		onClickEnterButton: function() {
 			var value = this.ui.scoreInput.val();
-			this.triggerMethod('scoreItem:new:score', value);
+			this.triggerMethod('scoreItem:new:score', value, this.miss>0?this.miss:null);
 			this.ui.scoreInput.val('');
 			this.focusInput();
 		},

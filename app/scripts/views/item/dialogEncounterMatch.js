@@ -62,6 +62,8 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 				return validationText;
 			}
 
+			this.model.get('p1').name = this.model.get('n1');
+			this.model.get('p2').name = this.model.get('n2');
 			this.model.unset('n1');
 			this.model.unset('n2');
 
@@ -71,7 +73,7 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 				octopusStore.encounterMatches = [];
 			}
 			octopusStore.encounterMatches.push({
-				uuid: this.model.get('uid'),
+				uid: this.model.get('uid'),
 				player1: this.model.get('p1'),
 				player2: this.model.get('p2'),
 			});
@@ -100,7 +102,7 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 				name: member.name,
 				fkUser: _id,
 			}
-			this.model.set('p1', p2);
+			this.model.set('p2', p2);
 			this.ui.P2Toggle.toggle();
 		},
 
@@ -134,43 +136,47 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 			var self = this;
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 
-			self.ui.P1Selectpicker.append('<option value="" disabled selected>...einen Spieler ausw&auml;hlen</option>');
-			self.ui.P2Selectpicker.append('<option value="" disabled selected>...einen Spieler ausw&auml;hlen</option>');
+			if(!_.isEmpty(octopusStore.activeEncounter)) {
+				self.ui.P1Selectpicker.append('<option value="" disabled selected>...einen Spieler ausw&auml;hlen</option>');
+				self.ui.P2Selectpicker.append('<option value="" disabled selected>...einen Spieler ausw&auml;hlen</option>');
 
-			var membersHome = octopusStore.home && !_.isEmpty(octopusStore.home.members) ? octopusStore.home.members : [];
-			var membersGuest = octopusStore.guest && !_.isEmpty(octopusStore.guest.members) ? octopusStore.guest.members : [];
+				var home = octopusStore.activeEncounter.home;
+				var guest = octopusStore.activeEncounter.guest;
 
-			if(!_.isEmpty(membersHome)) {
-				_.each(membersHome, function (member) {
-					var member = {
-						_id: member.fkUser ? member.fkUser : octopus.uuid(),
-						team: this.name,
-						name: member.name
-					};
-					var htmlval = _.template('<option value="<%= _id %>" data-subtext="<%= team %>"><%= name %></option>', member);
-					self.members.push(member);
-					self.ui.P1Selectpicker.append(htmlval);
-					self.ui.P2Selectpicker.append(htmlval);
-				}, octopusStore.home);
+				var membersHome = home && !_.isEmpty(home.members) ? home.members : [];
+				var membersGuest = guest && !_.isEmpty(guest.members) ? guest.members : [];
+
+				if(!_.isEmpty(membersHome)) {
+					_.each(membersHome, function (member) {
+						var member = {
+							_id: member.fkUser ? member.fkUser : octopus.uuid(),
+							team: this.name,
+							name: member.name
+						};
+						var htmlval = _.template('<option value="<%= _id %>" data-subtext="<%= team %>"><%= name %></option>', member);
+						self.members.push(member);
+						self.ui.P1Selectpicker.append(htmlval);
+						self.ui.P2Selectpicker.append(htmlval);
+					}, home);
+				}
+
+				if(!_.isEmpty(membersGuest)) {
+					_.each(membersGuest, function (member) {
+						var member = {
+							_id: member.fkUser ? member.fkUser : octopus.uuid(),
+							team: this.name,
+							name: member.name
+						};
+						var htmlval = _.template('<option value="<%= _id %>" data-subtext="<%= team %>"><%= name %></option>', member);
+						self.members.push(member);
+						self.ui.P1Selectpicker.append(htmlval);
+						self.ui.P2Selectpicker.append(htmlval);
+					}, guest);
+				}
+
+				self.ui.P1Selectpicker.selectpicker('refresh');
+				self.ui.P2Selectpicker.selectpicker('refresh');
 			}
-
-			if(!_.isEmpty(membersGuest)) {
-				_.each(membersGuest, function (member) {
-					var member = {
-						_id: member.fkUser ? member.fkUser : octopus.uuid(),
-						team: this.name,
-						name: member.name
-					};
-					var htmlval = _.template('<option value="<%= _id %>" data-subtext="<%= team %>"><%= name %></option>', member);
-					self.members.push(member);
-					self.ui.P1Selectpicker.append(htmlval);
-					self.ui.P2Selectpicker.append(htmlval);
-				}, octopusStore.guest);
-			}
-
-			self.ui.P1Selectpicker.selectpicker('refresh');
-			self.ui.P2Selectpicker.selectpicker('refresh');
-
 		},
 	});
 

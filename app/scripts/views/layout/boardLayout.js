@@ -26,7 +26,7 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
     		ScorePlayerLeft: '#octopus_playerLeft',
     		ScorePlayerRight: '#octopus_playerRight',
     		BoardPanelRegion: '#octopus_boardPanel',
-			EncounterPanelRegion: '#octopus_encounterPanel'
+    		EncounterPanelRegion: '#octopus_encounterPanel'
     	},
 
     	/* ui selector cache */

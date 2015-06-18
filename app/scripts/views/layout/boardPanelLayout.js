@@ -1,12 +1,14 @@
 define([
 	'backbone',
 	'tooltipster',
+	'bootbox',
+	'communicator',
 	'hbs!tmpl/layout/boardPanelLayout_tmpl',
 	'./dialogTeam',
 	'../item/dialogEncounter',
 	'../item/dialogEncounterMatch',
 ],
-function( Backbone, Tooltip, BoardpanellayoutTmpl, DialogTeam, DialogEncounter, DialogEncounterMatch  ) {
+function( Backbone, Tooltip, Bootbox, Communicator, BoardpanellayoutTmpl, DialogTeam, DialogEncounter, DialogEncounterMatch  ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -22,14 +24,16 @@ function( Backbone, Tooltip, BoardpanellayoutTmpl, DialogTeam, DialogEncounter, 
     	ui: {
 			createTeam: '#btnCreateTeam',
 			createEncounter: '#btnCreateEncounter',
-			addMatch: '#btnAddMatch'
+			addMatch: '#btnAddMatch',
+			deleteEncounter:  '#btnDeleteEncounter'
     	},
 
 		/* Ui events hash */
 		events: {
 			'click @ui.createTeam': '_onClickCreateTeam',
 			'click @ui.createEncounter': '_onClickCreateEncounter',
-			'click @ui.addMatch': '_onClickAddMatch'
+			'click @ui.addMatch': '_onClickAddMatch',
+			'click @ui.deleteEncounter': '_onClickDeleteEncounter'
 		},
 
 		_onClickAddMatch: function () {
@@ -45,6 +49,19 @@ function( Backbone, Tooltip, BoardpanellayoutTmpl, DialogTeam, DialogEncounter, 
 			App.module('DialogModule').showConfirm('Team anlegen', DialogTeam, 'NewTeam');
 		},
 
+		_onClickDeleteEncounter: function() {
+				Bootbox.confirm('Begegnung und Spielpaarungen löschen?', function (result) {
+					if (result) {
+						var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+				    	octopusStore.encounterMatches = [];
+				    	octopusStore.activeEncounter = {};
+				    	localStorage.setItem('octopus', JSON.stringify(octopusStore));
+						Communicator.mediator.trigger('dialogEncounter:encounter:confirmed');
+						Communicator.mediator.trigger('dialogEncounterMatch:encounter:confirmed');
+					}
+				});
+		},
+
 		/* on render callback */
 		onRender: function() {
 			this.ui.createTeam.tooltipster({
@@ -55,6 +72,11 @@ function( Backbone, Tooltip, BoardpanellayoutTmpl, DialogTeam, DialogEncounter, 
 			this.ui.createEncounter.tooltipster({
 				content: $(
 					'<span>Eine Begegnung anlegen</span>'
+				)
+			});
+			this.ui.deleteEncounter.tooltipster({
+				content: $(
+					'<span>Begegnung und Spielpaarungen löschen</span>'
 				)
 			});
 			this.ui.addMatch.tooltipster({

@@ -21,12 +21,11 @@ function(Backbone, Marionette, App, BoardLayout){
 		},
 
 		showBoard: function() {
-			console.log("board");
 			App.mainRegion.show(new BoardLayout());
 		},
 
 		notFound: function() {
-			alert('gift')
+
 		}		
 	});
 });
