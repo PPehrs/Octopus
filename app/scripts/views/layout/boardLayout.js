@@ -203,11 +203,16 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 		 _onChangeScore: function(value, uid) {
 			var change = this.matchModule.changeScore(value, uid);
 
+			var rest = 0;
 			if(change.isLeft) {
+				rest = this.ScorePlayerLeft.currentView.PlayerScoresRegion.currentView.collection.at(0).get('score');
 				this.ScorePlayerLeft.currentView.reloadPlayerScores(change.entries);
 			} else {
+				rest = this.ScorePlayerRight.currentView.PlayerScoresRegion.currentView.collection.at(0).get('score');
 				this.ScorePlayerRight.currentView.reloadPlayerScores(change.entries);
 			}
+
+			this.ScoreRegion.currentView.canCheck(this.matchModule.possibleCheckWith(rest));
 		 },
 
 		/*
