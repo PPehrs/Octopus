@@ -3,6 +3,7 @@ define([
 	'backbone.marionette',
 	'communicator',
 	'bootbox',
+	'tooltipster',
 	'hbs!tmpl/layout/boardLayout_tmpl',
 	'./boardPanelLayout',
 	'./encounterPanelLayout',
@@ -10,7 +11,7 @@ define([
 	'../item/scoreItem',
 	'modules/matchModule'
 ],
-function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPanel, EncounterPanel, PlayerLayout, ScoreItem, MatchModule  ) {
+function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutTmpl, BoardPanel, EncounterPanel, PlayerLayout, ScoreItem, MatchModule  ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -32,8 +33,11 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
     	/* ui selector cache */
     	ui: {
 			CheckBoxTransmit: '#chkTransmit',
-
-			ButtonNewMatch:  '#btnNewMatch'
+			ButtonNewMatch:  '#btnNewMatch',
+			MatchRunningAlert: '#octopus_matchInfo',
+			MatchInfo: '#octopus_matchInfo .fa-info-circle',
+			MatchStatistic: '#octopus_matchInfo .fa-line-chart',
+			MatchResultQuickInfo: '#octopus_matchInfo .match-result-quickInfo'
 		},
 
 		/* Ui events hash */
@@ -149,6 +153,7 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 		 *
 		 */
 		 _onUndoScore: function() {
+		 	this.ui.MatchRunningAlert.fadeOut();
 		 	var undo = this.matchModule.undoLast();
 		 	if(undo) {
 		 		var undoPrefix = undo.uid[0];
@@ -195,8 +200,12 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 		_onNewScore: function (value, miss, check) {
 			if(check) {
 				this.matchModule.check(value, check);
-				this._startNewLeg(this.matchModule.match.state.isPlayerLeftActive, this.matchModule.wonLegsAndSets());
+				var result = this.matchModule.wonLegsAndSets();
+				this.ui.MatchResultQuickInfo.text(result.left.legsWon + ':' + result.right.legsWon);
+				this.ui.MatchRunningAlert.fadeIn();				
+				this._startNewLeg(this.matchModule.match.state.isPlayerLeftActive, result);
 			} else {
+				this.ui.MatchRunningAlert.fadeOut();
 				var uid = _.uniqueId('t_');
 				//send to player-------------------------------------
 				var activePlayer = this._getActivePlayerView();
@@ -361,6 +370,7 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 		},
 
 		_startNewMatch: function () {
+			this.ui.MatchRunningAlert.fadeOut();
 			if(this.matchModule.started) {
 				this.matchModule.stop();
 			}
@@ -383,6 +393,18 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 			this.ScoreRegion.show(new ScoreItem({}));
 			this.BoardPanelRegion.show(new BoardPanel({}));
 			this.EncounterPanelRegion.show(new EncounterPanel({}));
+
+			this.ui.MatchInfo.tooltipster({
+            	content: $(
+            		'<span>Das Match wird durch den Start eines neuen Matches beendet.</span>'
+            	)
+        	});
+
+			this.ui.MatchStatistic.tooltipster({
+            	content: $(
+            		'<span>Klick hier f&auml;r die Match-Statistik.</span>'
+            	)
+        	});        	
 		},
 
 

@@ -27,7 +27,7 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
     	ui: {
     		CheckText: '#ooCheckText',
     		MissText: '#xxMissText',
-    		strgZButton: '#btnStrZ',
+    		strgZButton: '#btnCtrlZ',
     		scoreInput: '#octopus_score_input',
     		scoreText: '#octopus_score_text',
     		checkButton: '.oo_btn',

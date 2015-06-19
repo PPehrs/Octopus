@@ -149,10 +149,9 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores, Play
 		onRender: function() {
 			console.log(this.model.toJSON())
 
+			var resultModel = _.extend({}, this.model.get('resultInfo'), {isLeft:this.model.get('isLeft')})
 			this.PlayerMenuRegion.show(new PlayerMenu({
-				model: new Backbone.Model({
-					isLeft: this.model.get('isLeft')
-				})
+				model: new Backbone.Model(resultModel)
 			}))
 			var nameModel = _.extend({}, this.model.get('nameInfo'), {isLeft:this.model.get('isLeft')})
 			this.PlayerNameRegion.show(new PlayerName({

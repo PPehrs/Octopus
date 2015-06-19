@@ -61,26 +61,14 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
 
 
 			if(countLegs) {
-				if(isLeft) {
-					legsWon = this.model.get('left').legsWon;
-					var checked = _.last(this.model.get('left').darts).checked;
-					totalWon = _.pluck(_.where(this.model.get('left').darts, {checked:true}), 'darts');
-					var endOf = this.model.get('left').endOf;
-					if(checked && endOf) {
-						this.model.get('left').endOf = false;
-						showInfo = true;
-						wonWith = _.last(this.model.get('left').darts).darts;
-					}
-				} else {
-					legsWon = this.model.get('right').legsWon;
-					var checked = _.last(this.model.get('right').darts).checked;
-					totalWon = _.pluck(_.where(this.model.get('right').darts, {checked:true}), 'darts');
-					var endOf = this.model.get('right').endOf;
-					if(checked && endOf) {
-						this.model.get('right').endOf = false;
-						showInfo = true;
-						wonWith = _.last(this.model.get('right').darts).darts;
-					}
+				legsWon = this.model.get('legsWon');
+				var checked = _.last(this.model.get('darts')).checked;
+				totalWon = _.pluck(_.where(this.model.get('darts'), {checked:true}), 'darts');
+				var endOf = this.model.get('endOf');
+				if(checked && endOf) {
+					this.model.get('endOf').endOf = false;
+					showInfo = true;
+					wonWith = _.last(this.model.get('darts')).darts;
 				}
 			}
 

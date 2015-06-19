@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "files": [
+      "app/scripts/views/item/playerScore.js"
+    ],
+    "id": "7o6oLAenh8",
+    "key": "Klick zum &Auml;ndern des Scores",
+    "new": true,
+    "timestamp": "2015-06-19T21:07:26.056Z",
+    "value": "",
+    "variables": []
+  }
+]

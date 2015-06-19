@@ -19,7 +19,7 @@
       "programmingLanguage": "javascript",
       "store": "app/localizations/",
       "output": "app/localizations/output",
-      "source": ["app/scripts/views/item/*"]
+      "source": ["app/scripts/views/*"]
     }
   }
 }
