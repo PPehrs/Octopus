@@ -12,7 +12,7 @@ require([
 	'regionManager',
 	'modules/socketModule',
 	'modules/dialogModule',
-	'modules/playerAndResultController',
+	'modules/playerController',
 	'./global'
 ],
 function ( $, _, Backbone, Marionette, Stickit, App, Communicator, ApplicationStartRouter, ApplicationStartController) {

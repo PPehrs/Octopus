@@ -90,7 +90,7 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
 						});
 					});
 
-					var players = App.module('PlayerAndResultController').players;
+					var players = App.module('PlayerController').players;
 					var encounterMatch = _.findWhere(octopusStore.encounterMatches, {uid:octopusStore.activeEncounterMatch.uid});
 
 					_.each(players, function (player) {

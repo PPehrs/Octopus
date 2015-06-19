@@ -120,16 +120,17 @@ function(App, Communicator) {
 
 				_.extend(octopusStore, {match: this.match});
 				localStorage.setItem('octopus', JSON.stringify(octopusStore));
+
+				Communicator.mediator.trigger('load:match', true, null, null);
 			} else {
 				this.match = octopusStore.match;
 				console.log('heavy load - load match from store');
+
 				var result = this.wonLegsAndSets();
 				var activeLeg = this.match.activeLeg;
 				var isPlayerLeftActive = this.match.state.isPlayerLeftActive;
 
-				setTimeout(function() {
-					Communicator.mediator.trigger('load:match', isPlayerLeftActive, result, activeLeg);
-				})
+				Communicator.mediator.trigger('load:match', isPlayerLeftActive, result, activeLeg);
 			}
 			this.started = true;
 

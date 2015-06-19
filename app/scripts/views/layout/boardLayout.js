@@ -23,8 +23,8 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
     	/* Layout sub regions */
     	regions: {
     		ScoreRegion: '#octopus_score',
-    		ScorePlayerLeft: '#octopus_playerLeft',
-    		ScorePlayerRight: '#octopus_playerRight',
+    		PlayerLeftRegion: '#octopus_playerLeft',
+    		PlayerRightRegion: '#octopus_playerRight',
     		BoardPanelRegion: '#octopus_boardPanel',
     		EncounterPanelRegion: '#octopus_encounterPanel'
     	},
@@ -68,8 +68,8 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 				return;
 			}
 
-			var playerViewLeft = this.ScorePlayerLeft.currentView.PlayerScoresRegion.currentView;
-			var playerViewRight = this.ScorePlayerRight.currentView.PlayerScoresRegion.currentView;
+			var playerViewLeft = this._PlayerScoresLeftView();
+			var playerViewRight = this._PlayerScoresRightView();
 			if(isLeft) {
 				if(playerViewLeft.collection.length > playerViewRight.collection.length) {
 					return;
@@ -81,16 +81,15 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 			}
 
 			this.matchModule.match.state.isPlayerLeftActive = isLeft;
-			this.ScorePlayerLeft.currentView.model.set('isPlayerActive', isLeft);
-			this.ScorePlayerRight.currentView.model.set('isPlayerActive', !isLeft);
-
+			this._PlayerNameLeftView().model.set(isLeft);
+			this._PlayerNameRightView().model.set(!isLeft);
 			this._refreshPlayerViews();
 		},
 
 		_onActivePlayerChange: function(isLeft) {
-			var playerView = this.ScorePlayerLeft.currentView.PlayerScoresRegion.currentView;
+			var playerView = this._PlayerScoresLeftView();
 			if(!isLeft) {
-				playerView = this.ScorePlayerRight.currentView.PlayerScoresRegion.currentView;
+				playerView = this._PlayerScoresRightView();
 			}
 
 			var score = playerView.collection.at(0);
@@ -116,31 +115,31 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 		_getInActivePlayerView: function() {
 			var isPlayerLeftActive = this.matchModule.match.state.isPlayerLeftActive;
 			if(!isPlayerLeftActive) {
-				return this.ScorePlayerLeft.currentView;
+				return this._PlayerLeftView();
 			} else {
-				return this.ScorePlayerRight.currentView;
+				return this._PlayerRightView();
 			}
 		},
 
 		_getActivePlayerView: function() {
 			var isPlayerLeftActive = this.matchModule.match.state.isPlayerLeftActive;
 			if(isPlayerLeftActive) {
-				return this.ScorePlayerLeft.currentView;
+				return this._PlayerLeftView();
 			} else {
-				return this.ScorePlayerRight.currentView;
+				return this._PlayerRightView();
 			}
 		},
 
 		_switchActivePlayer: function() {
 			var isLeftActive = !this.matchModule.match.state.isPlayerLeftActive; //switch active player
-			this.ScorePlayerLeft.currentView.model.set('isPlayerActive', isLeftActive);
-			this.ScorePlayerRight.currentView.model.set('isPlayerActive', !isLeftActive);
+			this._PlayerNameLeftView().model.set('isPlayerActive', isLeftActive);
+			this._PlayerNameRightView().model.set('isPlayerActive', !isLeftActive);
 			return isLeftActive;
 		},
 
 		_refreshPlayerViews: function() {
-			this.ScorePlayerLeft.currentView.refresh();
-			this.ScorePlayerRight.currentView.refresh();
+			this._PlayerLeftView().refresh();
+			this._PlayerRightView().refresh();
 		},
 
 		/*
@@ -177,14 +176,14 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 
 			var rest = 0;
 			if(change.isLeft) {
-				rest = this.ScorePlayerLeft.currentView.PlayerScoresRegion.currentView.collection.at(0).get('score');
-				this.ScorePlayerLeft.currentView.reloadPlayerScores(change.entries);
+				rest = this._PlayerLeftView().reloadPlayerScores(change.entries);
 			} else {
-				rest = this.ScorePlayerRight.currentView.PlayerScoresRegion.currentView.collection.at(0).get('score');
-				this.ScorePlayerRight.currentView.reloadPlayerScores(change.entries);
+				rest = this._PlayerRightView().reloadPlayerScores(change.entries);
 			}
 
-			this.ScoreRegion.currentView.canCheck(this.matchModule.possibleCheckWith(rest));
+			 if(this.matchModule.match.state.isPlayerLeftActive === change.isLeft) {
+				 this.ScoreRegion.currentView.canCheck(this.matchModule.possibleCheckWith(rest));
+			 }
 		 },
 
 		/*
@@ -206,6 +205,11 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 				var isLeftActive = this._switchActivePlayer();
 				this._refreshPlayerViews();
 				this.matchModule.newScore(value, miss, isLeftActive, uid);
+
+				var self = this;
+				setTimeout(function() {
+					self._onActivePlayerChange(isLeftActive);
+				})
 			}
 		},
 
@@ -215,48 +219,73 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 		 *
 		 *
 		 */
+		_loadMatch: function (isPlayerLeftActive, result, activeLeg) {
+			if(!activeLeg) {
+				this._startNewLeg(true);
+			} else {
+				this._loadStoredMatch (isPlayerLeftActive, result, activeLeg)
+			}
+		},
+
+
 		_loadStoredMatch: function(isPlayerLeftActive, result, activeLeg) {
 			if(result) {
 				delete result.isLeftCheck;
 			}
 
-			var playerLeft = {
-				load: true,
-				isLeft: true,
-				isPlayerActive: isPlayerLeftActive			
+			//p-name
+			var playerLeftName = {
+				isPlayerActive: isPlayerLeftActive
 			};
 
-			var playerRight = {
-				load: true,
-				isLeft: false,
+			var playerRightName = {
 				isPlayerActive: !isPlayerLeftActive
 			};
 
-			var storedPlayerLeft = App.module('PlayerAndResultController').getPlayerFromStorage(true);
-			var storedPlayerRight = App.module('PlayerAndResultController').getPlayerFromStorage(true);
+			var storedPlayerLeft = App.module('PlayerController').getPlayerFromStorage(true);
+			var storedPlayerRight = App.module('PlayerController').getPlayerFromStorage(false);
+
 			if(storedPlayerLeft) {
-				_.extend(playerLeft, storedPlayerLeft);
+				_.extend(playerLeftName, storedPlayerLeft);
 			}
 
 			if(storedPlayerRight) {
-				_.extend(playerRight, storedPlayerRight);
+				_.extend(playerRightName, storedPlayerRight);
 			}
+
+			//p-scores
+			var playerLeftScores = {
+				load: true
+			};
+			var playerRightScores = {
+				load: true
+			};
 
 			if(result) {
 				result.left.endOf = false;
 				result.right.endOf = false;
-				_.extend(playerLeft, result);
-				_.extend(playerRight, result);
+				result.left.countLegs = result.countLegs;
+				result.right.countLegs = result.countLegs;
+				_.extend(playerLeftScores, result.left);
+				_.extend(playerRightScores, result.right);
 			}
 
 			if(activeLeg && !_.isEmpty(activeLeg.entries)) {
 				var scoresLeft = _.where(activeLeg.entries, {isLeft:true});
 				var scoresRight = _.where(activeLeg.entries, {isLeft:false});
-				_.extend(playerLeft, {scores: scoresLeft});
-				_.extend(playerRight, {scores: scoresRight});
+				_.extend(playerLeftScores, {scores: scoresLeft});
+				_.extend(playerRightScores, {scores: scoresRight});
 			}
 
-			this._showPlayers(playerLeft, playerRight);
+			this._showPlayers({
+				isLeft: true,
+				nameInfo: playerLeftName,
+				resultInfo: playerLeftScores
+			}, {
+				isLeft: false,
+				nameInfo: playerRightName,
+				resultInfo: playerRightScores
+			});
 
 			var self = this;
 			setTimeout(function() {
@@ -275,8 +304,8 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 			pL.otherPlayer = pR;
 			pR.otherPlayer = pL;
 
-			this.ScorePlayerLeft.show(pL);
-			this.ScorePlayerRight.show(pR);
+			this.PlayerLeftRegion.show(pL);
+			this.PlayerRightRegion.show(pR);
 		},
 
 		/*
@@ -286,22 +315,44 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 		 *
 		 */
 		_startNewLeg: function(isPlayerLeftActive, result) {
-			var playerLeft = {
-				isLeft: true,
+			//p-name
+			var playerLeftName = {
 				isPlayerActive: isPlayerLeftActive
 			};
 
-			var playerRight = {
-				isLeft: false,
+			var playerRightName = {
 				isPlayerActive: !isPlayerLeftActive
 			};
 
-			if(result) {
-				_.extend(playerLeft, result);
-				_.extend(playerRight, result);
+			var storedPlayerLeft = App.module('PlayerController').getPlayerFromStorage(true);
+			var storedPlayerRight = App.module('PlayerController').getPlayerFromStorage(false);
+
+			if(storedPlayerLeft) {
+				_.extend(playerLeftName, storedPlayerLeft);
 			}
 
-			this._showPlayers(playerLeft, playerRight);
+			if(storedPlayerRight) {
+				_.extend(playerRightName, storedPlayerRight);
+			}
+
+			//p-score
+			var playerLeftScores = {};
+			var playerRightScores = {};
+
+			if(result) {
+				_.extend(playerLeftScores, result);
+				_.extend(playerRightScores, result);
+			}
+
+			this._showPlayers({
+				isLeft: true,
+				nameInfo: playerLeftName,
+				resultInfo: playerLeftScores
+			}, {
+				isLeft: false,
+				nameInfo: playerRightName,
+				resultInfo: playerRightScores
+			});
 
 			var self = this;
 			setTimeout(function() {
@@ -314,11 +365,10 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 				this.matchModule.stop();
 			}
 			this.matchModule.start();
-			this._startNewLeg(true);
 		},
 
 		initialize: function() {
-			this.listenTo(Communicator.mediator, 'load:match', this._loadStoredMatch);
+			this.listenTo(Communicator.mediator, 'load:match', this._loadMatch);
 			this.listenTo(Communicator.mediator, 'encounterMatch:match:start', this._startNewMatch);
 		},
 
@@ -333,6 +383,33 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 			this.ScoreRegion.show(new ScoreItem({}));
 			this.BoardPanelRegion.show(new BoardPanel({}));
 			this.EncounterPanelRegion.show(new EncounterPanel({}));
+		},
+
+
+		// --- HELPER ---
+
+		_PlayerLeftView: function () {
+			return this.PlayerLeftRegion.currentView;
+		},
+
+		_PlayerRightView: function () {
+			return this.PlayerRightRegion.currentView;
+		},
+
+		_PlayerNameLeftView: function () {
+			return this.PlayerLeftRegion.currentView.PlayerNameRegion.currentView;
+		},
+
+		_PlayerNameRightView: function () {
+			return this.PlayerRightRegion.currentView.PlayerNameRegion.currentView;
+		},
+
+		_PlayerScoresLeftView: function () {
+			return this.PlayerLeftRegion.currentView.PlayerScoresRegion.currentView;
+		},
+
+		_PlayerScoresRightView: function () {
+			return this.PlayerRightRegion.currentView.PlayerScoresRegion.currentView;
 		}
 	});
 

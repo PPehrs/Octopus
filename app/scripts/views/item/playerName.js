@@ -1,10 +1,9 @@
 define([
 	'backbone',
-	'backbone.stickit',
 	'communicator',
 	'hbs!tmpl/item/playerName_tmpl'
 ],
-function( Backbone, Stickit, Communicator, PlayerNameTmpl  ) {
+function( Backbone, Communicator, PlayerNameTmpl  ) {
     'use strict';
 
 	/* Return a ItemView class definition */
@@ -17,34 +16,28 @@ function( Backbone, Stickit, Communicator, PlayerNameTmpl  ) {
 			InputPlayerName: '.playerName'
 		},
 
-		bindings: {
-			'.playerName' : 'name'
-		},
-
 		/* Ui events hash */
 		events: {
 			'focusout @ui.InputPlayerName': '_onFocusOutInputPlayerName'
 		},
 
-		initialize: function() {
-			this.stickit();
- 			this.listenTo(this.model, 'change:isPlayerActive', this.onPlayerIsActiveChanged);
-		},
-
 		_onFocusOutInputPlayerName: function () {
-			debugger
-			Communicator.mediator.trigger('playerName:change:name:direct', this.model.toJSON());
-		},
-
-		onPlayerIsActiveChanged: function() {
-			var isPlayerActive = this.model.get('isPlayerActive');
-			if(isPlayerActive) {
-				this.triggerMethod('playerName:change:activePlayer', this.model.get('isLeft'));
-			}
+			this.model.set('name', this.ui.InputPlayerName.val());
+			var playerNameModel = this.model.toJSON();
+			delete playerNameModel.isPlayerActive;
+			Communicator.mediator.trigger('playerName:change:name:direct', playerNameModel);
 		},
 
 		/* on render callback */
 		onRender: function() {
+			this.ui.InputPlayerName.val(this.model.get('name'));
+
+			if(App.module('MatchModule').match) {
+				var isLeft = this.model.get('isLeft');
+				var isPlayerLeftActive = App.module('MatchModule').match.state.isPlayerLeftActive;
+				var isPlayerActive = isLeft?isPlayerLeftActive:!isPlayerLeftActive;
+				this.model.set('isPlayerActive', isPlayerActive);
+			}
 		}
 	});
 

@@ -3,9 +3,10 @@ define([
 	'hbs!tmpl/layout/playerLayout_tmpl',
 	'../item/playerMenu',
 	'../item/playerName',
-	'../composite/playerScores'
+	'../composite/playerScores',
+	'models/player'
 ],
-function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
+function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores, PlayerModel ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -99,16 +100,17 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 		},
 
 		reloadPlayerScores: function(scores) {
-			this.model.set({
-				load:true,
-				scores: scores
-			});
-			this.loadPlayerScores();
-			this.PlayerScoresRegion.currentView.render();
+			var resultInfo = this.model.get('resultInfo');
+			resultInfo.load = true;
+			resultInfo.scores = scores;
+			return this.loadPlayerScores();
+			//return rest;
+			//this.PlayerScoresRegion.currentView.render();
 		},
 
 		loadPlayerScores: function() {
-			var load = this.model.get('load');
+			var load = this.model.get('resultInfo').load;
+			var isLeft = this.model.get('isLeft');
 			var collection = new Backbone.Collection({
 				score: 501,
 				isTop: true,
@@ -116,7 +118,8 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 				isLeft: this.model.get('isLeft')
 			});
 
-			var scores = this.model.get('scores');
+			var scores = this.model.get('resultInfo').scores;
+			var topRest = 501;
 			if(load && !_.isEmpty(scores)) {
 				var self = this;
 				_.each(scores, function(score, pos) {
@@ -124,6 +127,7 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 					scoreBefore.set('isTop', false);
 					var rest = scoreBefore.get('score') - score.value;
 					if(rest <= 1) { rest = scoreBefore.get('score');}
+					topRest = rest;
 					collection.add({
 						uid: score.uid,
 						score: rest,
@@ -137,15 +141,22 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 			this.PlayerScoresRegion.show(new PlayerScores({
 				collection: collection
 			}));
+
+			return topRest;
 		},
 
 		/* on render callback */
 		onRender: function() {
+			console.log(this.model.toJSON())
+
 			this.PlayerMenuRegion.show(new PlayerMenu({
-				model: this.model
+				model: new Backbone.Model({
+					isLeft: this.model.get('isLeft')
+				})
 			}))
+			var nameModel = _.extend({}, this.model.get('nameInfo'), {isLeft:this.model.get('isLeft')})
 			this.PlayerNameRegion.show(new PlayerName({
-				model: this.model
+				model: new PlayerModel(nameModel)
 			}))
 
 			this.loadPlayerScores();
