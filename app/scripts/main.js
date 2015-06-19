@@ -8,9 +8,11 @@ require([
 	'communicator',
 	'./routers/applicationStartRouter',
 	'./controllers/applicationStartController',
+	//just start
 	'regionManager',
-	'./modules/socketModule',
+	'modules/socketModule',
 	'modules/dialogModule',
+	'modules/playerAndResultController',
 	'./global'
 ],
 function ( $, _, Backbone, Marionette, Stickit, App, Communicator, ApplicationStartRouter, ApplicationStartController) {

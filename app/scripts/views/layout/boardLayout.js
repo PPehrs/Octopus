@@ -61,9 +61,6 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 			'playerScore:change:value': function (child, value, uid) {
 				this._onChangeScore(value, uid);
 			},
-			'playerMenu:switch:names': function () {
-				this._onSwitchPlayerNames();
-			},
 		},
 
 		_onActivatePlayer: function (isLeft) {
@@ -88,31 +85,6 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 			this.ScorePlayerRight.currentView.model.set('isPlayerActive', !isLeft);
 
 			this._refreshPlayerViews();
-		},
-
-		_onSwitchPlayerNames: function () {
-			var player = this.getPlayer();
-			player[0].isLeft = !player[0].isLeft;
-			player[1].isLeft = !player[1].isLeft;
-			this.matchModule.savePlayer(player[0]);
-			this.matchModule.savePlayer(player[1]);
-			var playerLeft = this.ScorePlayerLeft.currentView.PlayerNameRegion.currentView;
-			var playerRight = this.ScorePlayerRight.currentView.PlayerNameRegion.currentView;
-
-			var n1 = _.findWhere(player, {isLeft: true}).name;
-			var n2 = _.findWhere(player, {isLeft: false}).name;
-
-			playerLeft.setPlayerName(n1);
-			playerRight.setPlayerName(n2);
-		},
-
-		_onPlayerNameChange: function(name, isLeft, uid) {
-			var player = {
-				name: name,
-				isLeft: isLeft,
-				uid: uid
-			}
-			this.matchModule.savePlayer(player);
 		},
 
 		_onActivePlayerChange: function(isLeft) {
@@ -237,6 +209,12 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 			}
 		},
 
+		/*
+		 *
+		 *  +++ LOAD STORED +++ LOAD STORED +++ LOAD STORED +++ LOAD STORED +++
+		 *
+		 *
+		 */
 		_loadStoredMatch: function(isPlayerLeftActive, result, activeLeg) {
 			if(result) {
 				delete result.isLeftCheck;
@@ -245,13 +223,24 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 			var playerLeft = {
 				load: true,
 				isLeft: true,
-				isPlayerActive: isPlayerLeftActive			};
+				isPlayerActive: isPlayerLeftActive			
+			};
 
 			var playerRight = {
 				load: true,
 				isLeft: false,
 				isPlayerActive: !isPlayerLeftActive
 			};
+
+			var storedPlayerLeft = App.module('PlayerAndResultController').getPlayerFromStorage(true);
+			var storedPlayerRight = App.module('PlayerAndResultController').getPlayerFromStorage(true);
+			if(storedPlayerLeft) {
+				_.extend(playerLeft, storedPlayerLeft);
+			}
+
+			if(storedPlayerRight) {
+				_.extend(playerRight, storedPlayerRight);
+			}
 
 			if(result) {
 				result.left.endOf = false;
@@ -267,12 +256,7 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 				_.extend(playerRight, {scores: scoresRight});
 			}
 
-			this.ScorePlayerLeft.show(new PlayerLayout({
-				model: new Backbone.Model (playerLeft)
-			}));
-			this.ScorePlayerRight.show(new PlayerLayout({
-				model: new Backbone.Model (playerRight)
-			}));
+			this._showPlayers(playerLeft, playerRight);
 
 			var self = this;
 			setTimeout(function() {
@@ -280,6 +264,27 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 			})
 		},
 
+		_showPlayers: function(playerLeft, playerRight) {
+			var pL = new PlayerLayout({
+				model: new Backbone.Model (playerLeft)
+			});
+			var pR = new PlayerLayout({
+				model: new Backbone.Model (playerRight)
+			});
+
+			pL.otherPlayer = pR;
+			pR.otherPlayer = pL;
+
+			this.ScorePlayerLeft.show(pL);
+			this.ScorePlayerRight.show(pR);
+		},
+
+		/*
+		 *
+		 *  +++ NEW LEG +++ NEW LEG +++ NEW LEG +++ NEW LEG +++
+		 *
+		 *
+		 */
 		_startNewLeg: function(isPlayerLeftActive, result) {
 			var playerLeft = {
 				isLeft: true,
@@ -296,12 +301,7 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 				_.extend(playerRight, result);
 			}
 
-			this.ScorePlayerLeft.show(new PlayerLayout({
-				model: new Backbone.Model (playerLeft)
-			}));
-			this.ScorePlayerRight.show(new PlayerLayout({
-				model: new Backbone.Model (playerRight)
-			}));
+			this._showPlayers(playerLeft, playerRight);
 
 			var self = this;
 			setTimeout(function() {
@@ -322,17 +322,6 @@ function( Backbone, Marionette, Communicator, Bootbox, BoardlayoutTmpl, BoardPan
 			this.listenTo(Communicator.mediator, 'encounterMatch:match:start', this._startNewMatch);
 		},
 
-		getPlayer: function () {
-			var player = [];
-
-			var playerLeft = this.ScorePlayerLeft.currentView.PlayerNameRegion.currentView.getPlayer();
-			var playerRight = this.ScorePlayerRight.currentView.PlayerNameRegion.currentView.getPlayer();
-
-			player.push(playerLeft);
-			player.push(playerRight);
-
-			return player;
-		},
 		/* on render callback */
 		onRender: function() {
 			this.ui.CheckBoxTransmit.bootstrapSwitch();

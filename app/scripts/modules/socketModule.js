@@ -76,9 +76,8 @@ function(App, SocketIo, Communicator) {
 		SocketModule.RegisterUser = function (model, callback, self) {
 			var socketIo = App.module('SocketModule').socketIo;
 			socketIo.emit('register-user', model.attributes, function (data) {
-				//callback(data, self);
+				callback(data, self);
 			});
-			callback(null, self);
 		},
 
 		SocketModule.NewTeam = function (model, callback, self) {

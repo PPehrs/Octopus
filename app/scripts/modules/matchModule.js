@@ -8,7 +8,6 @@ function(App, Communicator) {
 
 		MatchModule.started = false;
 		MatchModule.match = {};
-		MatchModule.players = [];
 
 		MatchModule.startWithParent = false;
 
@@ -127,8 +126,7 @@ function(App, Communicator) {
 				var result = this.wonLegsAndSets();
 				var activeLeg = this.match.activeLeg;
 				var isPlayerLeftActive = this.match.state.isPlayerLeftActive;
-				this.players = this.match.players;
-				this.savePlayersToLocalStorage();
+
 				setTimeout(function() {
 					Communicator.mediator.trigger('load:match', isPlayerLeftActive, result, activeLeg);
 				})
@@ -161,27 +159,8 @@ function(App, Communicator) {
 			localStorage.setItem('octopus', JSON.stringify(octopusStore));
 		};
 
-		MatchModule.savePlayersToLocalStorage = function() {
-			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
-			octopusStore.players = this.players;
-			localStorage.setItem('octopus', JSON.stringify(octopusStore));
-		};
-
-		MatchModule.savePlayer = function (player) {
-			if(_.isEmpty(this.players)) {
-				this.players = [];
-				this.players.push(player);
-			} else {
-				var savedPlayer = _.findWhere(this.players, {isLeft: player.isLeft})
-				if(_.isEmpty(savedPlayer)) {
-					this.players.push(player);
-				} else {
-					savedPlayer.name = player.name;
-				}
-			}
-			this.savePlayersToLocalStorage();
-
-			this.match.players = this.players;
+		MatchModule.savePlayerToMatch = function (players) {
+			this.match.players = players;
 			this.saveMatchToLocalStorage();
 		},
 

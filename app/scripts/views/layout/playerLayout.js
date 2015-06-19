@@ -13,6 +13,7 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 
 		template: PlayerlayoutTmpl,
 
+		otherPlayer: null,
 
 		/* Layout sub regions */
 		regions: {
@@ -30,12 +31,6 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 		childEvents: {
 			'playerMenu:player:active': function (child, isLeft) {
 				this.triggerMethod('playerMenu:player:active', isLeft);
-			},
-			'playerMenu:switch:names': function () {
-				this.triggerMethod('playerMenu:switch:names');
-			},
-			'playerName:change:name': function (child, name, isLeft, uid) {
-				this.triggerMethod('playerName:change:name', name, isLeft, uid);
 			},
 			'playerName:change:activePlayer': function (child, isLeft) {
 				this.triggerMethod('playerName:change:activePlayer', isLeft);
@@ -128,6 +123,7 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores ) {
 					var scoreBefore = collection.at(0);
 					scoreBefore.set('isTop', false);
 					var rest = scoreBefore.get('score') - score.value;
+					if(rest <= 1) { rest = scoreBefore.get('score');}
 					collection.add({
 						uid: score.uid,
 						score: rest,

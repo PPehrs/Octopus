@@ -1,9 +1,10 @@
 define([
 	'backbone',
+	'communicator',
 	'tooltipster',
 	'hbs!tmpl/item/playerMenu_tmpl'
 ],
-function( Backbone, Tooltip, PlayermenuTmpl  ) {
+function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
     'use strict';
 
 	/* Return a ItemView class definition */
@@ -28,7 +29,7 @@ function( Backbone, Tooltip, PlayermenuTmpl  ) {
 		},
 
 		_onClickSwitchPlayernames: function () {
-			this.triggerMethod('playerMenu:switch:names');
+			Communicator.mediator.trigger('playerMenu:switch:names', this._parentLayoutView());
 		},
 
 		_onClickActivePlayer: function () {

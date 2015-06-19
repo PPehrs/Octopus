@@ -1,9 +1,10 @@
 define([
 	'backbone',
+	'backbone.stickit',
 	'communicator',
 	'hbs!tmpl/item/playerName_tmpl'
 ],
-function( Backbone, Communicator, PlayerNameTmpl  ) {
+function( Backbone, Stickit, Communicator, PlayerNameTmpl  ) {
     'use strict';
 
 	/* Return a ItemView class definition */
@@ -16,24 +17,23 @@ function( Backbone, Communicator, PlayerNameTmpl  ) {
 			InputPlayerName: '.playerName'
 		},
 
+		bindings: {
+			'.playerName' : 'name'
+		},
+
 		/* Ui events hash */
 		events: {
 			'focusout @ui.InputPlayerName': '_onFocusOutInputPlayerName'
 		},
 
 		initialize: function() {
+			this.stickit();
  			this.listenTo(this.model, 'change:isPlayerActive', this.onPlayerIsActiveChanged);
-
-			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
-			if(octopusStore && !_.isEmpty(octopusStore.players)) {
-				var player = _.findWhere(octopusStore.players, {isLeft: this.model.get('isLeft')});
-				this.model.set('player', player);
-			}
 		},
 
 		_onFocusOutInputPlayerName: function () {
-			this.setPlayerNameToModel();
-			this.triggerMethod('playerName:change:name', this.ui.InputPlayerName.val(), this.model.get('isLeft'), this.model.get('player').fkUser);
+			debugger
+			Communicator.mediator.trigger('playerName:change:name:direct', this.model.toJSON());
 		},
 
 		onPlayerIsActiveChanged: function() {
@@ -43,53 +43,8 @@ function( Backbone, Communicator, PlayerNameTmpl  ) {
 			}
 		},
 
-		setPlayerName: function (playerName) {
-			this.ui.InputPlayerName.val(playerName);
-			this.setPlayerNameToModel();
-		},
-
-		setPlayerNameToModel: function () {
-			var playerName = this.ui.InputPlayerName.val();
-			if(this.model.get('player')) {
-				this.model.get('player').name = playerName;
-			} else {
-				this.model.set('player', {name: playerName, isLeft: this.model.get('isLeft')});
-			}
-		},
-
-		getPlayer: function () {
-			var player = {
-				name: this.ui.InputPlayerName.val(),
-				isLeft: this.model.get('isLeft')
-			};
-			this.model.set('player', player);
-			return 	player;
-		},
-
 		/* on render callback */
 		onRender: function() {
-			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
-			if(!_.isEmpty(octopusStore.activeEncounterMatch)) {
-				var isLeft = this.model.get('isLeft');
-				if(isLeft && !_.isEmpty(octopusStore.activeEncounterMatch.player1)) {
-					this.model.set('player', octopusStore.activeEncounterMatch.player1);
-					var self = this;
-					setTimeout(function () {
-						self.triggerMethod('playerName:change:name', self.model.get('player').name, self.model.get('isLeft'), self.model.get('player').fkTeamPlayer);
-					})
-				} else if(!_.isEmpty(octopusStore.activeEncounterMatch.player2)) {
-					this.model.set('player', octopusStore.activeEncounterMatch.player2);
-					var self = this;
-					setTimeout(function () {
-						self.triggerMethod('playerName:change:name', self.model.get('player').name, self.model.get('isLeft'), self.model.get('player').fkTeamPlayer);
-					})
-				}
-			}
-
-			if(this.model.get('player')) {
-				var name = this.model.get('player').name;
-				this.ui.InputPlayerName.val(name);
-			}
 		}
 	});
 
