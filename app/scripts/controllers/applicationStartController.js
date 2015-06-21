@@ -2,15 +2,17 @@ define([
 	'backbone',
 	'backbone.marionette',
 	'application',
-	'../views/layout/homeLayout'
+	'../views/layout/homeLayout',
+	'../views/item/mainMenu'
 ],
-function( Backbone, Marionette, App, HomeLayout ) {
+function( Backbone, Marionette, App, HomeLayout, MainMenu ) {
     'use strict';
 
 	return Backbone.Marionette.Controller.extend({
 
 		initialize: function( options ) {
 			console.log("initialize a Controller");
+			App.mainMenuRegion.show(new MainMenu());
 		},
 
         start: function() {

@@ -13,11 +13,13 @@ function( Backbone ) {
 				name: '',
 				fkUser: -1,
 				legs: 0,
+				uid: _.uniqueId('p_')
 			},
 			p2: {
 				name: '',
 				fkUser: -1,
-				legs: 0
+				legs: 0,
+				uid: _.uniqueId('p_')
 			},
 			uid: ''
 		},

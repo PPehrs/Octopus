@@ -63,6 +63,11 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
 			octopusStore.activeEncounterMatch = this.model.toJSON();
 			localStorage.setItem('octopus', JSON.stringify(octopusStore));
 
+			octopusStore.activeEncounterMatch.player1.isLeft = true;
+			octopusStore.activeEncounterMatch.player2.isLeft = false;
+			App.module('PlayerController').savePlayer(octopusStore.activeEncounterMatch.player1);
+			App.module('PlayerController').savePlayer(octopusStore.activeEncounterMatch.player2);
+
 			this.ui.ButtonEnd.show();
 			Communicator.mediator.trigger('encounterMatch:match:start');
 		},

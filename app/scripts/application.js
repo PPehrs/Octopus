@@ -8,6 +8,7 @@ function( Backbone, Marionette ) {
 
 	var App = new Backbone.Marionette.Application();
 	App.addRegions({
+		mainMenuRegion: "#octopus_mainmenu",
   		mainRegion: "#octopus"
 	});
 	window.App = App;

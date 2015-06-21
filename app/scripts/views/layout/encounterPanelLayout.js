@@ -59,6 +59,12 @@ function( Backbone, Communicator, EncounterpanellayoutTmpl, EncounterMatches  ) 
 			this._emptyEncounterModel();
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 			if(!_.isEmpty(octopusStore.activeEncounter)) {
+				if(!octopusStore.activeEncounter.home.matchesWon) {
+					octopusStore.activeEncounter.home.matchesWon = 0;
+				}
+				if(!octopusStore.activeEncounter.guest.matchesWon) {
+					octopusStore.activeEncounter.guest.matchesWon = 0;
+				}
 				this.model.set({
 					isEncounter: true,
 					uid: octopusStore.activeEncounter.uid,

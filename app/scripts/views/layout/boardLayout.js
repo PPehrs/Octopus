@@ -85,8 +85,8 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			}
 
 			this.matchModule.match.state.isPlayerLeftActive = isLeft;
-			this._PlayerNameLeftView().model.set(isLeft);
-			this._PlayerNameRightView().model.set(!isLeft);
+			this._PlayerNameLeftView().model.set('isPlayerActive', isLeft);
+			this._PlayerNameRightView().model.set('isPlayerActive', !isLeft);
 			this._refreshPlayerViews();
 		},
 
@@ -166,6 +166,11 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 					this._refreshPlayerViews();
 
 					this.matchModule.deleteLastScore(isLeftActive);
+
+					var self = this;
+					setTimeout(function() {
+						self._onActivePlayerChange(isLeftActive);
+					})
 		 		}
 		 	}
 		 },
@@ -349,8 +354,12 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			var playerRightScores = {};
 
 			if(result) {
-				_.extend(playerLeftScores, result);
-				_.extend(playerRightScores, result);
+				result.left.endOf = true;
+				result.right.endOf = true;
+				result.left.countLegs = result.countLegs;
+				result.right.countLegs = result.countLegs;
+				_.extend(playerLeftScores, result.left);
+				_.extend(playerRightScores, result.right);				
 			}
 
 			this._showPlayers({
@@ -402,7 +411,7 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 
 			this.ui.MatchStatistic.tooltipster({
             	content: $(
-            		'<span>Klick hier f&auml;r die Match-Statistik.</span>'
+            		'<span>Klick hier f&uuml;r die Match-Statistik.</span>'
             	)
         	});        	
 		},
