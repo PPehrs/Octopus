@@ -94,7 +94,29 @@ function(App, Communicator) {
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 
 			if(!octopusStore.match || _.isEmpty(octopusStore.match)) {
+				this.matchReset(octopusStore);
+			} else {
+				try {
+					this.match = octopusStore.match;
+					console.log('heavy load - load match from store');
 
+					var result = this.wonLegsAndSets();
+					var activeLeg = this.match.activeLeg;
+
+					var isPlayerLeftActive = this.match.state.isPlayerLeftActive;
+
+					Communicator.mediator.trigger('load:match', isPlayerLeftActive, result, activeLeg);
+				} catch(e) {
+					this.matchReset(octopusStore);
+				}
+			}
+			this.started = true;
+
+			//===> fire new match
+			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
+		});
+
+		MatchModule.matchReset = function(octopusStore) {
 				var players = [];
 				if(!octopusStore.players || _.isEmpty(octopusStore.players)) {
 					players = octopusStore.players;
@@ -122,21 +144,7 @@ function(App, Communicator) {
 				localStorage.setItem('octopus', JSON.stringify(octopusStore));
 
 				Communicator.mediator.trigger('load:match', true, null, null);
-			} else {
-				this.match = octopusStore.match;
-				console.log('heavy load - load match from store');
-
-				var result = this.wonLegsAndSets();
-				var activeLeg = this.match.activeLeg;
-				var isPlayerLeftActive = this.match.state.isPlayerLeftActive;
-
-				Communicator.mediator.trigger('load:match', isPlayerLeftActive, result, activeLeg);
-			}
-			this.started = true;
-
-			//===> fire new match
-			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
-		});
+		};
 
 		MatchModule.addFinalizer(function() {
 			this.match = {};

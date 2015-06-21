@@ -17,12 +17,14 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
     	ui: {
 			ButtonStart: '.btn-start-encouter-match',
 			ButtonEnd: '.btn-end-encouter-match',
+			DublicateEnd: '.btn-dublicate-encouter-match'
 		},
 
 		/* Ui events hash */
 		events: {
 			'click @ui.ButtonStart': '_onClickButtonStart',
-			'click @ui.ButtonEnd': '_onClickButtonEnd'
+			'click @ui.ButtonEnd': '_onClickButtonEnd',
+			'click @ui.DublicateEnd': '_onClickButtonEnd',
 		},
 
 		_onClickButtonStart: function () {
@@ -65,6 +67,7 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
 
 			octopusStore.activeEncounterMatch.player1.isLeft = true;
 			octopusStore.activeEncounterMatch.player2.isLeft = false;
+			
 			App.module('PlayerController').savePlayer(octopusStore.activeEncounterMatch.player1);
 			App.module('PlayerController').savePlayer(octopusStore.activeEncounterMatch.player2);
 

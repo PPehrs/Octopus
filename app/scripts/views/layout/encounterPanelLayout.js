@@ -95,11 +95,13 @@ function( Backbone, Communicator, EncounterpanellayoutTmpl, EncounterMatches  ) 
 				}
 			});
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
-			octopusStore.activeEncounter.home.matchesWon = home;
-			octopusStore.activeEncounter.guest.matchesWon = guest;
-			this.model.get('home').matchesWon = home;
-			this.model.get('guest').matchesWon = guest;
-			localStorage.setItem('octopus', JSON.stringify(octopusStore));
+			if(octopusStore.activeEncounter) {
+				octopusStore.activeEncounter.home.matchesWon = home;
+				octopusStore.activeEncounter.guest.matchesWon = guest;
+				this.model.get('home').matchesWon = home;
+				this.model.get('guest').matchesWon = guest;
+				localStorage.setItem('octopus', JSON.stringify(octopusStore));
+			}
 			this.render();
 		},
 
