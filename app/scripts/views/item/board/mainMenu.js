@@ -18,14 +18,20 @@ function( Backbone, App, MainmenueTmpl  ) {
 
     	/* ui selector cache */
     	ui: {
-    		MainMenuStartside: '#mmStartside'
+    		MainMenuStartside: '#mmStartside',
+			MainMenuDartscorer: '#mmDartscorer'
     	},
 
 		/* Ui events hash */
 		events: {
-			'click @ui.MainMenuStartside': 'onClickMainMenuStartside'
+			'click @ui.MainMenuStartside': 'onClickMainMenuStartside',
+			'click @ui.MainMenuDartscorer': 'onClickMainMenuDartscorer',
 		},
 
+		onClickMainMenuDartscorer: function () {
+			var router = new Backbone.Router();
+			router.navigate('board', {trigger: true});
+		},
 
 		onClickMainMenuStartside: function() {
 			var router = new Backbone.Router();

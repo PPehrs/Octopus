@@ -22,7 +22,9 @@ define([
 			},
 
 			onClickMatchContainer: function () {
-				alert('ui')
+				var router = new Backbone.Router();
+				var id = this.model.get('fkMatch');
+				router.navigate('match/' + id, {trigger: true});
 			},
 
 			initialize: function () {

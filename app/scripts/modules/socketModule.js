@@ -114,6 +114,10 @@ function(App, SocketIo, Communicator) {
 			this.emit('get-live-matches', null, callback);
 		},
 
+		SocketModule.GetMatch = function (uid, callback) {
+			this.emit('get-match', {uid:uid}, callback);
+		},
+
 		SocketModule.GetEncounter = function (fkEncounter, callback) {
 			this.emit('get-encounter', {uid: fkEncounter}, callback);
 		},

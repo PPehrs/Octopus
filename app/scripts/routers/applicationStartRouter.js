@@ -2,9 +2,10 @@ define([
 	'backbone',
 	'backbone.marionette',
 	'application',
-	'../views/layout/boardLayout'
+	'../views/layout/boardLayout',
+	'../views/layout/matchInfo'
 ],
-function(Backbone, Marionette, App, BoardLayout){
+function(Backbone, Marionette, App, BoardLayout, MatchInfo){
     'use strict';
 
 	return Backbone.Marionette.AppRouter.extend({
@@ -13,6 +14,7 @@ function(Backbone, Marionette, App, BoardLayout){
       		'': 'showHome'
     	},
 		routes: {
+			'match/:id': 'showMatch',
 			'board': 'showBoard',
 			'*notFound': 'notFound',
 			':notFound': 'notFound',
@@ -24,8 +26,12 @@ function(Backbone, Marionette, App, BoardLayout){
 			App.mainRegion.show(new BoardLayout());
 		},
 
+		showMatch: function(id) {
+			App.mainRegion.show(new MatchInfo({matchUid: id}));
+		},
+
 		notFound: function() {
 
-		}		
+		}
 	});
 });
