@@ -1,9 +1,9 @@
 define([
 	'backbone',
 	'hbs!tmpl/layout/playerLayout_tmpl',
-	'../item/playerMenu',
-	'../item/playerName',
-	'../composite/playerScores',
+	'../item/board/playerMenu',
+	'../item/board/playerName',
+	'../composite/board/playerScores',
 	'models/player'
 ],
 function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores, PlayerModel ) {

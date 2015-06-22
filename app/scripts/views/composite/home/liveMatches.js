@@ -2,7 +2,7 @@ define([
 		'backbone',
 		'communicator',
 		'hbs!tmpl/composite/liveMatches_tmpl',
-		'../item/liveMatch'
+		'views/item/home/liveMatch'
 	],
 	function( Backbone, Communicator, RegisteredplayersTmpl, RegisteredPlayer  ) {
 		'use strict';
@@ -40,7 +40,17 @@ define([
 
 
 			onShow: function () {
-				this._loadLiveMatches();
+				this._ticker();
+			},
+
+			_ticker: function () {
+				var self = this;
+				if(!self.isDestroyed) {
+					self._loadLiveMatches();
+					setTimeout(function () {
+						self._ticker();
+					}, 30000)
+				}
 			},
 
 			_loadLiveMatches: function () {
@@ -48,15 +58,10 @@ define([
 			},
 
 			_onLoadLiveMatches: function (data) {
-				var col = [];
-				_.each(data, function (d) {
-					col.push({
-						uid: d
-					})
-				});
-				this.collection = new Backbone.Collection(col);
+				data = _.sortBy(data, function(data){ return data.startDateTime; }).reverse();
+				this.collection = new Backbone.Collection(data);
 				this.render();
-			},
+			}
 		});
 
 	});

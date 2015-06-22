@@ -67,7 +67,7 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
 
 			octopusStore.activeEncounterMatch.player1.isLeft = true;
 			octopusStore.activeEncounterMatch.player2.isLeft = false;
-			
+
 			App.module('PlayerController').savePlayer(octopusStore.activeEncounterMatch.player1);
 			App.module('PlayerController').savePlayer(octopusStore.activeEncounterMatch.player2);
 

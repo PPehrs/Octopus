@@ -2,7 +2,7 @@ define([
 	'backbone',
 	'communicator',
 	'hbs!tmpl/composite/registeredPlayers_tmpl',
-	'../item/registeredPlayer'
+	'views/item/home/registeredPlayer'
 ],
 function( Backbone, Communicator, RegisteredplayersTmpl, RegisteredPlayer  ) {
     'use strict';

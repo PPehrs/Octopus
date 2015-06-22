@@ -111,7 +111,11 @@ function(App, SocketIo, Communicator) {
 		},
 
 		SocketModule.GetLiveMatches = function (callback) {
-			this.emit('get-matches', null, callback);
+			this.emit('get-live-matches', null, callback);
+		},
+
+		SocketModule.GetEncounter = function (fkEncounter, callback) {
+			this.emit('get-encounter', {uid: fkEncounter}, callback);
 		},
 
 		SocketModule.GetRegisteredUser = function (callback) {

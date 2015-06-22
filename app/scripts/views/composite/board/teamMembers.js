@@ -1,7 +1,7 @@
 define([
 	'backbone',
 	'hbs!tmpl/composite/teamMembers_tmpl',
-	'../item/teamMember',
+	'views/item/board/teamMember',
 	'models/member'
 ],
 function( Backbone, TeammembersTmpl, TeamMember, Member  ) {

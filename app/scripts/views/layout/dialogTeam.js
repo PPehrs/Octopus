@@ -3,7 +3,7 @@ define([
 	'backbone.stickit',
 	'backbone.validation',
 	'hbs!tmpl/layout/dialogTeam_tmpl',
-	'../composite/teamMembers',
+	'../composite/board/teamMembers',
 	'models/team',
 	'models/member'
 ],

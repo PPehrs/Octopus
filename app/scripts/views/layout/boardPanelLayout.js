@@ -5,8 +5,8 @@ define([
 	'communicator',
 	'hbs!tmpl/layout/boardPanelLayout_tmpl',
 	'./dialogTeam',
-	'../item/dialogEncounter',
-	'../item/dialogEncounterMatch',
+	'../item/board/dialogEncounter',
+	'../item/board/dialogEncounterMatch',
 ],
 function( Backbone, Tooltip, Bootbox, Communicator, BoardpanellayoutTmpl, DialogTeam, DialogEncounter, DialogEncounterMatch  ) {
     'use strict';

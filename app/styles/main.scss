@@ -150,6 +150,17 @@
 .mm-h-200 {
 	min-height: 200px;
 	max-height: 200px;
+	overflow: auto;
+}
+
+.home-match-container {
+	padding: 10px;
+	border: 1px solid linen;
+	font-weight: bold;
+	margin-bottom: 5px;
+	&:hover {
+		background-color: #f0f8ed;
+	}
 }
 
 .oo_btn {

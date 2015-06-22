@@ -3,7 +3,7 @@ define([
 	'backbone.marionette',
 	'application',
 	'../views/layout/homeLayout',
-	'../views/item/mainMenu'
+	'../views/item/board/mainMenu'
 ],
 function( Backbone, Marionette, App, HomeLayout, MainMenu ) {
     'use strict';
@@ -17,7 +17,7 @@ function( Backbone, Marionette, App, HomeLayout, MainMenu ) {
 
         start: function() {
             console.log("start a Controller");
-        },		
+        },
 
         showHome: function() {
 			console.log("home");
@@ -26,7 +26,7 @@ function( Backbone, Marionette, App, HomeLayout, MainMenu ) {
 
 		notFound: function() {
 			alert('gift')
-		}	        
+		}
 	});
 
 });

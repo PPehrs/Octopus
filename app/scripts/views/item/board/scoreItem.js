@@ -149,7 +149,7 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
 					if(e.keyCode === 112 && !this.checkWith.F3) return;
 					this.ui.missButton[e.keyCode - 112].click();
 					return false;
-				}				
+				}
 				if(e.keyCode >= 112  && e.keyCode <= 114) {
 					e.preventDefault();
 					if(e.keyCode === 112 && !this.checkWith.F1) e.keyCode = 113;

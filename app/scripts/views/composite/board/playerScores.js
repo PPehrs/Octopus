@@ -1,7 +1,7 @@
 define([
 	'backbone',
 	'hbs!tmpl/composite/playerScores_tmpl',
-	'../item/playerScore'
+	'views/item/board/playerScore'
 ],
 function( Backbone, PlayerScoresTmpl, PlayerScore ) {
     'use strict';

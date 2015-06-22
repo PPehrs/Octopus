@@ -8,7 +8,7 @@ define([
 	'./boardPanelLayout',
 	'./encounterPanelLayout',
 	'./playerLayout',
-	'../item/scoreItem',
+	'../item/board/scoreItem',
 	'modules/matchModule'
 ],
 function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutTmpl, BoardPanel, EncounterPanel, PlayerLayout, ScoreItem, MatchModule  ) {
@@ -207,7 +207,7 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 				this.matchModule.check(value, check);
 				var result = this.matchModule.wonLegsAndSets();
 				this.ui.MatchResultQuickInfo.text(result.left.legsWon + ':' + result.right.legsWon);
-				this.ui.MatchRunningAlert.fadeIn();				
+				this.ui.MatchRunningAlert.fadeIn();
 				this._startNewLeg(this.matchModule.match.state.isPlayerLeftActive, result);
 			} else {
 				this.ui.MatchRunningAlert.fadeOut();
@@ -359,7 +359,7 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 				result.left.countLegs = result.countLegs;
 				result.right.countLegs = result.countLegs;
 				_.extend(playerLeftScores, result.left);
-				_.extend(playerRightScores, result.right);				
+				_.extend(playerRightScores, result.right);
 			}
 
 			this._showPlayers({
@@ -413,7 +413,7 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
             	content: $(
             		'<span>Klick hier f&uuml;r die Match-Statistik.</span>'
             	)
-        	});        	
+        	});
 		},
 
 

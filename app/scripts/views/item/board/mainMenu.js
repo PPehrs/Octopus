@@ -12,9 +12,9 @@ function( Backbone, App, MainmenueTmpl  ) {
 		initialize: function() {
 			console.log("initialize a Mainmenue ItemView");
 		},
-		
+
     	template: MainmenueTmpl,
-        
+
 
     	/* ui selector cache */
     	ui: {

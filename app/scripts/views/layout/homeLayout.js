@@ -4,11 +4,11 @@ define([
 	'bootbox',
 	'hbs!tmpl/layout/homeLayout_tmpl',
 
-	'../composite/registeredPlayers',
-	'../composite/liveMatches',
+	'../composite/home/registeredPlayers',
+	'../composite/home/liveMatches',
 
-	'../item/dialogRegister',
-	'../item/dialogLogin'
+	'../item/board/dialogRegister',
+	'../item/board/dialogLogin'
 ],
 function( Backbone,
 		  Marionette,

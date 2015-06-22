@@ -1,7 +1,7 @@
 define([
 	'backbone',
 	'hbs!tmpl/composite/encounterMatches_tmpl',
-	'../item/encounterMatch'
+	'views/item/board/encounterMatch'
 ],
 function( Backbone, EncountermatchesTmpl, EncounterMatch  ) {
     'use strict';
@@ -12,10 +12,10 @@ function( Backbone, EncountermatchesTmpl, EncounterMatch  ) {
 		initialize: function() {
 			console.log("initialize a Encountermatches CompositeView");
 		},
-		
-    	
+
+
     	template: EncountermatchesTmpl,
-    	
+
 
     	/* ui selector cache */
     	ui: {},

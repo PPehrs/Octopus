@@ -164,7 +164,16 @@ function(App, Communicator) {
 
 		MatchModule.saveMatchToLocalStorage = function() {
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+			if(octopusStore.activeEncounter) {
+				this.match.fkEncounter  = octopusStore.activeEncounter.uui;
+			}
+
+			if(!_.isEmpty(octopusStore.players)) {
+				this.match.players  = octopusStore.players;
+			}
+
 			octopusStore.match = this.match;
+
 			localStorage.setItem('octopus', JSON.stringify(octopusStore));
 		};
 
@@ -269,7 +278,6 @@ function(App, Communicator) {
 
 			this.match.leg += 1;
 
-			this.addEncounterInfoToMatch();
 			this.saveMatchToLocalStorage();
 
 			//--> fire
@@ -315,15 +323,10 @@ function(App, Communicator) {
 			this.match.activeLeg.entries.push(entry);
 			this.match.state.isPlayerLeftActive = isLeftActive;
 
-			this.addEncounterInfoToMatch();
 			this.saveMatchToLocalStorage();
 
 			//===> fire active leg
 			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
-		};
-
-		MatchModule.addEncounterInfoToMatch = function(){
-			//TODO AD ENCOUNTER INFO ADD ADD ADD
 		};
 	});
 });

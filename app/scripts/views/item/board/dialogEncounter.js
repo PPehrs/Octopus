@@ -59,7 +59,7 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 			}
 			var teamGuest = _.findWhere(this.teams, {_id: this.model.get('guest').fkTeam});
 			if(_.isEmpty(teamGuest)) {
-				teamHome = this.model.get('guest');
+				teamGuest = this.model.get('guest');
 			}
 
 			this.model.get('home').name = this.model.get('h');
@@ -71,7 +71,7 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 				uui: this.model.get('uid'),
 				home: teamHome,
 				guest: teamGuest
-			}				
+			}
 
 			localStorage.setItem('octopus', JSON.stringify(octopusStore));
 		},

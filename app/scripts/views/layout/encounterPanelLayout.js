@@ -2,7 +2,7 @@ define([
 	'backbone',
 	'communicator',
 	'hbs!tmpl/layout/encounterPanelLayout_tmpl',
-	'../composite/encounterMatches'
+	'../composite/board/encounterMatches'
 ],
 function( Backbone, Communicator, EncounterpanellayoutTmpl, EncounterMatches  ) {
     'use strict';
