@@ -1,18 +1,29 @@
 <div class="m-t alert-default">
 
 	<div>
-		<span class="c-p btn-start-encouter-match btn-default border-5" style="padding: 3px 8px;">Start</span>
-        <span class="c-p btn-end-encouter-match btn-success border-5" style="display:none;padding: 3px 8px;">
+		{{#unless done}}
+			{{#unless started}}
+				<span class="c-p btn-start-encouter-match btn-default border-5" style="padding: 3px 8px;">Start</span>
+			{{/unless}}
+		{{/unless}}
+
+		{{#if started}}
+			{{#unless done}}
+       		<span class="c-p btn-end-encouter-match btn-success border-5" style="display:none;padding: 3px 8px;">
 			<i class="fa fa-check-circle-o"></i>
-		</span>
+			</span>
+			{{/unless}}
+		{{/if}}
 
+		{{#unless started}}
+				<span class="c-p btn-delete-encouter-match btn-default border-5" style="padding: 3px 8px;float:right;opacity:0.6">
+					<i class="fa fa-trash-o"></i>
+				</span>
+				<span class="c-p btn-switch-encouter-match btn-default border-5" style="padding: 3px 8px;float:right;opacity:0.6">
+					<i class="fa fa-exchange"></i>
+				</span>
+		{{/unless}}
 
-		<span class="c-p btn-delete-encouter-match btn-default border-5" style="padding: 3px 8px;float:right;opacity:0.6">
-			<i class="fa fa-trash-o"></i>
-		</span>
-		<span class="c-p btn-switch-encouter-match btn-default border-5" style="padding: 3px 8px;float:right;opacity:0.6">
-			<i class="fa fa-exchange"></i>
-		</span>
 		<span class="c-p btn-dublicate-encouter-match btn-default border-5" style="padding: 3px 8px;float:right;opacity:0.6">
 			<i class="fa  fa-plus-circle"></i>
 		</span>

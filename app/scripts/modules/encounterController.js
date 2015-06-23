@@ -9,6 +9,25 @@ function(App, Communicator, PlayerModel) {
 
 		EncounterController.startWithParent = true;
 
+		EncounterController.started = function (match) {
+			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+			var encounterMatch = _.findWhere(octopusStore.encounterMatches, {uid:match.uid});
+			encounterMatch.started = true;
+			octopusStore.activeEncounterMatch = encounterMatch;
+			octopusStore.activeEncounterMatch.player1.isLeft = true;
+			octopusStore.activeEncounterMatch.player2.isLeft = false;
+			localStorage.setItem('octopus', JSON.stringify(octopusStore));
+		};
+
+		EncounterController.done = function () {
+			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+			var encounterMatch = _.findWhere(octopusStore.encounterMatches, {uid:octopusStore.activeEncounterMatch.uid});
+			encounterMatch.done = true;
+			encounterMatch.started = true;
+			octopusStore.activeEncounterMatch = {};
+			localStorage.setItem('octopus', JSON.stringify(octopusStore));
+		};		
+
 		EncounterController.check = function (match) {
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 			if(!_.isEmpty(octopusStore.activeEncounterMatch)) {

@@ -75,41 +75,30 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
 		},
 
 		_onClickButtonEnd: function () {
-			var matchModule = App.module('MatchModule');
-			matchModule.stop();
-
 			this.model.set('done', true);
 
-			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
-			var encounterMatch = _.findWhere(octopusStore.encounterMatches, {uid:octopusStore.activeEncounterMatch.uid});
-			encounterMatch.done = true;
-			octopusStore.activeEncounterMatch = {};
-			localStorage.setItem('octopus', JSON.stringify(octopusStore));
+			App.module('EncounterController').done();
 
-			this.ui.ButtonEnd.hide();
 			setTimeout(function() {
 				Communicator.mediator.trigger('encounterMatch:match:ready');
 			});
 
+			this.render();
 		},
 
 		_startNewMatch: function () {
-			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
-			octopusStore.activeEncounterMatch = this.model.toJSON();
-			localStorage.setItem('octopus', JSON.stringify(octopusStore));
+			this.model.set('started', true);
 
-			octopusStore.activeEncounterMatch.player1.isLeft = true;
-			octopusStore.activeEncounterMatch.player2.isLeft = false;
+			App.module('EncounterController').started(this.model.toJSON());
+
+			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 
 			App.module('PlayerController').savePlayer(octopusStore.activeEncounterMatch.player1);
 			App.module('PlayerController').savePlayer(octopusStore.activeEncounterMatch.player2);
 
-			this.ui.ButtonEnd.show();
-			this.ui.ButtonStart.hide();
-			this.ui.ButtonSwitch.hide();
-			this.ui.ButtonDelete.hide();
-
 			Communicator.mediator.trigger('encounterMatch:match:start');
+
+			this.render();
 		},
 
 		_check: function () {
@@ -130,11 +119,11 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
 			if(!this.model.get('player2').legs) {
 				this.model.get('player2').legs = 0;
 			}
+			var started = this.model.get('started');
+			var done = this.model.get('done');
 
-			this.model.set ({
-				done: false,
-				started: false,
-			});
+			this.model.set('started', (typeof started === 'undefined'?false:started));
+			this.model.set('done', (typeof done === 'undefined'?false:done));
 		},
 
 		/* on render callback */
