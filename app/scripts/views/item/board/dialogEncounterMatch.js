@@ -80,18 +80,7 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 			this.model.unset('n1');
 			this.model.unset('n2');
 
-			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
-
-			if(_.isEmpty(octopusStore.encounterMatches)) {
-				octopusStore.encounterMatches = [];
-			}
-			octopusStore.encounterMatches.push({
-				uid: this.model.get('uid'),
-				player1: this.model.get('p1'),
-				player2: this.model.get('p2'),
-			});
-
-			localStorage.setItem('octopus', JSON.stringify(octopusStore));
+			App.module('EncounterController').add(this.model.toJSON());
 		},
 
 

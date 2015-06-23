@@ -84,6 +84,34 @@ function(App, Communicator) {
 			}
 		};
 
+		MatchModule.wonLegs = function () {
+			var lcheck = 0;
+			var rcheck = 0;
+			_.each(this.match.sets, function (aSet) {
+				_.each(aSet.legs, function (aLeg) {
+					var aCheck = _.find(aLeg.entries, function (entry) {
+						return entry.check > 0;
+					})
+
+					if (!_.isEmpty(aCheck) && aCheck.isLeft) {
+						lcheck += 1;
+					} else if (!_.isEmpty(aCheck) && !aCheck.isLeft) {
+						rcheck += 1;
+					}
+
+				});
+			});
+
+			return {
+				left: {
+					legs: lcheck
+				},
+				right: {
+					legs: rcheck
+				}
+			}
+		};
+
 		MatchModule.deleteLastScore = function(isLeftActive) {
 			this.match.activeLeg.entries.pop();
 			this.saveMatchToLocalStorage();
@@ -111,9 +139,6 @@ function(App, Communicator) {
 				}
 			}
 			this.started = true;
-
-			//===> fire new match
-			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
 		});
 
 		MatchModule.matchReset = function(octopusStore) {
@@ -281,8 +306,8 @@ function(App, Communicator) {
 			this.saveMatchToLocalStorage();
 
 			//--> fire
-			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
 			Communicator.mediator.trigger('matchModule:check', this.match);
+			this.syncMatch();
 		};
 
 		MatchModule.changeScore  = function(value, uid) {
@@ -326,7 +351,13 @@ function(App, Communicator) {
 			this.saveMatchToLocalStorage();
 
 			//===> fire active leg
-			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
+			this.syncMatch();
+		};
+
+		MatchModule.syncMatch = function () {
+			if(!_.isEmpty(this.match.players)) {
+				Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
+			}
 		};
 	});
 });

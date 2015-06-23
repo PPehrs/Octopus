@@ -9,7 +9,9 @@
     <file url="file://$PROJECT_DIR$/app/scripts/models/encounterMatch.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/models/team.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/modules/dialogModule.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/modules/encounterController.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/modules/matchModule.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/modules/playerController.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/modules/socketModule.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/routers/applicationStartRouter.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/composite/board/encounterMatches.js" charset="UTF-8" />

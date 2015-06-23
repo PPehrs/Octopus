@@ -13,6 +13,7 @@ require([
 	'modules/socketModule',
 	'modules/dialogModule',
 	'modules/playerController',
+	'modules/encounterController',
 	'./global'
 ],
 function ( $, _, Backbone, Marionette, Stickit, App, Communicator, ApplicationStartRouter, ApplicationStartController) {

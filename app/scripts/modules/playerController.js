@@ -17,12 +17,18 @@ function(App, Communicator, PlayerModel) {
 		});
 
 		PlayerController.savePlayersToLocalStorage = function() {
+			App.module('MatchModule').savePlayerToMatch(this.players);
+
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 			octopusStore.players = this.players;
 			localStorage.setItem('octopus', JSON.stringify(octopusStore));
 		};
 
 		PlayerController.savePlayer = function (player, isOnGetFromStorage) {
+			if(typeof player.isLeft === 'undefined') {
+				debugger
+				return
+			}
 			if(_.isEmpty(this.players)) {
 				this.players = [];
 				this.players.push(player);
@@ -37,7 +43,6 @@ function(App, Communicator, PlayerModel) {
 			}
 			if(!isOnGetFromStorage) {
 				this.savePlayersToLocalStorage();
-				App.module('MatchModule').savePlayerToMatch(this.players);
 			}
 		},
 

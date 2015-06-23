@@ -13,7 +13,6 @@ function( Backbone, EncountermatchesTmpl, EncounterMatch  ) {
 			console.log("initialize a Encountermatches CompositeView");
 		},
 
-
     	template: EncountermatchesTmpl,
 
 
