@@ -37,9 +37,9 @@ define([
 					homeSets: '',
 					guestSets: '',
 					p1Name: (players && players.length > 0 )?players[0].name:'',
-					p1Legs: (players && players.length > 0 )?players[0].legs:'',
+					p1Legs: (players && players.length > 0 )?(players[0].legs?players[0].legs:0):'',
 					p2Name: (players && players.length > 1 )?players[1].name:'',
-					p2Legs: (players && players.length > 0 )?players[1].legs:''
+					p2Legs: (players && players.length > 0 )?(players[1].legs?players[1].legs:0):''
 				};
 
 				this.model.set(m);
@@ -51,6 +51,7 @@ define([
 
 			onShow: function () {
 				var fkEncounter = this.model.get('fkEncounter');
+
 				if(fkEncounter) {
 					App.module('SocketModule').GetEncounter(fkEncounter, this.onShowEncounter);
 				}
@@ -59,10 +60,10 @@ define([
 			onShowEncounter: function (data) {
 				this.model.set({
 					isEncounter: true,
-					home: data.home[0].name,
-					guest: data.guest[0].name,
-					homeSets: data.home[0].matchesWon,
-					guestSets: data.guest[0].matchesWon
+					home: data.home.name,
+					guest: data.guest.name,
+					homeSets: data.home.matchesWon,
+					guestSets: data.guest.matchesWon
 				})
 				this.render();
 			}

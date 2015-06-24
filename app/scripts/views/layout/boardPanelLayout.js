@@ -37,12 +37,12 @@ function( Backbone, Tooltip, Bootbox, Communicator, BoardpanellayoutTmpl, Dialog
 		},
 
 		_onClickAddMatch: function () {
-			App.module('DialogModule').showConfirm('Spielpaarung hunzuf&uuml;gen', DialogEncounterMatch, 'NewEncounterMatch');
+			App.module('DialogModule').showConfirm('Spielpaarung hunzuf&uuml;gen', DialogEncounterMatch, 'DoCallbackDummy');
 
 		},
 
 		_onClickCreateEncounter: function () {
-			App.module('DialogModule').showConfirm('Begegnung anlegen', DialogEncounter, 'NewEncounter');
+			App.module('DialogModule').showConfirm('Begegnung anlegen', DialogEncounter, 'UpdateOrCreateEncounter');
 		},
 
 		_onClickCreateTeam: function() {

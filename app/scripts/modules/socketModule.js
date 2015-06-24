@@ -23,8 +23,17 @@ function(App, SocketIo, Communicator) {
 				Communicator.mediator.trigger('APP:SOCKET:EVENT', data);
 			});
 			this.socketIo.on('user-registered', function(data){
-				console.log('SERVER-IS-ONLINE', data);
+				console.log('user-registered', data);
 				Communicator.mediator.trigger('APP:SOCKET:USER-REGISTERED', data);
+			});
+			this.socketIo.on('match-updated', function(data){
+				console.log('match-updated', data);
+				//Communicator.mediator.trigger('APP:SOCKET:MATCH-UPDATED', data);
+				Communicator.mediator.trigger('APP:SOCKET:MATCH-UPDATED:' + data, data);
+			});
+			this.socketIo.on('encounter-updated', function(data){
+				console.log('encounter-updated', data);
+				Communicator.mediator.trigger('APP:SOCKET:ENCOUNTER-UPDATED', data);
 			});
 			this.socketIo.on('SERVER-IS-ONLINE', function(data){
 				console.log('SERVER-IS-ONLINE', data);
@@ -88,22 +97,21 @@ function(App, SocketIo, Communicator) {
 			callback(null, self);
 		},
 
-		SocketModule.NewEncounterMatch = function (model, callback, self) {
-			var socketIo = App.module('SocketModule').socketIo;
-			socketIo.emit('new-encounter-match', model.attributes, function (data) {
-				//callback(data, self);
-			});
-
-			callback(null, self);
+		SocketModule.DoCallbackDummy = function (model, callback, self) {
+			if(callback) {
+				callback(null, self);
+			}
 		},
 
-		SocketModule.NewEncounter = function (model, callback, self) {
+		SocketModule.UpdateOrCreateEncounter = function (model, callback, self) {
 			var socketIo = App.module('SocketModule').socketIo;
-			socketIo.emit('new-encounter', model.attributes, function (data) {
+			socketIo.emit('update-or-create-encounter', model.attributes, function (data) {
 				//callback(data, self);
 			});
 
-			callback(null, self);
+			if(callback) {
+				callback(null, self);
+			}
 		},
 
 		SocketModule.GetTeams = function (callback) {

@@ -68,8 +68,16 @@ function( Backbone, Communicator, EncounterpanellayoutTmpl, EncounterMatches  ) 
 				this.model.set({
 					isEncounter: true,
 					uid: octopusStore.activeEncounter.uid,
-					home: octopusStore.activeEncounter.home,
-					guest: octopusStore.activeEncounter.guest
+					home: {
+						matchesWon: octopusStore.activeEncounter.home.matchesWon,
+						fkTeam: octopusStore.activeEncounter.home.fkTeam,
+						name: octopusStore.activeEncounter.home.name
+					},
+					guest: {
+						matchesWon: octopusStore.activeEncounter.guest.matchesWon,
+						fkTeam: octopusStore.activeEncounter.guest.fkTeam,
+						name: octopusStore.activeEncounter.guest.name
+					}
 				})
 			}
 		},
@@ -103,6 +111,8 @@ function( Backbone, Communicator, EncounterpanellayoutTmpl, EncounterMatches  ) 
 				localStorage.setItem('octopus', JSON.stringify(octopusStore));
 			}
 			this.render();
+
+			App.module('SocketModule').UpdateOrCreateEncounter(this.model);
 		},
 
 		/* on render callback */

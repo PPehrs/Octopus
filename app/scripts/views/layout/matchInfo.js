@@ -2,9 +2,9 @@ define([
 	'backbone',
 	'communicator',
 	'hbs!tmpl/layout/matchInfo_tmpl',
-	'views/composite/match/matchInfoScores'
+	'./infoBoard'
 ],
-function( Backbone, Communicator, MatchinfoTmpl  ) {
+function( Backbone, Communicator, MatchinfoTmpl, InfoBoard  ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -35,8 +35,7 @@ function( Backbone, Communicator, MatchinfoTmpl  ) {
 
     	/* Layout sub regions */
     	regions: {
-			Player1ActiveLeg: '.player1_matchInfoScores',
-			Player2ActiveLeg: '.player1_matchInfoScores'
+			MatchActiveLeg: '.octopus_matchInfoScoresActiveLeg'
 		},
 
     	/* ui selector cache */
@@ -47,18 +46,10 @@ function( Backbone, Communicator, MatchinfoTmpl  ) {
 
 		/* on render callback */
 		onRender: function() {
-			var p1 = this.model.get('p1');
-			var p2 = this.model.get('p2');
-
-			if(p1) {
-				//debugger
+			var activeLeg = this.model.get('activeLeg');
+			if(!_.isEmpty(activeLeg)) {
+				this.MatchActiveLeg.show(new InfoBoard({model: this.model}));
 			}
-
-			if(p2) {
-				//debugger
-
-			}
-
 		},
 
 		onShow: function () {
@@ -71,40 +62,42 @@ function( Backbone, Communicator, MatchinfoTmpl  ) {
 
 		_ticker: function () {
 			if(!this.isDestroyed) {
-				var self = this;
 				App.module('SocketModule').GetMatch(this.options.matchUid, this._onLoadMatch);
-				setTimeout(function () {
-					self._ticker();
-				}, 5000)
+				this.listenTo(Communicator.mediator, 'APP:SOCKET:MATCH-UPDATED:' + this.options.matchUid, this._newMatchData);
 			}
+		},
+
+		_newMatchData: function () {
+			App.module('SocketModule').GetMatch(this.options.matchUid, this._onLoadMatch);
 		},
 
 		_onLoadMatch: function (data) {
 			var m = {
 				p1Name: data.players[0].name,
 				p2Name: data.players[1].name,
-				p1Legs: data.players[0].legs,
-				p2Legs: data.players[1].legs,
+				p1Legs: data.players[0].legs?data.players[0].legs:0,
+				p2Legs: data.players[1].legs?data.players[0].legs:0,
 				p1: data.players[0],
 				p2: data.players[1],
 				activeLeg: data.activeLeg
 			}
 
 			this.model.set(m);
-			this.render();
 
 			if(data.fkEncounter) {
 				App.module('SocketModule').GetEncounter(data.fkEncounter, this._onShowEncounter);
 			}
+
+			this.render();
 		},
 
 		_onShowEncounter: function (data) {
 			var m = {
 				isEncounter: true,
-				home: data.home[0].name,
-				guest: data.guest[0].name,
-				homeSets: data.home[0].matchesWon,
-				guestSets: data.guest[0].matchesWon
+				home: data.home.name,
+				guest: data.guest.name,
+				homeSets: data.home.matchesWon,
+				guestSets: data.guest.matchesWon
 			}
 
 			this.model.set(m);

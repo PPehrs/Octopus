@@ -64,11 +64,13 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 
 			this.model.get('home').name = this.model.get('h');
 			this.model.get('guest').name = this.model.get('g');
+			this.model.get('home').fkTeam = this.model.get('home').fkTeam;
+			this.model.get('guest').fkTeam = this.model.get('guest').fkTeam;
 			this.model.unset('h');
 			this.model.unset('g');
 
 			octopusStore.activeEncounter = {
-				uui: this.model.get('uid'),
+				uid: this.model.get('uid'),
 				home: teamHome,
 				guest: teamGuest
 			}

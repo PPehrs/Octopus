@@ -190,7 +190,7 @@ function(App, Communicator) {
 		MatchModule.saveMatchToLocalStorage = function() {
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 			if(octopusStore.activeEncounter) {
-				this.match.fkEncounter  = octopusStore.activeEncounter.uui;
+				this.match.fkEncounter  = octopusStore.activeEncounter.uid;
 			}
 
 			if(!_.isEmpty(octopusStore.players)) {
@@ -355,6 +355,11 @@ function(App, Communicator) {
 		};
 
 		MatchModule.syncMatch = function () {
+			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+			if(_.isEmpty(octopusStore.activeEncounter)) {
+				return;
+			}
+
 			if(!_.isEmpty(this.match.players)) {
 				Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
 			}
