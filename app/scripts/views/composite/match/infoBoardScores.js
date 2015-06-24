@@ -21,6 +21,7 @@ function( Backbone, InfoboardscoresTmpl, BoardScore  ) {
 			var newCol = [];
 			newCol.push({rest: 501});
 			var lastRest = 501;
+			var totalScore = 0;
 			_.each(col, function (c) {
 				if (c.value >= 60 && c.value < 100) {
 					specialData.s += 1;
@@ -32,13 +33,14 @@ function( Backbone, InfoboardscoresTmpl, BoardScore  ) {
 					specialData.h8 += 1;
 				}
 
+				totalScore += Number(c.value);
 				var rest = lastRest - c.value;
 				newCol.push({rest: rest, value: c.value});
 				lastRest = rest;
 			});
 
 			if(newCol.length > 1) {
-				specialData.ave = ((501.00 - lastRest) / 3.00).toFixed(2);
+				specialData.ave = (totalScore / (newCol.length-1)).toFixed(2);
 			}
 
 
