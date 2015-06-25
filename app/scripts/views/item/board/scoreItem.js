@@ -115,7 +115,21 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
 		onClickCheckButton: function(e) {
 			var value = this.ui.scoreInput.val();
 			var checkDart = $(e.target).data('id');
-			this.triggerMethod('scoreItem:new:score', value, null, checkDart);
+			var missedDarts = 0;
+			if(checkDart == '3.') {
+				if(this.miss == 3) {
+					missedDarts = 2;
+				}
+				else if(this.miss == 2) {
+					missedDarts = 1;
+				}
+			}
+			else if(checkDart == '2.') {
+				if(this.miss == 3) {
+					missedDarts = 1;
+				}
+			}
+			this.triggerMethod('scoreItem:new:score', value, missedDarts, checkDart);
 			this.ui.scoreInput.val('');
 			this.focusInput();
 		},

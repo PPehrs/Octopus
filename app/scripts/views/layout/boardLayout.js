@@ -204,7 +204,7 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 		 */
 		_onNewScore: function (value, miss, check) {
 			if(check) {
-				this.matchModule.check(value, check);
+				this.matchModule.check(value, miss, check);
 				var result = this.matchModule.wonLegsAndSets();
 				this.ui.MatchResultQuickInfo.text(result.left.legsWon + ':' + result.right.legsWon);
 				this.ui.MatchRunningAlert.fadeIn();

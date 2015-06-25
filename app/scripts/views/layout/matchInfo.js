@@ -72,14 +72,22 @@ function( Backbone, Communicator, MatchinfoTmpl, InfoBoard  ) {
 		},
 
 		_onLoadMatch: function (data) {
+
 			var m = {
 				p1Name: data.players[0].name,
 				p2Name: data.players[1].name,
 				p1Legs: data.players[0].legs?data.players[0].legs:0,
-				p2Legs: data.players[1].legs?data.players[0].legs:0,
+				p2Legs: data.players[1].legs?data.players[1].legs:0,
 				p1: data.players[0],
 				p2: data.players[1],
-				activeLeg: data.activeLeg
+				activeLeg: data.activeLeg,
+				hasLegs: false
+			}
+
+			if(!_.isEmpty(data.sets)) {
+				m.hasLegs = true;
+				var res = App.module('StatisticController').calculateTotal(data);
+				_.extend(m, res);
 			}
 
 			this.model.set(m);

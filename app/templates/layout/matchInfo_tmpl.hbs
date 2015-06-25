@@ -20,5 +20,61 @@
         <div>:</div>
         <div>{{p2Legs}}</div>
     </div>
+	{{#if hasLegs }}
+		<div style="background:white;color:darkgray" class="fz-2 flex">
+			<div class="fz-2 flex">
+				<div style="background:black;color:lightgray">
+					<div style="margin:0 4px;text-align: center">Average</div>
+					<div style="text-align: center">{{ lData.ave }}</div>
+				</div>
+				<div style="background:darkgray;color:white">
+					<div style="margin:0 4px;text-align: center">Doppel</div>
+					<div style="text-align: center">{{ lData.dbl }}% {{ lData.checks }}/{{ lData.dblThrows }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">60+</div>
+					<div style="text-align: center">{{ lData.s }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">100+</div>
+					<div style="text-align: center">{{ lData.t }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">140+</div>
+					<div style="text-align: center">{{ lData.t4 }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">180</div>
+					<div style="text-align: center">{{ lData.h8 }}</div>
+				</div>
+			</div>
+			<div style="background:white;color:darkgray" class="fz-2 flex m-l">
+				<div style="background:black;color:lightgray">
+					<div style="margin:0 4px;text-align: center">Average</div>
+					<div style="text-align: center">{{ rData.ave }}</div>
+				</div>
+                <div style="background:darkgray;color:white">
+					<div style="margin:0 4px;text-align: center">Doppel</div>
+					<div style="text-align: center">{{ rData.dbl }}% {{ rData.checks }}/{{ rData.dblThrows }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">60+</div>
+					<div style="text-align: center">{{ rData.s }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">100+</div>
+					<div style="text-align: center">{{ rData.t }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">140+</div>
+					<div style="text-align: center">{{ rData.t4 }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">180</div>
+					<div style="text-align: center">{{ rData.h8 }}</div>
+				</div>
+			</div>
+		</div>
+	{{/if}}
     <div class="octopus_matchInfoScoresActiveLeg"></div>
 </div>

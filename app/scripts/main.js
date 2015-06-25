@@ -14,6 +14,7 @@ require([
 	'modules/dialogModule',
 	'modules/playerController',
 	'modules/encounterController',
+	'modules/statisticController',
 	'./global'
 ],
 function ( $, _, Backbone, Marionette, Stickit, App, Communicator, ApplicationStartRouter, ApplicationStartController) {

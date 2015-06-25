@@ -266,7 +266,7 @@ function(App, Communicator) {
 			}
 		};
 
-		MatchModule.check = function(value, check) {
+		MatchModule.check = function(value, miss, check) {
 			if(!this.match.started) {
 				return;
 			}
@@ -292,6 +292,10 @@ function(App, Communicator) {
 				playerLeftStartsLeg: playerLeftStartsLeg,
 				isLeft: isPlayerLeftActive
 			};
+
+			if(miss) {
+				_.extend(entry, {miss: miss});
+			}
 
 			var activeLeg = this.match.activeLeg;
 			activeLeg.entries.push(entry);
