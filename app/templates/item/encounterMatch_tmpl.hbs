@@ -1,16 +1,16 @@
 <div class="m-t alert-default">
 
-	<div>
+	<div class="clearfix">
 		{{#unless done}}
 			{{#unless started}}
-				<span class="c-p btn-start-encouter-match btn-default border-5" style="padding: 3px 8px;">Start</span>
+				<span class="c-p btn-start-encouter-match btn-warning border-5" style="padding: 3px 8px;">Start</span>
 			{{/unless}}
 		{{/unless}}
 
 		{{#if started}}
 			{{#unless done}}
        		<span class="c-p btn-end-encouter-match btn-success border-5" style="display:none;padding: 3px 8px;">
-			<i class="fa fa-check-circle-o"></i>
+			<i class="fa fa-check-circle-o m-r-s"></i>Fertig
 			</span>
 			{{/unless}}
 		{{/if}}
