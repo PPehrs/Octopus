@@ -59,9 +59,6 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			'playerName:change:activePlayer': function (child, isLeft) {
 				this._onActivePlayerChange(isLeft);
 			},
-			'playerName:change:name': function (child, name, isLeft, uid) {
-				this._onPlayerNameChange(name, isLeft, uid);
-			},
 			'playerScore:change:value': function (child, value, uid) {
 				this._onChangeScore(value, uid);
 			},
@@ -204,7 +201,9 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 		 */
 		_onNewScore: function (value, miss, check) {
 			if(check) {
-				this.matchModule.check(value, miss, check);
+				var activePlayer = this._getActivePlayerView();
+				var score = activePlayer.PlayerScoresRegion.currentView.collection.toJSON()[0].score;
+				this.matchModule.check(score, miss, check, value);
 				var result = this.matchModule.wonLegsAndSets();
 				this.ui.MatchResultQuickInfo.text(result.left.legsWon + ':' + result.right.legsWon);
 				this.ui.MatchRunningAlert.fadeIn();

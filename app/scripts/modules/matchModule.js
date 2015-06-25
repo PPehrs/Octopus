@@ -24,7 +24,7 @@ function(App, Communicator) {
 			}
 
 			if(value === 50) {
-				return 1;
+				return 3;
 			}
 
 			if((value < 99 && value > 40)) {
@@ -266,7 +266,7 @@ function(App, Communicator) {
 			}
 		};
 
-		MatchModule.check = function(value, miss, check) {
+		MatchModule.check = function(value, miss, check, checkValue) {
 			if(!this.match.started) {
 				return;
 			}
@@ -286,8 +286,10 @@ function(App, Communicator) {
 			}
 
 			var set = this.match.sets[this.match.activeSet];
+
 			var entry = {
 				value: value,
+				checkValue: value,
 				check: check,
 				playerLeftStartsLeg: playerLeftStartsLeg,
 				isLeft: isPlayerLeftActive

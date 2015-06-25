@@ -18,7 +18,9 @@ function(App, Communicator, PlayerModel) {
 				s: 0,
 				t: 0,
 				t4: 0,
-				h8: 0
+				h8: 0,
+				ckdVal: [],
+				hasCheckVals: false
 			}
 
 			var newCol = [];
@@ -43,6 +45,7 @@ function(App, Communicator, PlayerModel) {
 				if(c.check) {
 					checks += 1;
 					dblThrows += 1;
+					specialData.ckdVal.push(c.value);
 				}
 
 				if(c.miss) {
@@ -66,6 +69,11 @@ function(App, Communicator, PlayerModel) {
 				} else {
 					specialData.dbl = ((checks / dblThrows) * 100).toFixed(0);
 				}
+			}
+
+			if(!_.isEmpty(specialData.ckdVal)) {
+				specialData.hasCheckVals = true;
+				specialData.ckdValText = specialData.ckdVal.join();
 			}
 
 			specialData.dblThrows = dblThrows;

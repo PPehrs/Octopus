@@ -22,7 +22,7 @@
     </div>
 	{{#if hasLegs }}
 		<div style="background:white;color:darkgray" class="fz-2 flex">
-			<div class="fz-2 flex">
+			<div style="width:50%" class="fz-2 flex">
 				<div style="background:black;color:lightgray">
 					<div style="margin:0 4px;text-align: center">Average</div>
 					<div style="text-align: center">{{ lData.ave }}</div>
@@ -48,7 +48,7 @@
 					<div style="text-align: center">{{ lData.h8 }}</div>
 				</div>
 			</div>
-			<div style="background:white;color:darkgray" class="fz-2 flex m-l">
+			<div style="width:50%" style="background:white;color:darkgray" class="fz-2 flex m-l">
 				<div style="background:black;color:lightgray">
 					<div style="margin:0 4px;text-align: center">Average</div>
 					<div style="text-align: center">{{ rData.ave }}</div>
@@ -75,6 +75,16 @@
 				</div>
 			</div>
 		</div>
+    	<div style="width:50%;background-color:beige;color:gray;" class="fz-2">
+			{{#if lData.hasCheckVals}}
+                <div><i><span>Checks: </span>{{ lData.ckdValText }}</i></div>
+			{{/if}}
+		</div>
+    	<div style="width:50%;background-color:beige;color:gray;" class="fz-2">
+			{{#if r.Data.hasCheckVals}}
+                <div><i><span>Checks: </span>{{ rData.ckdValText }}</i></div>
+			{{/if}}
+        </div>
 	{{/if}}
     <div class="octopus_matchInfoScoresActiveLeg"></div>
 </div>
