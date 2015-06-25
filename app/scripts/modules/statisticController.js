@@ -93,8 +93,10 @@ function(App, Communicator, PlayerModel) {
 				entries.push(match.activeLeg.entries)
 			}
 
-			var l = _.where(entries[0], {isLeft: true});
-			var r = _.where(entries[0], {isLeft: false});
+			entries = _.flatten(entries);
+
+			var l = _.where(entries, {isLeft: true});
+			var r = _.where(entries, {isLeft: false});
 
 			var lData = StatisticController.calculateTotalFromPlayer(l, legCount);
 			var rData = StatisticController.calculateTotalFromPlayer(r, legCount);
