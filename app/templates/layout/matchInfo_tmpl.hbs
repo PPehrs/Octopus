@@ -75,15 +75,17 @@
 				</div>
 			</div>
 		</div>
-    	<div style="width:50%;background-color:beige;color:gray;" class="fz-2">
-			{{#if lData.hasCheckVals}}
-                <div><i><span>Checks: </span>{{ lData.ckdValText }}</i></div>
-			{{/if}}
-		</div>
-    	<div style="width:50%;background-color:beige;color:gray;" class="fz-2">
-			{{#if rData.hasCheckVals}}
-                <div><i><span>Checks: </span>{{ rData.ckdValText }}</i></div>
-			{{/if}}
+		<div class="flex">
+	    	<div style="width:50%;background-color:beige;color:gray;" class="fz-2">
+				{{#if lData.hasCheckVals}}
+	                <div><i><span>Checks: </span>{{ lData.ckdValText }}</i></div>
+				{{/if}}
+			</div>
+	    	<div style="width:50%;background-color:beige;color:gray;" class="fz-2">
+				{{#if rData.hasCheckVals}}
+	                <div><i><span>Checks: </span>{{ rData.ckdValText }}</i></div>
+				{{/if}}
+	        </div>
         </div>
 	{{/if}}
     <div class="octopus_matchInfoScoresActiveLeg"></div>

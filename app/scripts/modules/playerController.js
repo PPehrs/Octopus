@@ -61,6 +61,9 @@ function(App, Communicator, PlayerModel) {
 			p1.isLeft = !p1.isLeft;
 			p2.isLeft = !p2.isLeft;
 
+			p1.isPlayerActive = !p1.isPlayerActive;
+			p2.isPlayerActive = !p2.isPlayerActive;
+
 			p1View.model = new PlayerModel(p2);
 			p2View.model = new PlayerModel(p1);
 
