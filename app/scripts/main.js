@@ -12,6 +12,7 @@ require([
 	'regionManager',
 	'modules/socketModule',
 	'modules/dialogModule',
+	'modules/loginModule',
 	'modules/playerController',
 	'modules/encounterController',
 	'modules/statisticController',
@@ -49,3 +50,4 @@ function ( $, _, Backbone, Marionette, Stickit, App, Communicator, ApplicationSt
 
 	App.start();
 });
+

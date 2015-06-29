@@ -2,24 +2,23 @@ define([
 	'backbone',
 	'backbone.marionette',
 	'bootbox',
+	'communicator',
 	'hbs!tmpl/layout/homeLayout_tmpl',
 
+	'../composite/home/onlinePlayers',
 	'../composite/home/registeredPlayers',
 	'../composite/home/liveMatches',
-
-	'../item/board/dialogRegister',
-	'../item/board/dialogLogin'
 ],
 function( Backbone,
 		  Marionette,
 		  Bootbox,
+		  Communicator,
 		  HomelayoutTmpl,
 
+		  OnlinePlayers,
 		  RegisteredPlayers,
-		  LiveMatches,
-
-		  DialogRegister,
-		  DialogLogin ) {
+		  LiveMatches
+ ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -31,7 +30,8 @@ function( Backbone,
     	/* Layout sub regions */
     	regions: {
 			panelPlayerRegisteredRegion: '#panelPlayerRegisteredRegion',
-			panelEncounterLiveRegion: '#panelEncounterLiveRegion'
+			panelEncounterLiveRegion: '#panelEncounterLiveRegion',
+			panelPlayerOnlineRegion: '#panelPlayerOnlineRegion'
 		},
 
     	/* ui selector cache */
@@ -39,6 +39,7 @@ function( Backbone,
     		buttonStartNewGame: '#btnStartNewGame',
     		buttonLoginPlayer: '#btnLoginPlayer',
     		buttonRegisterPlayer: '#btnRegisterPlayer',
+			buttonPlayerProfile: '#btnPlayerProfile'
     	},
 
 		/* Ui events hash */
@@ -48,10 +49,26 @@ function( Backbone,
 			'click @ui.buttonRegisterPlayer': '_onClickButtonRegisterPlayer'
 		},
 
+		initialize: function () {
+			this.listenTo(Communicator.mediator, 'DialogModule:LOGGED-IN', this.onLoggedIn);
+			this.listenTo(Communicator.mediator, 'DialogModule:LOGGED-OUT', this.onLoggedOut);
+		},
+
+		onLoggedOut: function () {
+			this.ui.buttonPlayerProfile.hide();
+			this.ui.buttonLoginPlayer.show();
+		},
+
+		onLoggedIn: function () {
+			this.ui.buttonPlayerProfile.show();
+			this.ui.buttonLoginPlayer.hide();
+		},
+
 		/* on render callback */
 		onRender: function() {
-			this.panelPlayerRegisteredRegion.show(new RegisteredPlayers());
 			this.panelEncounterLiveRegion.show(new LiveMatches());
+			this.panelPlayerRegisteredRegion.show(new RegisteredPlayers());
+			this.panelPlayerOnlineRegion.show(new OnlinePlayers());
 		},
 
 		_onClickButtonStartNewGame: function() {
@@ -60,11 +77,11 @@ function( Backbone,
 		},
 
 		_onClickButtonLoginPlayer: function() {
-			App.module('DialogModule').showConfirm('Anmelden', DialogLogin);
+			App.module('LoginModule').login();
 		},
 
 		_onClickButtonRegisterPlayer: function() {
-			App.module('DialogModule').showConfirm('Registrieren', DialogRegister, 'RegisterUser');
+			App.module('LoginModule').register();
 		}
 
 

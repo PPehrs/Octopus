@@ -8,7 +8,8 @@ function( Backbone ) {
 	return Backbone.Model.extend({
 		defaults: {
 			username: '',
-			pw: ''
+			pw: '',
+			email: ''
 		},
 
     });
