@@ -26,10 +26,13 @@ function(App, SocketIo, Communicator) {
 				console.log('user-registered', data);
 				Communicator.mediator.trigger('APP:SOCKET:USER-REGISTERED', data);
 			});
-			this.socketIo.on('match-updated', function(data){
-				console.log('match-updated', data);
-				//Communicator.mediator.trigger('APP:SOCKET:MATCH-UPDATED', data);
-				Communicator.mediator.trigger('APP:SOCKET:MATCH-UPDATED:' + data, data);
+			this.socketIo.on('user-registered', function(data){
+				console.log('user-registered', data);
+				Communicator.mediator.trigger('APP:SOCKET:USER-REGISTERED', data);
+			});
+			this.socketIo.on('user-logged-in', function(data){
+				console.log('user-logged-in', data);
+				Communicator.mediator.trigger('APP:SOCKET:USER-LOGGED-IN', data);
 			});
 			this.socketIo.on('encounter-updated', function(data){
 				console.log('encounter-updated', data);
@@ -89,6 +92,48 @@ function(App, SocketIo, Communicator) {
 			});
 		},
 
+		SocketModule.ReLoginUser = function (lData) {
+			if(lData && lData.id) {
+				var socketIo = App.module('SocketModule').socketIo;
+				socketIo.emit('re-login-user', lData, function (data) {
+					Communicator.mediator.trigger('DialogModule:LOGGED-IN', data);
+				});
+			}
+		};
+
+		SocketModule.LogOutUser = function (lData) {
+			var dmO = localStorage.getItem('dm-o');
+			if (dmO) {
+				var id = JSON.parse(dmO).id
+				var socketIo = App.module('SocketModule').socketIo;
+				socketIo.emit('log-out-user', JSON.parse(dmO).id, function () {
+					Communicator.mediator.trigger('DialogModule:LOGGED-OUT');
+				});
+			}
+		};
+
+
+
+		SocketModule.LoginUser = function (model, callback, self) {
+			var o = model.toJSON();
+			if((!o.username || !o.pw) && o.email) {
+				var socketIo = App.module('SocketModule').socketIo;
+				socketIo.emit('send-pw', o.email, function (data) {
+					callback(data, self);
+				});
+			} else if (o.username && o.pw) {
+				var socketIo = App.module('SocketModule').socketIo;
+				socketIo.emit('login-user', {username: o.username, pw: o.pw}, function (data) {
+					callback(data, self);
+				});
+			} else {
+				var err = {
+					error: 'MISSING_FIELDS'
+				}
+				callback(err, self);
+			}
+		},
+
 		SocketModule.NewTeam = function (model, callback, self) {
 			var socketIo = App.module('SocketModule').socketIo;
 			socketIo.emit('update-or-create-team', model.attributes, function (data) {
@@ -132,6 +177,10 @@ function(App, SocketIo, Communicator) {
 
 		SocketModule.GetRegisteredUser = function (callback) {
 			this.emit('get-registered-users', null, callback);
+		},
+
+		SocketModule.GetLoggedInUser = function (callback) {
+				this.emit('get-logged-in-users', null, callback);
 		},
 
 		SocketModule.OnlineInformation = function () {

@@ -10,7 +10,8 @@ function(App, Bootbox, Tooltip, Communicator) {
 
 		DialogModule.startWithParent = true;
 
-		DialogModule.dialogErrorText = '<div class="dialog-error-text">Fehler<i class="m-l-s fa fa-info-circle"></i></div>';
+		DialogModule.dialogErrorText = '<div class="alert alert-danger dialog-error-text">Fehler<i class="m-l-s fa fa-info-circle"></i></div>';
+		DialogModule.dialogInfoText = '<div class="alert alert-info dialog-error-text">Info: {0}<i class="m-l-s fa fa-check-circle"></i></div>';
 		DialogModule.dialogWaitInfo = '<i class="fa fa-spin fa-spinner"></i>';
 		DialogModule.dialogOk = '<i class="fa fa-check-circle"></i>';
 
@@ -20,13 +21,26 @@ function(App, Bootbox, Tooltip, Communicator) {
 
 		DialogModule.showConfirmSocketResult = function (data, self) {
 			if(data && data.error) {
-				$('.modal-footer').append(self.dialogErrorText);
+				$('.modal-footer').append(
+					self.dialogErrorText
+				);
 				$('.modal-footer .btn-primary').html('Ok');
 				$('.modal-footer .dialog-error-text').tooltipster({
 					content: $(
 						'<span>' + data.error + '</span>'
 					)
 				});
+			} else if(data && data.info) {
+				$('.modal-footer').append(
+					octopus.replace(self.dialogInfoText, data.info)
+				);
+				$('.modal-footer .btn-primary').html('Ok');
+
+				$('.modal-footer .btn-primary').html(self.dialogOk);
+				setTimeout(function () {
+					self.close();
+				}, 3000);
+				Communicator.mediator.trigger('DialogModule:' + data.info, data);
 			} else {
 				$('.modal-footer .btn-primary').html(self.dialogOk);
 				setTimeout(function () {
