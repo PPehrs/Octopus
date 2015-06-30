@@ -29,36 +29,26 @@ define([
 			events: {},
 
 			initialize: function () {
-				_.bindAll(this, '_onLoadLiveMatches');
+				_.bindAll(this, '_onLoadLiveEncounters');
 			},
 
 			/* on render callback */
 			onRender: function() {
-				this.listenTo(Communicator.mediator, 'APP:SOCKET:MATCH-UPDATED', this._loadLiveMatches);
-				this.listenTo(Communicator.mediator, 'APP:SOCKET:CONNECTED', this._loadLiveMatches);
+				this.listenTo(Communicator.mediator, 'APP:SOCKET:MATCH-UPDATED', this._loadLiveEncounters);
+				this.listenTo(Communicator.mediator, 'APP:SOCKET:CONNECTED', this._loadLiveEncounters);
 			},
 
 
 			onShow: function () {
-				this._ticker();
+				this._loadLiveEncounters();
 			},
 
-			_ticker: function () {
-				var self = this;
-				if(!self.isDestroyed) {
-					self._loadLiveMatches();
-					setTimeout(function () {
-						self._ticker();
-					}, 30000)
-				}
+			_loadLiveEncounters: function () {
+				App.module('SocketModule').GetLiveEncounters(this._onLoadLiveEncounters);
 			},
 
-			_loadLiveMatches: function () {
-				App.module('SocketModule').GetLiveMatches(this._onLoadLiveMatches);
-			},
-
-			_onLoadLiveMatches: function (data) {
-				data = _.sortBy(data, function(data){ return data.startDateTime; }).reverse();
+			_onLoadLiveEncounters: function (data) {
+				data = _.sortBy(data, function(data){ return data.createdDateTime; }).reverse();
 				this.collection = new Backbone.Collection(data);
 				this.render();
 			}

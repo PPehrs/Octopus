@@ -1,25 +1,26 @@
 <div class="fz-2 c-p octopus_liveMatch_container home-match-container clearfix">
 	<a class="img-circle" style="text-align: center;background-color:#337ab7;width:3vw;height:3vw;float:left" href="javascript:;"><i style="vertical-align: middle;color:white" class="fa fa-trophy"></i></a>
 
-	{{#if isEncounter}}
-		<div class="m-l-vb flex" style="background-color: black;color: white;border:1px dotted;border-radius:5px;font-weight: normal;margin-bottom: 5px;">
-			<div>{{home}}</div>
+	<div class="m-l-vb flex clearfix" style="background-color: black;color: white;border:1px dotted;border-radius:5px;font-weight: normal;margin-bottom: 5px;">
+		<div>{{home}}</div>
+		<div class="m-l-s m-r-s">vs.</div>
+		<div>{{guest}}</div>
+		<div class="m-l">{{homeSets}}</div>
+		<div>:</div>
+		<div>{{guestSets}}</div>
+	</div>
+
+
+	{{#if isLiveMatch}}
+		<div class="m-l-vb flex">
+			<div>{{p1Name}}</div>
 			<div class="m-l-s m-r-s">vs.</div>
-			<div>{{guest}}</div>
-			<div class="m-l">{{homeSets}}</div>
+			<div>{{p2Name}}</div>
+			<div class="m-l">{{p1Legs}}</div>
 			<div>:</div>
-			<div>{{guestSets}}</div>
+			<div>{{p2Legs}}</div>
 		</div>
 	{{/if}}
-
-	<div class="m-l-vb flex">
-		<div>{{p1Name}}</div>
-		<div class="m-l-s m-r-s">vs.</div>
-		<div>{{p2Name}}</div>
-        <div class="m-l">{{p1Legs}}</div>
-        <div>:</div>
-        <div>{{p2Legs}}</div>
-    </div>
 </div>
 
 

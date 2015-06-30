@@ -11,16 +11,13 @@ function( Backbone, Communicator, MatchinfoTmpl, InfoBoard  ) {
 	return Backbone.Marionette.LayoutView.extend({
 
 		initialize: function() {
-
-			_.bindAll(this, '_onLoadMatch' ,'_onShowEncounter');
+			if(!this.options.matchUid) {
+				this.options.matchUid = this.model.get('fkMatch');
+			}
+			_.bindAll(this, '_onLoadMatch');
 			this.listenTo(Communicator.mediator, 'APP:SOCKET:CONNECTED', this._onSocketConnected);
 
 			var m = {
-					isEncounter: false,
-					home:'',
-					guest:'',
-					homeSets: 0,
-					guestSets: 0,
 					p1Name: '',
 					p2Name: '',
 					p1Legs: 0,
@@ -28,6 +25,7 @@ function( Backbone, Communicator, MatchinfoTmpl, InfoBoard  ) {
 				}
 
 			this.model = new Backbone.Model(m);
+			this.listenTo(Communicator.mediator, 'APP:SOCKET:MATCH-UPDATED:' + this.options.matchUid, this._newMatchData);
 		},
 
     	template: MatchinfoTmpl,
@@ -37,12 +35,6 @@ function( Backbone, Communicator, MatchinfoTmpl, InfoBoard  ) {
     	regions: {
 			MatchActiveLeg: '.octopus_matchInfoScoresActiveLeg'
 		},
-
-    	/* ui selector cache */
-    	ui: {},
-
-		/* Ui events hash */
-		events: {},
 
 		/* on render callback */
 		onRender: function() {
@@ -63,7 +55,6 @@ function( Backbone, Communicator, MatchinfoTmpl, InfoBoard  ) {
 		_ticker: function () {
 			if(!this.isDestroyed) {
 				App.module('SocketModule').GetMatch(this.options.matchUid, this._onLoadMatch);
-				this.listenTo(Communicator.mediator, 'APP:SOCKET:MATCH-UPDATED:' + this.options.matchUid, this._newMatchData);
 			}
 		},
 
@@ -92,23 +83,6 @@ function( Backbone, Communicator, MatchinfoTmpl, InfoBoard  ) {
 
 			this.model.set(m);
 
-			if(data.fkEncounter) {
-				App.module('SocketModule').GetEncounter(data.fkEncounter, this._onShowEncounter);
-			}
-
-			this.render();
-		},
-
-		_onShowEncounter: function (data) {
-			var m = {
-				isEncounter: true,
-				home: data.home.name,
-				guest: data.guest.name,
-				homeSets: data.home.matchesWon,
-				guestSets: data.guest.matchesWon
-			}
-
-			this.model.set(m);
 			this.render();
 		}
 	});

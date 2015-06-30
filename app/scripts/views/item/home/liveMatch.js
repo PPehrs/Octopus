@@ -23,15 +23,15 @@ define([
 
 			onClickMatchContainer: function () {
 				var router = new Backbone.Router();
-				var id = this.model.get('fkMatch');
-				router.navigate('match/' + id, {trigger: true});
+				var id = this.model.get('fkEncounter');
+				router.navigate('encounter/' + id, {trigger: true});
 			},
 
 			initialize: function () {
 				_.bindAll(this, 'onShowEncounter' );
 				var players = this.model.get('players')
-				var m = {
-					isEncounter: false,
+				/*var m = {
+					isLiveMatch: false,
 					home: '',
 					guest: '',
 					homeSets: '',
@@ -40,7 +40,20 @@ define([
 					p1Legs: (players && players.length > 0 )?(players[0].legs?players[0].legs:0):'',
 					p2Name: (players && players.length > 1 )?players[1].name:'',
 					p2Legs: (players && players.length > 0 )?(players[1].legs?players[1].legs:0):''
-				};
+				};*/
+				var d = this.model.toJSON();
+				var m = {
+					 fkEncounter: d.uid,
+					 isLiveMatch: false,
+					 home: d.home.name,
+					 guest: d.guest.name,
+					 homeSets: d.home.matchesWon,
+					 guestSets: d.guest.matchesWon,
+					 p1Name: '',
+					 p1Legs: '',
+					 p2Name: '',
+					 p2Legs: ''
+				 };
 
 				this.model.set(m);
 			},

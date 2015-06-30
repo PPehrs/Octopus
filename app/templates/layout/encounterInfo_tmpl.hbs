@@ -1,0 +1,27 @@
+{{#if loaded}}
+
+<div class="well fz-2">
+    <div class="flex" style="text-align: center;">
+        <div>{{home}}</div>
+        <div class="m-l-s m-r-s">vs.</div>
+        <div>{{guest}}</div>
+        <div class="m-l">{{homeSets}}</div>
+        <div>:</div>
+        <div>{{guestSets}}</div>
+    </div>
+</div>
+
+
+<div class="well fz-3">
+    <div class="octopus_activeMatchInfo"><div class="h3">Momentan kein Live-Match</div></div>
+</div>
+
+<div class="well fz-3">
+    <div class="octopus_doneMatchesInfo"></div>
+</div>
+
+{{else}}
+
+<i class="fa fa-spin fa-spinner"></i>
+
+{{/if}}

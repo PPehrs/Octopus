@@ -6,6 +6,7 @@ function(App, Communicator) {
 	App.module('MatchModule', function(MatchModule) {
 		'use strict';
 
+		MatchModule.cold = false;
 		MatchModule.started = false;
 		MatchModule.match = {};
 
@@ -173,7 +174,10 @@ function(App, Communicator) {
 
 		MatchModule.addFinalizer(function() {
 			this.match = {};
-			this.deleteMatchFromLocalStorage();
+			if(!MatchModule.cold) {
+				this.deleteMatchFromLocalStorage();
+			}
+			MatchModule.cold = false;
 			this.started = false;
 
 			//===> fire match done

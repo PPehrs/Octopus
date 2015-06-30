@@ -14,11 +14,37 @@ function( Backbone, Communicator, EncounterpanellayoutTmpl, EncounterMatches  ) 
 			this.onLoadEncounter();
 		},
 
+		ui: {
+			ButtonDublicate: '.btn-dublicate-encouter-match'
+		},
+
+		events: {
+			'click @ui.ButtonDublicate': 'onDublicate'
+		},
+
 		regions: {
 			ActiveEncounterMatchesRegion: '#octopus_activeEncounterMatches'
 		},
 
     	template: EncounterpanellayoutTmpl,
+
+		onDublicate: function () {
+			var newMatch = {
+				uid: octopus.uuid(),
+				p1: {
+					name: this.model.get('home').name,
+					legs: 0,
+					uid: _.uniqueId()
+				},
+				p2: {
+					name: this.model.get('guest').name,
+					legs: 0,
+					uid: _.uniqueId()
+				}
+			}
+			App.module('EncounterController').add(newMatch);
+			Communicator.mediator.trigger('dialogEncounterMatch:encounter:confirmed');
+		},
 
 		onEncounterMatchConfirmed: function() {
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
@@ -81,12 +107,6 @@ function( Backbone, Communicator, EncounterpanellayoutTmpl, EncounterMatches  ) 
 				})
 			}
 		},
-
-    	/* ui selector cache */
-    	ui: {},
-
-		/* Ui events hash */
-		events: {},
 
 		_onEncounterMatchReady: function () {
 			var home = 0;

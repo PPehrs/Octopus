@@ -1,24 +1,24 @@
 define([
 	'backbone',
-	'hbs!tmpl/composite/matchInfoScores_tmpl',
-	'views/item/match/matchInfoScore'
+	'hbs!tmpl/composite/matchInfoContainer_tmpl',
+	'../layout/matchInfo'
 ],
-function( Backbone, MatchinfoscoresTmpl, MatchInfoScore  ) {
+function( Backbone, MatchinfocontainerTmpl, MatchInfo  ) {
     'use strict';
 
 	/* Return a CompositeView class definition */
 	return Backbone.Marionette.CompositeView.extend({
 
-    	template: MatchinfoscoresTmpl,
+    	template: MatchinfocontainerTmpl,
 
 
     	/* ui selector cache */
     	ui: {},
 
-		childView: MatchInfoScore,
+		childView: MatchInfo,
 
     	/* where are we appending the items views */
-    	childViewContainer: ".octopus_matchInfoScore",
+		childViewContainer: '.octopus_encounterMatchInfos',
 
 		/* Ui events hash */
 		events: {},

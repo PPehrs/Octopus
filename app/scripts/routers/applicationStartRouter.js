@@ -4,9 +4,10 @@ define([
 	'application',
 	'../views/layout/boardLayout',
 	'../views/layout/matchInfo',
-	'../views/layout/profileLayout',
+	'../views/layout/encounterInfo',
+	'../views/layout/profileLayout'
 ],
-function(Backbone, Marionette, App, BoardLayout, MatchInfo, ProfileLayout){
+function(Backbone, Marionette, App, BoardLayout, MatchInfo, EncounterInfo, ProfileLayout){
     'use strict';
 
 	return Backbone.Marionette.AppRouter.extend({
@@ -14,7 +15,9 @@ function(Backbone, Marionette, App, BoardLayout, MatchInfo, ProfileLayout){
 		appRoutes: {
       		'': 'showHome'
     	},
+
 		routes: {
+			'encounter/:id': 'showEncounter',
 			'match/:id': 'showMatch',
 			'profile/:id': 'showProfile',
 			'board': 'showBoard',
@@ -32,6 +35,10 @@ function(Backbone, Marionette, App, BoardLayout, MatchInfo, ProfileLayout){
 			App.mainRegion.show(new MatchInfo({matchUid: id}));
 		},
 
+		showEncounter: function(id) {
+			App.mainRegion.show(new EncounterInfo({encounterUid: id}));
+		},
+
 		showProfile: function(id) {
 			App.mainRegion.show(new ProfileLayout({userId: id}));
 		},
@@ -41,3 +48,4 @@ function(Backbone, Marionette, App, BoardLayout, MatchInfo, ProfileLayout){
 		}
 	});
 });
+

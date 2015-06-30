@@ -30,13 +30,18 @@ function(App, SocketIo, Communicator) {
 				console.log('user-registered', data);
 				Communicator.mediator.trigger('APP:SOCKET:USER-REGISTERED', data);
 			});
+			this.socketIo.on('match-updated', function(data){
+				Communicator.mediator.trigger('APP:SOCKET:MATCH-UPDATED:' + data, data);
+			});
+			this.socketIo.on('encounter-updated', function(data){
+				Communicator.mediator.trigger('APP:SOCKET:ENCOUNTER-UPDATED:' + data, data);
+			});
 			this.socketIo.on('user-logged-in', function(data){
 				console.log('user-logged-in', data);
 				Communicator.mediator.trigger('APP:SOCKET:USER-LOGGED-IN', data);
 			});
 			this.socketIo.on('encounter-updated', function(data){
-				console.log('encounter-updated', data);
-				Communicator.mediator.trigger('APP:SOCKET:ENCOUNTER-UPDATED', data);
+				Communicator.mediator.trigger('APP:SOCKET:ENCOUNTER-UPDATED:' + data, data);
 			});
 			this.socketIo.on('SERVER-IS-ONLINE', function(data){
 				console.log('SERVER-IS-ONLINE', data);
@@ -167,12 +172,20 @@ function(App, SocketIo, Communicator) {
 			this.emit('get-live-matches', null, callback);
 		},
 
+		SocketModule.GetLiveEncounters = function (callback) {
+			this.emit('get-live-encounters', null, callback);
+		},
+
+		SocketModule.GetEncounterMatches = function (data, callback) {
+			this.emit('get-encounter-matches', data, callback);
+		},
+
 		SocketModule.GetMatch = function (uid, callback) {
 			this.emit('get-match', {uid:uid}, callback);
 		},
 
 		SocketModule.GetEncounter = function (fkEncounter, callback) {
-			this.emit('get-encounter', {uid: fkEncounter}, callback);
+			this.emit('get-encounter', fkEncounter, callback);
 		},
 
 		SocketModule.GetRegisteredUser = function (callback) {

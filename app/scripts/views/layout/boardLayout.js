@@ -395,6 +395,7 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			this.ui.CheckBoxTransmit.bootstrapSwitch();
 
 			//---------------------------------------------
+			this.matchModule.cold = true;
 			this._startNewMatch();
 			//---------------------------------------------
 
