@@ -14,6 +14,7 @@ function( Backbone, Communicator, EncounterinfoTmpl, MatchInfoContainer  ) {
 
 			_.bindAll(this, '_onShowEncounter', '_onShowMatches');
 			this.listenTo(Communicator.mediator, 'APP:SOCKET:CONNECTED', this._onSocketConnected);
+			this.listenTo(Communicator.mediator, 'APP:SOCKET:ENCOUNTER-UPDATED:' + this.options.encounterUid, this._onLoadEncounter);
 
 			var m = {
 				    loaded: false,

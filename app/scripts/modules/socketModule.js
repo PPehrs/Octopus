@@ -19,15 +19,12 @@ function(App, SocketIo, Communicator) {
 				Communicator.mediator.trigger('APP:SOCKET:CONNECTED');
 			});
 			this.socketIo.on('event', function(data){
-				console.log('socket event', data);
 				Communicator.mediator.trigger('APP:SOCKET:EVENT', data);
 			});
 			this.socketIo.on('user-registered', function(data){
-				console.log('user-registered', data);
 				Communicator.mediator.trigger('APP:SOCKET:USER-REGISTERED', data);
 			});
 			this.socketIo.on('user-registered', function(data){
-				console.log('user-registered', data);
 				Communicator.mediator.trigger('APP:SOCKET:USER-REGISTERED', data);
 			});
 			this.socketIo.on('match-updated', function(data){
@@ -37,10 +34,10 @@ function(App, SocketIo, Communicator) {
 				Communicator.mediator.trigger('APP:SOCKET:ENCOUNTER-UPDATED:' + data, data);
 			});
 			this.socketIo.on('user-logged-in', function(data){
-				console.log('user-logged-in', data);
 				Communicator.mediator.trigger('APP:SOCKET:USER-LOGGED-IN', data);
 			});
 			this.socketIo.on('encounter-updated', function(data){
+				Communicator.mediator.trigger('APP:SOCKET:ENCOUNTER-UPDATED', data);
 				Communicator.mediator.trigger('APP:SOCKET:ENCOUNTER-UPDATED:' + data, data);
 			});
 			this.socketIo.on('SERVER-IS-ONLINE', function(data){

@@ -36,6 +36,7 @@ define([
 			onRender: function() {
 				this.listenTo(Communicator.mediator, 'APP:SOCKET:MATCH-UPDATED', this._loadLiveEncounters);
 				this.listenTo(Communicator.mediator, 'APP:SOCKET:CONNECTED', this._loadLiveEncounters);
+				this.listenTo(Communicator.mediator, 'APP:SOCKET:ENCOUNTER-UPDATED', this._loadLiveEncounters);
 			},
 
 
