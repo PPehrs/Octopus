@@ -35,7 +35,16 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 			'click @ui.MainMenuDartscorer': 'onClickMainMenuDartscorer',
 			'click @ui.MainMenuLogin': '_onClickButtonLoginPlayer',
 			'click @ui.MainMenuRegister': '_onClickButtonRegisterPlayer',
-			'click @ui.MainMenuLogout': '_onClickButtonLogout'
+			'click @ui.MainMenuLogout': '_onClickButtonLogout',
+			'click @ui.MainMenuPlayerProfile': '_onClickButtonPlayerProfile'
+		},
+
+		_onClickButtonPlayerProfile: function () {
+			if(App.module('LoginModule').isLoggedIn()) {
+				var router = new Backbone.Router();
+				var userId = App.module('LoginModule').loggedInUserId()
+				router.navigate('profile/' + userId, {trigger: true});
+			}
 		},
 
 		_onClickButtonLogout: function () {

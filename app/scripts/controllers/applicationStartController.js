@@ -25,7 +25,8 @@ function( Backbone, Marionette, App, HomeLayout, MainMenu ) {
         },
 
 		notFound: function() {
-			alert('gift')
+			console.log("home");
+			App.mainRegion.show(new HomeLayout());
 		}
 	});
 

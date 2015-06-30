@@ -361,6 +361,9 @@ function(App, Communicator) {
 		};
 
 		MatchModule.syncMatch = function () {
+			if(!App.module('LoginModule').isLoggedIn()) {
+				return;
+			}
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 			if(_.isEmpty(octopusStore.activeEncounter)) {
 				return;

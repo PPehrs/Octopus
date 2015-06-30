@@ -27,6 +27,23 @@ function(App, Bootbox, Tooltip, Communicator, DialogRegister, DialogLogin) {
 			localStorage.setItem('dm-o', JSON.stringify(res.data));
 		};
 
+		LoginModule.isLoggedIn = function () {
+			var dmO = localStorage.getItem('dm-o');
+			if(dmO && dmO != 'null') {
+				if(JSON.parse(dmO).id) {
+					return true;
+				}
+			}
+			return false;
+		};
+
+		LoginModule.loggedInUserId = function () {
+			var dmO = localStorage.getItem('dm-o');
+			if(dmO && dmO != 'null') {
+				return JSON.parse(dmO).userId;
+			}
+		};
+
 		LoginModule.logout = function () {
 			localStorage.setItem('dm-o', null);
 		};
