@@ -105,12 +105,17 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 					if (result) {
 						self.matchModule.stop();
 						self._startNewMatch();
-						self._startNewMatch();
+						setTimeout(function () {
+							self._startNewMatch();
+						});
+
 					}
 				});
 			} else {
 				self._startNewMatch();
-				self._startNewMatch();
+				setTimeout(function () {
+					self._startNewMatch();
+				});
 			}
 		},
 

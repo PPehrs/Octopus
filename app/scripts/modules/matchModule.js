@@ -291,9 +291,15 @@ function(App, Communicator) {
 
 			var set = this.match.sets[this.match.activeSet];
 
+			if(!checkValue && check === '1.') {
+				if(value) {
+					checkValue = value / 2;
+				}
+			}
+
 			var entry = {
 				value: value,
-				checkValue: value,
+				checkValue: checkValue,
 				check: check,
 				playerLeftStartsLeg: playerLeftStartsLeg,
 				isLeft: isPlayerLeftActive
