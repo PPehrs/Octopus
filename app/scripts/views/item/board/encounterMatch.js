@@ -97,6 +97,9 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
 			App.module('PlayerController').savePlayer(octopusStore.activeEncounterMatch.player2);
 
 			Communicator.mediator.trigger('encounterMatch:match:start');
+			setTimeout(function() {
+				Communicator.mediator.trigger('encounterMatch:match:start');
+			});
 
 			this.render();
 		},

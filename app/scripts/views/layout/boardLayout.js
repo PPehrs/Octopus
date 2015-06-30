@@ -42,8 +42,7 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 
 		/* Ui events hash */
 		events: {
-			'click @ui.ButtonNewMatch': '_onClickNewMatch',
-			'click @ui.ButtonEndMatch': '_onClickNewMatch'
+			'click @ui.ButtonNewMatch': '_onClickNewMatch'
 		},
 
 		childEvents: {
@@ -106,9 +105,11 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 					if (result) {
 						self.matchModule.stop();
 						self._startNewMatch();
+						self._startNewMatch();
 					}
 				});
 			} else {
+				self._startNewMatch();
 				self._startNewMatch();
 			}
 		},
