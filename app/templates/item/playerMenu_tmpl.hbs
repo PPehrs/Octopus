@@ -6,19 +6,25 @@
     {{#if isLeft}}
 
 <div style="margin-top:-140px;float:left">
- <div class="wonLegs fz-5 fw-9"  style="line-height: 90px;">0</div>
- <div class="fz-2" style="margin-top: -10px;">Legs</div>
+ 	<div>
+        <div class="directEdit wonLegs fz-5 fw-9" style="line-height: 90px;">0</div>
+        <input class="wonLegsEdit fz-3" maxlength="3" tabindex="-1" style="margin-top: 3vw;width:5vw;text-align:center;display:none;">
+	</div>
+ 	<div class="fz-2" style="margin-top: -10px;">Legs</div>
 </div>
-		
+
     	<i class="c-p switchPlayernames fa fa-arrow-circle-right text-success" style="float:right"></i>
 		<i class="c-p activePlayer fa fa-bullseye text-success m-r-s" style="float:right"></i>
   {{else}}
 		<i class="c-p switchPlayernames fa fa-arrow-circle-left text-success" style="float:left"></i>
 		<i class="c-p activePlayer fa fa-bullseye text-success m-l-s" style="float:left"></i>
-		
+
 
 <div style="margin-top:-140px;float:right">
- <div class="wonLegs fz-5 fw-9" style="line-height: 90px;">0</div>
+    <div>
+        <div class="directEdit wonLegs fz-5 fw-9" style="line-height: 90px;">0</div>
+        <input class="wonLegsEdit fz-3" maxlength="3" tabindex="-1" style="margin-top: 3vw;width:5vw;text-align:center;display:none">
+    </div>
  <div class="fz-2" style="margin-top: -10px;">Legs</div>
 </div>
 

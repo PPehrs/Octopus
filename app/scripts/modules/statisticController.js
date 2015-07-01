@@ -140,6 +140,9 @@ function(App, Communicator, PlayerModel) {
 
 				totalScore += Number(c.value);
 				var rest = lastRest - c.value;
+				if(rest <= 1) {
+					rest = lastRest;
+				}
 				newCol.push({rest: rest, value: c.value});
 				lastRest = rest;
 			});

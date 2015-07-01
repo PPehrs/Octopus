@@ -17,6 +17,7 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
     	ui: {
     		ActivePlayer: '.activePlayer',
     		WonLegs: '.wonLegs',
+			WonLegsEdit: '.wonLegsEdit',
     		SwitchPlayernames: '.switchPlayernames',
     		Alert: '.bb-alert',
     		AlertText: '.bb-alert span',
@@ -25,7 +26,30 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
 		/* Ui events hash */
 		events: {
 			'click @ui.ActivePlayer': '_onClickActivePlayer',
-			'click @ui.SwitchPlayernames': '_onClickSwitchPlayernames'
+			'click @ui.SwitchPlayernames': '_onClickSwitchPlayernames',
+			'click @ui.WonLegs': '_onClickWonLegs',
+			'focusout @ui.WonLegsEdit':  '_onLostFocusWonLegsEdit'
+		},
+
+		_onClickWonLegs: function () {
+			this.ui.WonLegs.hide();
+			this.ui.WonLegsEdit.val(this.model.get('legsWon'));
+			this.ui.WonLegsEdit.show();
+			this.ui.WonLegsEdit.focus();
+			this.ui.WonLegsEdit.select();
+		},
+
+		_onLostFocusWonLegsEdit: function () {
+			var newVal = this.ui.WonLegsEdit.val();
+			var oldVal = this.model.get('legsWon');
+			if($.isNumeric(newVal)) {
+				if(Number(newVal) != oldVal) {
+					this.ui.WonLegs.text(newVal);
+					this.model.set('legsWon', Number(newVal));
+				}
+			}
+			this.ui.WonLegs.show();
+			this.ui.WonLegsEdit.hide();
 		},
 
 		_onClickSwitchPlayernames: function () {
@@ -71,7 +95,7 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
 				}
 			}
 
-			this.ui.WonLegs.html(legsWon);
+			this.ui.WonLegs.text(legsWon);
 
 			if(showInfo) {
 				var self = this;

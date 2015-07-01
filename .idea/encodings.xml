@@ -52,6 +52,7 @@
     <file url="file://$PROJECT_DIR$/app/templates/item/encounterMatch_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/item/liveMatch_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/item/matchInfoScore_tmpl.hbs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/templates/item/playerMenu_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/item/playerScore_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/item/registeredPlayer_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/item/teamMember_tmpl.hbs" charset="UTF-8" />

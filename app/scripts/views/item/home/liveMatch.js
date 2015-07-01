@@ -30,17 +30,7 @@ define([
 			initialize: function () {
 				_.bindAll(this, 'onShowEncounter' );
 				var players = this.model.get('players')
-				/*var m = {
-					isLiveMatch: false,
-					home: '',
-					guest: '',
-					homeSets: '',
-					guestSets: '',
-					p1Name: (players && players.length > 0 )?players[0].name:'',
-					p1Legs: (players && players.length > 0 )?(players[0].legs?players[0].legs:0):'',
-					p2Name: (players && players.length > 1 )?players[1].name:'',
-					p2Legs: (players && players.length > 0 )?(players[1].legs?players[1].legs:0):''
-				};*/
+
 				var d = this.model.toJSON();
 				var m = {
 					 fkEncounter: d.uid,

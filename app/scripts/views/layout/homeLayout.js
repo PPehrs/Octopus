@@ -40,6 +40,7 @@ function( Backbone,
     		buttonLoginPlayer: '#btnLoginPlayer',
     		buttonRegisterPlayer: '#btnRegisterPlayer',
 			buttonPlayerProfile: '#btnPlayerProfile',
+			linkOpenEncounters: '#octopus__link_open_encounters'
     	},
 
 		/* Ui events hash */
@@ -47,7 +48,8 @@ function( Backbone,
 			'click @ui.buttonStartNewGame': '_onClickButtonStartNewGame',
 			'click @ui.buttonLoginPlayer': '_onClickButtonLoginPlayer',
 			'click @ui.buttonRegisterPlayer': '_onClickButtonRegisterPlayer',
-			'click @ui.buttonPlayerProfile': '_onClickButtonPlayerProfile'
+			'click @ui.buttonPlayerProfile': '_onClickButtonPlayerProfile',
+			'click @ui.linkOpenEncounters': '_onClickLinkOpenEncounters'
 		},
 
 		initialize: function () {
@@ -82,6 +84,11 @@ function( Backbone,
 				var userId = App.module('LoginModule').loggedInUserId()
 				router.navigate('profile/' + userId, {trigger: true});
 			}
+		},
+
+		_onClickLinkOpenEncounters: function() {
+			var router = new Backbone.Router();
+			router.navigate('live', {trigger: true});
 		},
 
 		_onClickButtonStartNewGame: function() {
