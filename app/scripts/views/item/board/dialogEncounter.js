@@ -20,6 +20,7 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 		bindings: {
 			'#form_home_teamname': 'h',
 			'#form_guest_teamname': 'g',
+			'#form__description': 'description'
 		},
 
     	/* ui selector cache */
@@ -72,7 +73,8 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 			octopusStore.activeEncounter = {
 				uid: this.model.get('uid'),
 				home: teamHome,
-				guest: teamGuest
+				guest: teamGuest,
+				description: this.model.get('description')
 			}
 
 			localStorage.setItem('octopus', JSON.stringify(octopusStore));

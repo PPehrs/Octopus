@@ -19,7 +19,8 @@ function( Backbone ) {
 				fkTeam: -1,
 				matchesWon: 0
 			},
-			uid: ''
+			uid: '',
+			description: ''
 		},
 
 		validation: function() {

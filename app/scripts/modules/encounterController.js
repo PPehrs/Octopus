@@ -19,6 +19,13 @@ function(App, Communicator, PlayerModel) {
 			localStorage.setItem('octopus', JSON.stringify(octopusStore));
 		};
 
+		EncounterController.dependencyToMatch = function (uid, matchUid) {
+			var octopusStore = JSON.parse(localStorage.getItem('octopus'));
+			var encounterMatch = _.findWhere(octopusStore.encounterMatches, {uid: encounterMatchUid});
+			encounterMatch.matchUid = matchUid;
+			localStorage.setItem('octopus', JSON.stringify(octopusStore));
+		},
+
 		EncounterController.done = function (encounterMatchUid, p1, p2) {
 			if(encounterMatchUid) {
 				var octopusStore = JSON.parse(localStorage.getItem('octopus'));

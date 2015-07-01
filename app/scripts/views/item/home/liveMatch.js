@@ -1,8 +1,9 @@
 define([
 		'backbone',
+		'moment',
 		'hbs!tmpl/item/liveMatch_tmpl'
 	],
-	function( Backbone, LiveMatchTmpl  ) {
+	function( Backbone, Moment, LiveMatchTmpl   ) {
 		'use strict';
 
 		/* Return a ItemView class definition */
@@ -66,7 +67,10 @@ define([
 					home: data.home.name,
 					guest: data.guest.name,
 					homeSets: data.home.matchesWon,
-					guestSets: data.guest.matchesWon
+					guestSets: data.guest.matchesWon,
+					description:  data.description,
+					date: new Moment(data.createdDateTime).locale("de").format('LLL'),
+					startInfo: new Moment(data.createdDateTime).locale("de").fromNow(true)
 				})
 				this.render();
 			}

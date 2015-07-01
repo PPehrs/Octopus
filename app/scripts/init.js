@@ -29,6 +29,9 @@ require.config({
             ],
             exports: 'bootbox'
         },
+		moment: {
+			exports: 'moment'
+		},
         bootstrapswitch: {
             deps: [
                 'jquery',
@@ -79,7 +82,9 @@ require.config({
         /* require handlebars plugin - Alex Sexton */
         i18nprecompile: '../bower_components/require-handlebars-plugin/hbs/i18nprecompile',
         json2: '../bower_components/require-handlebars-plugin/hbs/json2',
-        hbs: '../bower_components/require-handlebars-plugin/hbs'
+        hbs: '../bower_components/require-handlebars-plugin/hbs',
+
+		moment: '../bower_components/moment/min/moment-with-locales.min'
     },
 
     hbs: {

@@ -27,7 +27,8 @@
     "tooltipster": "~3.3.0",
     "backbone.stickit": "~0.9.2",
     "backbone-validation": "~0.11.5",
-    "bootstrap-select": "~1.7.2"
+    "bootstrap-select": "~1.7.2",
+    "moment": "~2.10.3"
   },
   "directory": "bower_components"
 }

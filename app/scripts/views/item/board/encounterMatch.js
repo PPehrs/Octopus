@@ -166,6 +166,7 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl, DialogResult, Res
 
 		_onMatchStarted: function (matchUid) {
 			this.model.set('matchUid', matchUid);
+			App.module('EncounterController').dependencyToMatch(this.model.get('uid') ,matchUid);
 		},
 
 		_check: function () {
