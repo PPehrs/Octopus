@@ -180,6 +180,11 @@ function(App, Communicator) {
 			this.match = {};
 			if(!MatchModule.cold) {
 				this.deleteMatchFromLocalStorage();
+				var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+				if(octopusStore.activeEncounterMatch) {
+					octopusStore.activeEncounterMatch = {};
+				}
+				localStorage.setItem('octopus', JSON.stringify(octopusStore));
 			}
 			MatchModule.cold = false;
 			this.started = false;

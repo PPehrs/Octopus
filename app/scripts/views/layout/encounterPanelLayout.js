@@ -34,12 +34,12 @@ function( Backbone, Communicator, EncounterpanellayoutTmpl, EncounterMatches  ) 
 				p1: {
 					name: this.model.get('home').name,
 					legs: 0,
-					uid: _.uniqueId()
+					uid: _.uniqueId('u_')
 				},
 				p2: {
 					name: this.model.get('guest').name,
 					legs: 0,
-					uid: _.uniqueId()
+					uid: _.uniqueId('u_')
 				}
 			}
 			App.module('EncounterController').add(newMatch);

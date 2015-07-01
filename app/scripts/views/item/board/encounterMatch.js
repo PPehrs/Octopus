@@ -98,6 +98,7 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl, DialogResult, Res
 				p1: m.player1,
 				p2: m.player2
 			}
+			debugger
 			App.module('EncounterController').add(newMatch);
 			Communicator.mediator.trigger('dialogEncounterMatch:encounter:confirmed');
 		},
