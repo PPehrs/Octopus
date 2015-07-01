@@ -2,9 +2,11 @@ define([
 	'backbone',
 	'communicator',
 	'bootbox',
-	'hbs!tmpl/item/encounterMatch_tmpl'
+	'hbs!tmpl/item/encounterMatch_tmpl',
+	'./dialogResult',
+	'../../../models/result'
 ],
-function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
+function( Backbone, Communicator, Bootbox, EncountermatchTmpl, DialogResult, ResultModel  ) {
     'use strict';
 
 	/* Return a ItemView class definition */
@@ -19,7 +21,9 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
 			ButtonEnd: '.btn-end-encouter-match',
 			ButtonDublicate: '.btn-dublicate-encouter-match',
 			ButtonSwitch: '.btn-switch-encouter-match',
-			ButtonDelete: '.btn-delete-encouter-match'
+			ButtonDelete: '.btn-delete-encouter-match',
+			ButtonRecycle: '.btn-recycle-encouter-match',
+			ButtonResult: '.btn-result-encouter-match'
 		},
 
 		/* Ui events hash */
@@ -29,6 +33,60 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
 			'click @ui.ButtonDublicate': '_onClickButtonDublicate',
 			'click @ui.ButtonSwitch': '_onClickButtonSwitch',
 			'click @ui.ButtonDelete': '_onClickButtonDelete',
+			'click @ui.ButtonRecycle': '_onClickButtonRecycle',
+			'click @ui.ButtonResult': '_onClickButtonResult',
+		},
+
+		_onClickButtonRecycle: function () {
+			this.model.set('done', false);
+			this.model.set('started', false);
+			this.model.get('player1').legs = 0;
+			this.model.get('player2').legs = 0;
+			this.model.unset('matchUid');
+			this.render();
+		},
+
+		_onClickButtonResult: function () {
+			var model = new ResultModel();
+			model.set({
+				p1Name: this.model.get('player1').name,
+				p2Name: this.model.get('player2').name,
+				p1: this.model.get('player1').legs,
+				p2: this.model.get('player2').legs
+			});
+			var view = new DialogResult({
+				model: model,
+				callback: this._onResultConfirmed
+			});
+			App.module('DialogModule').showConfirm('Ergebnis eintragen', view, 'DoCallbackDummy');
+		},
+
+		_onResultConfirmed: function (data) {
+			this.model.get('player1').legs = Number(data.p1);
+			this.model.get('player2').legs = Number(data.p2);
+			this.model.set('done', true);
+
+			var matchUid = this.model.get('matchUid');
+			if(!matchUid) {
+				matchUid = octopus.uuid();
+				this.model.set('matchUid', matchUid);
+			}
+
+			var data = this.model.toJSON();
+
+			App.module('MatchModule').syncMatchFrom({
+				uid: matchUid,
+				sets: [],
+				activeLeg: null,
+				state: null,
+				players: [data.player1, data.player2]
+			});
+
+			App.module('EncounterController').done(data.uid, data.player1.legs, data.player2.legs);
+
+			setTimeout(function() {
+				Communicator.mediator.trigger('encounterMatch:match:ready');
+			});
 		},
 
 		_onClickButtonDublicate: function () {
@@ -96,12 +154,18 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
 			App.module('PlayerController').savePlayer(octopusStore.activeEncounterMatch.player1);
 			App.module('PlayerController').savePlayer(octopusStore.activeEncounterMatch.player2);
 
-			Communicator.mediator.trigger('encounterMatch:match:start');
+			var self = this;
+			Communicator.mediator.trigger('encounterMatch:match:start', this.model.get('uid'));
 			setTimeout(function() {
-				Communicator.mediator.trigger('encounterMatch:match:start');
+				Communicator.mediator.trigger('encounterMatch:match:start', self.model.get('uid'));
 			});
 
+			this.listenToOnce(Communicator.mediator, 'match:started:' +  this.model.get('uid'), this._onMatchStarted);
 			this.render();
+		},
+
+		_onMatchStarted: function (matchUid) {
+			this.model.set('matchUid', matchUid);
 		},
 
 		_check: function () {
@@ -115,6 +179,8 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl  ) {
 		},
 
 		initialize: function () {
+			_.bindAll(this, '_onResultConfirmed');
+
 			this.listenTo(Communicator.mediator, 'matchModule:check', this._check);
 			if(!this.model.get('player1').legs) {
 				this.model.get('player1').legs = 0;

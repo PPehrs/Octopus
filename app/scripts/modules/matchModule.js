@@ -9,6 +9,7 @@ function(App, Communicator) {
 		MatchModule.cold = false;
 		MatchModule.started = false;
 		MatchModule.match = {};
+		MatchModule.encounterUid = null;
 
 		MatchModule.startWithParent = false;
 
@@ -124,6 +125,9 @@ function(App, Communicator) {
 
 			if(!octopusStore.match || _.isEmpty(octopusStore.match)) {
 				this.matchReset(octopusStore);
+				if(MatchModule.encounterUid) {
+					Communicator.mediator.trigger('match:started:' + MatchModule.encounterUid, this.match.uid);
+				}
 			} else {
 				try {
 					this.match = octopusStore.match;
@@ -368,6 +372,15 @@ function(App, Communicator) {
 
 			//===> fire active leg
 			this.syncMatch();
+		};
+
+
+		MatchModule.syncMatchFrom = function (data) {
+			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+			if(octopusStore.activeEncounter) {
+				_.extend(data, {fkEncounter: octopusStore.activeEncounter.uid});
+			}
+			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', data);
 		};
 
 		MatchModule.syncMatch = function () {

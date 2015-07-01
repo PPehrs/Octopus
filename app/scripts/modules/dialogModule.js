@@ -51,7 +51,12 @@ function(App, Bootbox, Tooltip, Communicator) {
 
 		DialogModule.showConfirm = function(title, View, socketAction) {
 			var self = this;
-			var view = new View();
+			var view = null;
+			if(typeof View === 'object') {
+				view = View;
+			} else {
+				view = new View();
+			}
 			var el = view.render().el;
 			bootbox.confirm({
 				title: title,

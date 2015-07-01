@@ -383,11 +383,14 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			})
 		},
 
-		_startNewMatch: function () {
+		_startNewMatch: function (encounterUid) {
 			this.ui.MatchRunningAlert.fadeOut();
 			if(this.matchModule.started) {
 				this.matchModule.stop();
 			}
+
+			this.matchModule.encounterUid = encounterUid;
+
 			this.matchModule.start();
 		},
 

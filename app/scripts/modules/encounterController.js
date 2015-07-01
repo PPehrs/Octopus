@@ -19,14 +19,25 @@ function(App, Communicator, PlayerModel) {
 			localStorage.setItem('octopus', JSON.stringify(octopusStore));
 		};
 
-		EncounterController.done = function () {
-			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
-			var encounterMatch = _.findWhere(octopusStore.encounterMatches, {uid:octopusStore.activeEncounterMatch.uid});
-			encounterMatch.done = true;
-			encounterMatch.started = true;
-			octopusStore.activeEncounterMatch = {};
-			localStorage.setItem('octopus', JSON.stringify(octopusStore));
-		};		
+		EncounterController.done = function (encounterMatchUid, p1, p2) {
+			if(encounterMatchUid) {
+				var octopusStore = JSON.parse(localStorage.getItem('octopus'));
+				var encounterMatch = _.findWhere(octopusStore.encounterMatches, {uid: encounterMatchUid});
+				encounterMatch.done = true;
+				encounterMatch.started = true;
+				encounterMatch.player1.legs = p1;
+				encounterMatch.player2.legs = p2;
+				localStorage.setItem('octopus', JSON.stringify(octopusStore));
+
+			} else {
+				var octopusStore = JSON.parse(localStorage.getItem('octopus'));
+				var encounterMatch = _.findWhere(octopusStore.encounterMatches, {uid: octopusStore.activeEncounterMatch.uid});
+				encounterMatch.done = true;
+				encounterMatch.started = true;
+				octopusStore.activeEncounterMatch = {};
+				localStorage.setItem('octopus', JSON.stringify(octopusStore));
+			}
+		};
 
 		EncounterController.check = function (match) {
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
