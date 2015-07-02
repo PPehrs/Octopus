@@ -84,7 +84,9 @@ require.config({
         json2: '../bower_components/require-handlebars-plugin/hbs/json2',
         hbs: '../bower_components/require-handlebars-plugin/hbs',
 
-		moment: '../bower_components/moment/min/moment-with-locales.min'
+		moment: '../bower_components/moment/min/moment-with-locales.min',
+
+		chart: '../bower_components/chartjs/Chart.min'
     },
 
     hbs: {

@@ -28,7 +28,8 @@
     "backbone.stickit": "~0.9.2",
     "backbone-validation": "~0.11.5",
     "bootstrap-select": "~1.7.2",
-    "moment": "~2.10.3"
+    "moment": "~2.10.3",
+    "chartjs": "~1.0.2"
   },
   "directory": "bower_components"
 }
