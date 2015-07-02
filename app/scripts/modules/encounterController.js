@@ -10,7 +10,6 @@ function(App, Communicator, PlayerModel) {
 		EncounterController.startWithParent = true;
 
 		EncounterController.started = function (match) {
-			App.module('MatchModule').encounterMatchStarted = true;
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 			var encounterMatch = _.findWhere(octopusStore.encounterMatches, {uid:match.uid});
 			encounterMatch.started = true;

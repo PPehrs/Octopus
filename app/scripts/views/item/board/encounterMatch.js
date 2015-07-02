@@ -98,7 +98,6 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl, DialogResult, Res
 				p1: m.player1,
 				p2: m.player2
 			}
-			debugger
 			App.module('EncounterController').add(newMatch);
 			Communicator.mediator.trigger('dialogEncounterMatch:encounter:confirmed');
 		},
@@ -156,8 +155,10 @@ function( Backbone, Communicator, Bootbox, EncountermatchTmpl, DialogResult, Res
 			App.module('PlayerController').savePlayer(octopusStore.activeEncounterMatch.player2);
 
 			var self = this;
+			App.module('MatchModule').encounterMatchStarted = true;
 			Communicator.mediator.trigger('encounterMatch:match:start', this.model.get('uid'));
 			setTimeout(function() {
+				App.module('MatchModule').encounterMatchStarted = true;
 				Communicator.mediator.trigger('encounterMatch:match:start', self.model.get('uid'));
 			});
 

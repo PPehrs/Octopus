@@ -124,6 +124,7 @@ function( Backbone, Communicator, EncounterpanellayoutTmpl, EncounterMatches  ) 
 				if(!match.done) {
 					return;
 				}
+
 				if(match.player1.legs > match.player2.legs) {
 					home += 1;
 				} else if(match.player1.legs < match.player2.legs) {
