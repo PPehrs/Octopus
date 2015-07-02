@@ -10,6 +10,7 @@ function(App, Communicator, PlayerModel) {
 		EncounterController.startWithParent = true;
 
 		EncounterController.started = function (match) {
+			App.module('MatchModule').encounterMatchStarted = true;
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 			var encounterMatch = _.findWhere(octopusStore.encounterMatches, {uid:match.uid});
 			encounterMatch.started = true;
@@ -19,7 +20,7 @@ function(App, Communicator, PlayerModel) {
 			localStorage.setItem('octopus', JSON.stringify(octopusStore));
 		};
 
-		EncounterController.dependencyToMatch = function (uid, matchUid) {
+		EncounterController.dependencyToMatch = function (encounterMatchUid, matchUid) {
 			var octopusStore = JSON.parse(localStorage.getItem('octopus'));
 			var encounterMatch = _.findWhere(octopusStore.encounterMatches, {uid: encounterMatchUid});
 			encounterMatch.matchUid = matchUid;

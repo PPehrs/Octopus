@@ -10,6 +10,7 @@ function(App, Communicator) {
 		MatchModule.started = false;
 		MatchModule.match = {};
 		MatchModule.encounterUid = null;
+		MatchModule.encounterMatchStarted = false;
 
 		MatchModule.startWithParent = false;
 
@@ -180,11 +181,15 @@ function(App, Communicator) {
 			this.match = {};
 			if(!MatchModule.cold) {
 				this.deleteMatchFromLocalStorage();
-				var octopusStore = JSON.parse (localStorage.getItem('octopus'));
-				if(octopusStore.activeEncounterMatch) {
-					octopusStore.activeEncounterMatch = {};
+				if(!MatchModule.encounterMatchStarted) {
+					var octopusStore = JSON.parse(localStorage.getItem('octopus'));
+					if (octopusStore.activeEncounterMatch) {
+						octopusStore.activeEncounterMatch = {};
+					}
+					localStorage.setItem('octopus', JSON.stringify(octopusStore));
+				} else {
+					MatchModule.encounterMatchStarted = false;
 				}
-				localStorage.setItem('octopus', JSON.stringify(octopusStore));
 			}
 			MatchModule.cold = false;
 			this.started = false;

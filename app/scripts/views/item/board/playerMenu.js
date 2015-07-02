@@ -32,6 +32,7 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
 		},
 
 		_onClickWonLegs: function () {
+			return 'not implemented';
 			this.ui.WonLegs.hide();
 			this.ui.WonLegsEdit.val(this.model.get('legsWon'));
 			this.ui.WonLegsEdit.show();
@@ -40,6 +41,7 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
 		},
 
 		_onLostFocusWonLegsEdit: function () {
+			return 'not implemented'
 			var newVal = this.ui.WonLegsEdit.val();
 			var oldVal = this.model.get('legsWon');
 			if($.isNumeric(newVal)) {

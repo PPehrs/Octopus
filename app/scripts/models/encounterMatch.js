@@ -13,13 +13,16 @@ function( Backbone ) {
 				name: '',
 				fkUser: -1,
 				legs: 0,
-				uid: _.uniqueId('p_')
+				uid: _.uniqueId('p_'),
+				fkTeamPlayer: -1,
+				isHome: true
 			},
 			p2: {
 				name: '',
 				fkUser: -1,
 				legs: 0,
-				uid: _.uniqueId('p_')
+				uid: _.uniqueId('p_'),
+				isHome: false
 			},
 			uid: ''
 		},

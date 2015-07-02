@@ -29,17 +29,25 @@ function( Backbone, Communicator, EncounterpanellayoutTmpl, EncounterMatches  ) 
     	template: EncounterpanellayoutTmpl,
 
 		onDublicate: function () {
+			var p1U = _.uniqueId('u_');
+			var p2U = _.uniqueId('u_');
 			var newMatch = {
 				uid: octopus.uuid(),
 				p1: {
 					name: this.model.get('home').name,
 					legs: 0,
-					uid: _.uniqueId('u_')
+					uid: p1U,
+					fkTeamPlayer: p1U,
+					fkUser: -1,
+					isHome: true
 				},
 				p2: {
 					name: this.model.get('guest').name,
 					legs: 0,
-					uid: _.uniqueId('u_')
+					uid: p2U,
+					fkTeamPlayer: p2U,
+					fkUser: -1,
+					isHome: false
 				}
 			}
 			App.module('EncounterController').add(newMatch);
