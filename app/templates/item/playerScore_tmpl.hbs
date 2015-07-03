@@ -1,14 +1,14 @@
 <div class="flex">
     {{#if isLeft}}
-		<div class="scoreText" style="width: 40%;padding-top: 2.5vw;padding-left: 1vw;">
-            <div style="font-size: 4.5vw;text-align:left;{{#if isTop}}font-weight: 900;{{else}}opacity: 0.8;{{/if}}"><span>{{value}}</span></div>
+		<div class="scoreText" style="width: 40%;padding-top: 2.5rem;padding-top: 2.5vw;padding-left: 1rem;padding-left: 1vw;">
+            <div style="font-size: 4.5rem;font-size: 4.5vw;text-align:left;{{#if isTop}}font-weight: 900;{{else}}opacity: 0.8;{{/if}}"><span>{{value}}</span></div>
 			<input maxlength="3" class="scoreInput"  tabindex="-1" style="display:none;width: 100%;padding:5px;font-size: 2.5vw;text-align:left;">
 		</div>
-		<div style="padding-right: 0.30vw;width: 60%;text-align: right;font-size: 7vw;{{#if isTop}}font-weight: 900;{{else}}opacity: 0.8;{{/if}}">{{score}}</div>
+		<div style="padding-right: 0.30rem;padding-right: 0.30vw;width: 60%;text-align: right;font-size: 7rem;font-size: 7vw;{{#if isTop}}font-weight: 900;{{else}}opacity: 0.8;{{/if}}">{{score}}</div>
 	{{else}}
-		<div style="padding-left: 0.30vw;width: 60%;text-align: left;font-size: 7vw;{{#if isTop}}font-weight: 900;{{else}}opacity: 0.8;{{/if}}">{{score}}</div>
-		<div class="scoreText" style="width: 40%;padding-top: 2.5vw;padding-right: 1vw;">
-            <div style="font-size: 4.5vw;text-align:right;{{#if isTop}}font-weight: 900;{{else}}opacity: 0.8;{{/if}}"><span>{{value}}</span></div>
+		<div style="padding-right: 0.30rem;padding-left: 0.30vw;width: 60%;text-align: left;font-size: 7rem;font-size: 7vw;{{#if isTop}}font-weight: 900;{{else}}opacity: 0.8;{{/if}}">{{score}}</div>
+		<div class="scoreText" style="width: 40%;padding-top: 2.5rem;padding-top: 2.5vw;padding-left: 1rem;padding-right: 1vw;">
+            <div style="font-size: 4.5rem;font-size: 4.5vw;text-align:right;{{#if isTop}}font-weight: 900;{{else}}opacity: 0.8;{{/if}}"><span>{{value}}</span></div>
 			<input maxlength="3" class="scoreInput" tabindex="-1" style="display:none;width: 100%;padding:5px;font-size: 2.5vw;text-align:right;">
 		</div>
 	{{/if}}
