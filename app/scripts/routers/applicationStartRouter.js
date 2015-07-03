@@ -6,9 +6,10 @@ define([
 	'../views/layout/matchInfo',
 	'../views/layout/encounterInfo',
 	'../views/layout/profileLayout',
+	'../views/layout/checkOut',
 	'../views/layout/liveEncountersOverview'
 ],
-function(Backbone, Marionette, App, BoardLayout, MatchInfo, EncounterInfo, ProfileLayout, LiveOverview){
+function(Backbone, Marionette, App, BoardLayout, MatchInfo, EncounterInfo, ProfileLayout, CheckOut, LiveOverview){
     'use strict';
 
 	return Backbone.Marionette.AppRouter.extend({
@@ -23,6 +24,7 @@ function(Backbone, Marionette, App, BoardLayout, MatchInfo, EncounterInfo, Profi
 			'profile/:id': 'showProfile',
 			'board': 'showBoard',
 			'live': 'showLive',
+			'check': 'showCheckOutBattle',
 			'*notFound': 'notFound',
 			':notFound': 'notFound',
 			'/*notFound': 'notFound',
@@ -31,6 +33,10 @@ function(Backbone, Marionette, App, BoardLayout, MatchInfo, EncounterInfo, Profi
 
 		showLive: function () {
 			App.mainRegion.show(new LiveOverview());
+		},
+
+		showCheckOutBattle: function () {
+			App.mainRegion.show(new CheckOut());
 		},
 
 		showBoard: function() {
@@ -50,7 +56,7 @@ function(Backbone, Marionette, App, BoardLayout, MatchInfo, EncounterInfo, Profi
 		},
 
 		notFound: function() {
-
+			App.mainRegion.show(new BoardLayout());
 		}
 	});
 });

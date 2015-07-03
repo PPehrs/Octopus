@@ -40,10 +40,10 @@ function(App, Communicator, PlayerModel) {
 					specialData.t += 1;
 				} else if (c.value >= 140 && c.value < 180) {
 					specialData.t4 += 1;
-				} else if (c.value === 180) {
+				} else if (c.value >= 180) {
 					specialData.h8 += 1;
 				}
-
+				console.log(c.value)
 				if(c.check) {
 					checks += 1;
 					dblThrows += 1;

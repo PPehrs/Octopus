@@ -13,6 +13,18 @@
 	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
+.tac {
+	text-align: center;
+}
+
+.tal {
+	text-align: left;
+}
+
+.tar {
+	text-align: right;
+}
+
 .c-p {
     cursor: pointer;
 }
@@ -345,4 +357,18 @@
 
 .w-100 {
 	width: 100% !important;
+}
+
+.check-out-btn {
+	font-size: 2.5rem !important;
+	font-size: 2.5vw !important;
+	font-weight: 900;
+}
+
+.check-out-result {
+	font-size: 5rem !important;
+	font-size: 5vw !important;
+	font-weight: 900;
+	border: 1px dotted darkgray;
+	border-radius: 5px;
 }
