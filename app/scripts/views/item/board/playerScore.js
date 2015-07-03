@@ -61,6 +61,7 @@ function( Backbone, Tooltip, PlayerScoreTmpl  ) {
 			this.ui.ScoreInput.show();
 			this.ui.ScoreInput.val(this.ui.ScoreTextSpan.html());
 			this.ui.ScoreInput.focus();
+			this.ui.ScoreInput.select();
 		},
 
 		/* on render callback */
