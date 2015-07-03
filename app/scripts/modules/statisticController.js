@@ -20,6 +20,7 @@ function(App, Communicator, PlayerModel) {
 				t4: 0,
 				h8: 0,
 				ckdVal: [],
+				dartsVal: [],
 				hasCheckVals: false
 			}
 
@@ -31,6 +32,7 @@ function(App, Communicator, PlayerModel) {
 			var misses = 0;
 			var dblThrows = 0;
 			var checkMisses = 0;
+			var round = 1;
 			_.each(entries, function (c) {
 				if (c.value >= 60 && c.value < 100) {
 					specialData.s += 1;
@@ -46,6 +48,14 @@ function(App, Communicator, PlayerModel) {
 					checks += 1;
 					dblThrows += 1;
 					specialData.ckdVal.push(c.value);
+					var tDarts = round * 3;
+					if(c.check === '1.') {
+						tDarts -= 2;
+					} else if(c.check === '2.') {
+						tDarts -= 1;
+					}
+					specialData.dartsVal.push(tDarts);
+					round = 0;
 				}
 
 				if(c.miss) {
@@ -57,6 +67,12 @@ function(App, Communicator, PlayerModel) {
 				var rest = lastRest - c.value;
 				newCol.push({rest: rest, value: c.value});
 				lastRest = rest;
+
+				if(c.oCkd) {
+					round = 0;
+				}
+
+				round += 1;
 			});
 
 			if(newCol.length > 1) {
@@ -74,6 +90,7 @@ function(App, Communicator, PlayerModel) {
 			if(!_.isEmpty(specialData.ckdVal)) {
 				specialData.hasCheckVals = true;
 				specialData.ckdValText = specialData.ckdVal.join();
+				specialData.dartsValText = specialData.dartsVal.join();
 			}
 
 			specialData.dblThrows = dblThrows;

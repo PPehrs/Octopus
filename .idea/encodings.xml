@@ -15,6 +15,7 @@
     <file url="file://$PROJECT_DIR$/app/scripts/modules/matchModule.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/modules/playerController.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/modules/socketModule.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/modules/statisticController.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/routers/applicationStartRouter.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/composite/board/encounterMatches.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/composite/board/playerScores.js" charset="UTF-8" />
@@ -59,6 +60,7 @@
     <file url="file://$PROJECT_DIR$/app/templates/item/teamMember_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/layout/boardLayout_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/layout/dialogTeam_tmpl.hbs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/templates/layout/encounterInfo_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/layout/encounterPanelLayout_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/layout/homeLayout_tmpl.hbs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/layout/matchInfo_tmpl.hbs" charset="UTF-8" />

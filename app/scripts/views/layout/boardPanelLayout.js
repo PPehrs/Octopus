@@ -37,7 +37,7 @@ function( Backbone, Tooltip, Bootbox, Communicator, BoardpanellayoutTmpl, Dialog
 		},
 
 		_onClickAddMatch: function () {
-			App.module('DialogModule').showConfirm('Spielpaarung hunzuf&uuml;gen', DialogEncounterMatch, 'DoCallbackDummy');
+			App.module('DialogModule').showConfirm('Spielpaarung hinzuf&uuml;gen', DialogEncounterMatch, 'DoCallbackDummy');
 		},
 
 		_onClickCreateEncounter: function () {

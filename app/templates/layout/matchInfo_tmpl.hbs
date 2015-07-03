@@ -74,6 +74,18 @@
 				{{/if}}
 	        </div>
         </div>
+        <div class="flex">
+            <div style="width:50%;background-color:beige;color:gray;" class="fz-2">
+				{{#if lData.hasCheckVals}}
+                    <div><i><span>Darts: </span>{{ lData.dartsValText }}</i></div>
+				{{/if}}
+            </div>
+            <div style="width:50%;background-color:beige;color:gray;" class="fz-2">
+				{{#if rData.hasCheckVals}}
+                    <div><i><span>Darts: </span>{{ rData.dartsValText }}</i></div>
+				{{/if}}
+            </div>
+        </div>
 	{{/if}}
     <div class="octopus_matchInfoScoresActiveLeg" style="background-color: azure;"></div>
 </div>
