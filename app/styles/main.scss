@@ -13,6 +13,14 @@
 	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
+.d-n {
+  display: none;
+}
+
+.d-b {
+  display: block;
+}
+
 .tac {
 	text-align: center;
 }
@@ -375,4 +383,15 @@
 	padding-left: 2vw !important;
 	padding-right: 2rem !important;
 	padding-right: 2vw !important;
+}
+
+.check-out-highscore {
+  position: absolute;
+  margin-left: 20px;
+  margin-top: 20px;
+  border-radius: 150px;
+  background-color: #337ab7;
+  color: white;
+  padding: 1.5vw;
+  text-align: center;
 }

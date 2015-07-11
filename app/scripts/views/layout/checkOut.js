@@ -11,8 +11,9 @@ function( Backbone, CheckoutTmpl  ) {
 		level: 0,
 		error: 0,
 
-		levelTime: [40, 30, 25,  20, 15, 10, 5],
+		levelTime: [40, 30, 25, 20, 15, 10, 7, 5, 3],
 		totalElapsedTime: 0,
+		points: 0,
 
 		orgCheckers: null,
 		checkers: [	170, 167, 164, 161, 160, 158, 157, 156, 155, 154, 153, 152, 151, 150,
@@ -28,6 +29,49 @@ function( Backbone, CheckoutTmpl  ) {
 		],
 
 		bestWay: {
+			'170': {
+				best: ['T20 - T20 - D25']
+			},
+			'167': {
+				best: ['T20 - T19 - D25']
+			},
+			'164': {
+				best: ['T20 - T18 - D25']
+			},
+			'161': {
+				best: ['T20 - T17 - D25']
+			},
+			'160': {
+				best: ['T20 - T20 - D20']
+			},
+			'158': {
+				best: ['T20 - T20 - D19']
+			},
+			'157': {
+				best: ['T20 - T19 - D20']
+			},
+			'156': {
+				best: ['T20 - T20 - D18']
+			},
+			'155': {
+				best: ['T20 - T19 - D19']
+			},
+			'154': {
+				best: ['T20 - T18 - D20']
+			},
+			'153': {
+				best: ['T20 - T19 - D18']
+			},
+			'152': {
+				best: ['T20 - T20 - D16']
+			},
+			'151': {
+				best: ['T20 - T17 - D20']
+			},
+			'150': {
+				best: ['T20 - T20 - D15', 'T20 - T18 - D18']
+			},
+
 			'135': {
 				first: ['25'],
 				i: 'Den 1. Dart auf Bull, bei Single bleibt <b>110</b> Rest'
@@ -113,11 +157,12 @@ function( Backbone, CheckoutTmpl  ) {
 		},
 
 		_onClickStartButtton: function () {
-			if(this.error === 3 ) {
+			if(this.error === 3 || this.level === 8) {
 				this.checkers = _.clone(this.orgCheckers);
 				this.error = 0;
 				this.level = 0;
 				this.totalElapsedTime = 0;
+				this.points = 0;
 				this.ui.divCheckLevel.text(1);
 				this.ui.divCheckCount.text(0);
 				this.ui.divCheckPoints.text(0);
@@ -173,9 +218,11 @@ function( Backbone, CheckoutTmpl  ) {
 			var thrownDarts = 0;
 
 			var theField = [];
+			var theWay = null;
 
 			_.each(this.ui.resultButton, function (btn) {
 				var txt = $(btn).text();
+				theWay += (theWay?' - ':'') + txt;
 				if(txt.indexOf('-') === -1) {
 					thrownDarts += 1;
 					if(txt[0] === 'T') {
@@ -206,7 +253,7 @@ function( Backbone, CheckoutTmpl  ) {
 			var text = null;
 			if(nbr === score && isLastD) {
 				points = points + 2;
-				text = '<div><i class="fa fa-info-circle text-success"></i></div>';
+				text = '<div><i class="fa fa-check-circle text-success"></i></div>';
 				text += '<div>' + txt + ' wurde gecheckt </div>';
 				if(isBeforeD) {
 					if(score > 70) {
@@ -223,27 +270,55 @@ function( Backbone, CheckoutTmpl  ) {
 				}
 				if(this.bestWay[score]) {
 					var addP = ''
+					var addB = ''
 					if(this.bestWay[score].first) {
-						debugger
 						if(this.bestWay[score].first.join().indexOf(theField[0]) > -1) {
 							points += 2;
 							addP = " = 2 Zusatzpunkte"
 						}
 					}
-					text += '<div>' + this.bestWay[score].i + addP + '</div>';
+					if(this.bestWay[score].best) {
+						if(this.bestWay[score].best.join().indexOf(theWay) > -1) {
+							points += 2;
+							addB = " = 2 Zusatzpunkte"
+						}
+					}
+					if(this.bestWay[score].i) {
+						text += '<div>' + this.bestWay[score].i + addP + '</div>';
+					}
+					if(this.bestWay[score].best) {
+						text += '<div>Best: ' + this.bestWay[score].best.join() + addB + '</div>';
+					}
+				}
+				if(score >= 111) {
+					if(theField[2] === 20 || theField[2] === 18 || theField[2] === 16 || theField[2] === 12 || theField[2] === 8 || theField[2] === 4 ) {
+						points = points + 1;
+						text += '<div>Standard-Doppel = 1 Zusatzpunkt</div>';
+					}
+				} else {
+					if(theField[1] === 20 || theField[1] === 18 || theField[1] === 16 || theField[1] === 12 || theField[1] === 8 || theField[1] === 4  ) {
+						points = points + 1;
+						text += '<div>Standard-Doppel = 1 Zusatzpunkt</div>';
+					}
 				}
 			} else {
 				text = '<div><i class="fa fa-ban text-danger"></i></div>';
 				text += '<div>Fehler, ' + txt + ' wurde nicht gecheckt</div>';
 				this.error += 1;
-				if(this.error === 3) {
+				if(this.error === 3 && this.level !== 8) {
 					text = '<div>3. Fehler - Spiel endet</div>' + '<div><button class="btn btn-success">Restart</button></div>' + text;
 				}
 			}
 
+			if(this.level === 8) {
+				text = '<div>Höchstes Level erreicht - Spiel endet</div>' + '<div><button class="btn btn-success">Restart</button></div>' + text;
+			}
+
 			text += '<div>Punkte: ' + points + ' </div>';
 
-			this.ui.divCheckPoints.text(Number(this.ui.divCheckPoints.text()) + points);
+			this.points += points;
+
+			this.ui.divCheckPoints.text(this.points);
 
 			var tT = this.levelTime[this.level] - Number(this.ui.startButton.text());
 			this.totalElapsedTime += tT;

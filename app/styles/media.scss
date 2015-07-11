@@ -1,5 +1,8 @@
  @media screen and (min-width: 20px) and (max-width: 600px) {
   @viewport { width: 20px; }
+    	.screen-600 {
+  			display: block;
+  		}
   		.m-t-vb {
             margin-top: 0px;
   		}
@@ -10,26 +13,33 @@
 
   @media screen and (min-width: 600px) and (max-width: 700px) {
   @viewport { width: 600px; }
-
+  	.screen-700 {
+  		display: block;
+  	}
   }
 
  @media screen and (min-width: 820px) and (max-width: 920px) {
   @viewport { width: 820px; }
-
+    .screen-920 {
+  		display: block;
+  	}
   }
 
   @media screen and (min-width: 920px) and (max-width: 1200px) {
   @viewport { width: 920px; }
-
+	.screen-1200 {
+  		display: block;
+  	}
   }
 
   @media screen and (min-width: 1200px) {
   @viewport { width: 1200px; }
-
+	.screen-max {
+  		display: block;
+  	}
   }
 
- @media screen and (min-width: 600px) {
- @viewport { width: 1200px; }
+ @media screen and (min-width: 820px) {
 	.optional-flex {
 		display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
 		display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
