@@ -1,8 +1,9 @@
 define([
 	'backbone',
+	'communicator',
 	'hbs!tmpl/layout/checkOut_tmpl'
 ],
-function( Backbone, CheckoutTmpl  ) {
+function( Backbone, Communicator, CheckoutTmpl  ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -69,7 +70,7 @@ function( Backbone, CheckoutTmpl  ) {
 				best: ['T20 - T17 - D20']
 			},
 			'150': {
-				best: ['T20 - T20 - D15', 'T20 - T18 - D18']
+				best: ['T20 - T20 - D15', 'T20 - T18 - D18', 'T19 - T19 - D18']
 			},
 
 			'135': {
@@ -126,7 +127,9 @@ function( Backbone, CheckoutTmpl  ) {
 		interval: null,
 
 		initialize: function() {
-			console.log("initialize a Checkout Layout");
+			_.bindAll(this, '_onCheckBattleHighscore', '_getCheckBattleHighscore');
+			this.listenTo(Communicator.mediator, 'APP:SOCKET:CHECK_BATTLE-UPDATED', this._getCheckBattleHighscore);
+			this.listenTo(Communicator.mediator, 'APP:SOCKET:CONNECTED', this._getCheckBattleHighscore);
 		},
 
     	template: CheckoutTmpl,
@@ -147,6 +150,9 @@ function( Backbone, CheckoutTmpl  ) {
 			divCheckPoints: '.check-points',
 			divCheckLevel: '.check-level',
 			divCheckTime: '.check-time',
+			divHighPlayerName: '.check-out-highscore-player-name',
+			divHighPlayerScore: '.check-out-highscore-player',
+			divHighUserScore: '.check-out-my-record'
 		},
 
 		/* Ui events hash */
@@ -205,6 +211,16 @@ function( Backbone, CheckoutTmpl  ) {
 			this.unlockActionButtons(true);
 
 			this.ui.checkInfoAndPoints.show();
+
+			if(this.level === 8 || this.error === 3) {
+				if(App.module('LoginModule').isLoggedIn()) {
+					App.module('SocketModule').SetCheckBattleScore({
+						userUid: App.module('LoginModule').loggedInUserId(),
+						userName: App.module('LoginModule').loggedInUserName(),
+						score: this.points
+					});
+				}
+			}
 		},
 
 		_verifyCheck: function () {
@@ -316,12 +332,14 @@ function( Backbone, CheckoutTmpl  ) {
 
 			text += '<div>Punkte: ' + points + ' </div>';
 
-			this.points += points;
-
-			this.ui.divCheckPoints.text(this.points);
-
 			var tT = this.levelTime[this.level] - Number(this.ui.startButton.text());
 			this.totalElapsedTime += tT;
+
+			var cCount = Number(this.ui.divCheckCount.text());
+			var magicCalc = (points * 1000) - (this.error * 500) + (cCount > 0?(Math.round(cCount/this.totalElapsedTime*1000)):0);
+			this.points += magicCalc;
+
+			this.ui.divCheckPoints.text(this.points);
 
 			var secs = (((this.totalElapsedTime % 60) < 10)?'0':'') + (this.totalElapsedTime % 60);
 
@@ -381,7 +399,24 @@ function( Backbone, CheckoutTmpl  ) {
 			this.orgCheckers = _.clone(this.checkers);
 
 			this.unlockActionButtons(true);
+			this._getCheckBattleHighscore();
+		},
+
+		_getCheckBattleHighscore: function() {
+			var data = {
+				userId: App.module('LoginModule').loggedInUserId()
+			}
+			App.module('SocketModule').GetCheckBattleHighscore(data, this._onCheckBattleHighscore)
+		},
+
+		_onCheckBattleHighscore: function(data) {
+			this.ui.divHighPlayerName.text(data.high[0].userName);
+			this.ui.divHighPlayerScore.text(data.high[0].score);
+			if(data.user && data.user.length > 0) {
+				this.ui.divHighUserScore.text(data.user[0].score);
+			}
 		}
+
 	});
 
 });

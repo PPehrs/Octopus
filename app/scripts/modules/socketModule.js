@@ -24,6 +24,9 @@ function(App, SocketIo, Communicator) {
 			this.socketIo.on('user-registered', function(data){
 				Communicator.mediator.trigger('APP:SOCKET:USER-REGISTERED', data);
 			});
+			this.socketIo.on('check-battle-updated', function(data){
+				Communicator.mediator.trigger('APP:SOCKET:CHECK_BATTLE-UPDATED', data);
+			});
 			this.socketIo.on('user-registered', function(data){
 				Communicator.mediator.trigger('APP:SOCKET:USER-REGISTERED', data);
 			});
@@ -86,6 +89,18 @@ function(App, SocketIo, Communicator) {
 		},
 
 		//THE API ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+		SocketModule.SetCheckBattleScore = function (data, callback, self) {
+			var socketIo = App.module('SocketModule').socketIo;
+			socketIo.emit('set-check-battle-score', data);
+		},
+
+		SocketModule.GetCheckBattleHighscore = function (data, callback, self) {
+			var socketIo = App.module('SocketModule').socketIo;
+			socketIo.emit('get-check-battle-highscore', data, function (data) {
+				callback(data, self);
+			});
+		},
 
 		SocketModule.RegisterUser = function (model, callback, self) {
 			var socketIo = App.module('SocketModule').socketIo;

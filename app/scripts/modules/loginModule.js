@@ -44,6 +44,13 @@ function(App, Bootbox, Tooltip, Communicator, DialogRegister, DialogLogin) {
 			}
 		};
 
+		LoginModule.loggedInUserName = function () {
+			var dmO = localStorage.getItem('dm-o');
+			if(dmO && dmO != 'null') {
+				return JSON.parse(dmO).username;
+			}
+		};
+
 		LoginModule.logout = function () {
 			localStorage.setItem('dm-o', null);
 		};
