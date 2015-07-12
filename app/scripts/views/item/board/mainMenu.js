@@ -26,7 +26,8 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 			MainMenuLogin: '#mmLogin',
 			MainMenuLoginText: '#mmLoginText',
 			MainMenuRegister: '#mmRegister',
-			MainMenuLogout: '#mmLogout'
+			MainMenuLogout: '#mmLogout',
+			MainMenuCheckout: '#mmCheckout'
     	},
 
 		/* Ui events hash */
@@ -36,7 +37,13 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 			'click @ui.MainMenuLogin': '_onClickButtonLoginPlayer',
 			'click @ui.MainMenuRegister': '_onClickButtonRegisterPlayer',
 			'click @ui.MainMenuLogout': '_onClickButtonLogout',
-			'click @ui.MainMenuPlayerProfile': '_onClickButtonPlayerProfile'
+			'click @ui.MainMenuPlayerProfile': '_onClickButtonPlayerProfile',
+			'click @ui.MainMenuCheckout': '_onClickButtonCheckOut',
+		},
+
+		_onClickButtonCheckOut: function() {
+			var router = new Backbone.Router();
+			router.navigate('check', {trigger: true});
 		},
 
 		_onClickButtonPlayerProfile: function () {

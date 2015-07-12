@@ -39,6 +39,12 @@
   	}
   }
 
+ @media screen and (max-width: 700px) {
+ 	.not-small {
+ 		display:none;
+ 	}
+ }
+
  @media screen and (min-width: 820px) {
 	.optional-flex {
 		display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */

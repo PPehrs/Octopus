@@ -67,19 +67,62 @@ function( Backbone, Communicator, CheckoutTmpl  ) {
 				best: ['T20 - T20 - D16']
 			},
 			'151': {
-				best: ['T20 - T17 - D20']
+				best: ['T20 - T17 - D20', 'T19 - T18 - D20']
 			},
 			'150': {
 				best: ['T20 - T20 - D15', 'T20 - T18 - D18', 'T19 - T19 - D18']
 			},
-
+			'149': {
+				best: ['T20 - T19 - D16']
+			},	
+			'148': {
+				best: ['T20 - T20 - D14', 'T19 - T17 - D20']
+			},			
+			'147': {
+				best: ['T20 - T17 - D18', 'T19 - T18 - D18']
+			},						
+			'146': {
+				best: ['T20 - T20 - D13', 'T20 - T18 - D16']
+			},									
+			'145': {
+				best: ['T20 - T19 - D14', 'T20 - T15 - D20']
+			},												
+			'144': {
+				best: ['T20 - T20 - D12', 'T19 - T19 - D20']
+			},	
+			'143': {
+				best: ['T20 - T17 - D16']
+			},							
+			'142': {
+				best: ['T20 - T20 - D11', 'T20 - T14 - D20']
+			},									
+			'141': {
+				best: ['T20 - T19 - D12', 'T17 - T18 - D18']
+			},									
+			'140': {
+				best: ['T20 - T20 - D10', 'T18 - T18 - D20']
+			},									
+			'139': {
+				best: ['T20 - T17 - D14', 'T20 - T13 - D20']
+			},									
+			'138': {
+				best: ['T20 - T18 - D12', 'T18 - T18 - D10']
+			},									
+			'137': {
+				best: ['T20 - T17 - D13', 'T20 - T15 - D16']
+			},									
+			'136': {
+				best: ['T20 - T20 - D8']
+			},												
 			'135': {
 				first: ['25'],
-				i: 'Den 1. Dart auf Bull, bei Single bleibt <b>110</b> Rest'
+				i: 'Den 1. Dart auf Bull, bei Single bleibt <b>110</b> Rest',
+				best: ['T20 - T17 - D12', 'D25 - T19 - D14']
 			},
 			'132': {
 				first: ['25'],
-				i: 'Den 1. Dart auf Bull, bei Single bleibt <b>107</b> Rest'
+				i: 'Den 1. Dart auf Bull, bei Single bleibt <b>107</b> Rest',
+				best: ['T20 - T16 - D12', 'T20 - T18 - D8', 'D25 - D25 - D16']
 			},
 			'130': {
 				first: ['20'],
@@ -181,11 +224,11 @@ function( Backbone, Communicator, CheckoutTmpl  ) {
 			var checkThisOut = Math.floor((Math.random() * this.checkers.length) + 1);
 			this.ui.checkOutValueText.text(this.checkers[checkThisOut]);
 
-			this.checkers = _.without(this.checkers, checkThisOut);
+			this.checkers = _.without(this.checkers, this.checkers[checkThisOut]);
 
 			var _self = this;
 			this.interval = setInterval(function () {
-				var txt = _self.ui.startButton.text();
+				var txt = $(_self.ui.startButton[0]).text();
 				var nbr = Number(txt) - 1;
 				if(nbr === -1) {
 					_self._check();
@@ -235,6 +278,7 @@ function( Backbone, Communicator, CheckoutTmpl  ) {
 
 			var theField = [];
 			var theWay = null;
+			var afterFirstRest = null;
 
 			_.each(this.ui.resultButton, function (btn) {
 				var txt = $(btn).text();
@@ -247,6 +291,9 @@ function( Backbone, Communicator, CheckoutTmpl  ) {
 						theField.push(num);
 						score = score + (num * 3);
 						isLastD = false;
+						if(!afterFirstRest) {
+							afterFirstRest = nbr -score;
+						}
 					} else if(txt[0] === 'D') {
 						var subTxt = txt.substr(1, txt.length);
 						var num = Number(subTxt);
@@ -256,11 +303,17 @@ function( Backbone, Communicator, CheckoutTmpl  ) {
 							isBeforeD = true;
 						}
 						isLastD = true;
+						if(!afterFirstRest) {
+							afterFirstRest = nbr - score;
+						}
 					} else {
 						var num = Number(txt);
 						theField.push(num);
 						score = score + num;
 						isLastD = false;
+						if(!afterFirstRest) {
+							afterFirstRest = nbr - score;
+						}
 					}
 				}
 			})
@@ -317,9 +370,19 @@ function( Backbone, Communicator, CheckoutTmpl  ) {
 						text += '<div>Standard-Doppel = 1 Zusatzpunkt</div>';
 					}
 				}
+				if(afterFirstRest <= 70 && afterFirstRest >= 61) {
+					var fifty = afterFirstRest - Number(theField[1])
+					if(fifty === 50) {
+						points = points + 2;
+						text += '<div>Clever, Bull-Finish Option gezogen = 2 Zusatzpunkte</div>';
+					}
+				}
 			} else {
 				text = '<div><i class="fa fa-ban text-danger"></i></div>';
 				text += '<div>Fehler, ' + txt + ' wurde nicht gecheckt</div>';
+				if(this.bestWay[score]) {
+					text += '<div><b>' + this.bestWay[score].i + '</b></div>';
+				}
 				this.error += 1;
 				if(this.error === 3 && this.level !== 8) {
 					text = '<div>3. Fehler - Spiel endet</div>' + '<div><button class="btn btn-success">Restart</button></div>' + text;
@@ -332,7 +395,7 @@ function( Backbone, Communicator, CheckoutTmpl  ) {
 
 			text += '<div>Punkte: ' + points + ' </div>';
 
-			var tT = this.levelTime[this.level] - Number(this.ui.startButton.text());
+			var tT = this.levelTime[this.level] - Number($(this.ui.startButton[0]).text());
 			this.totalElapsedTime += tT;
 
 			var cCount = Number(this.ui.divCheckCount.text());
