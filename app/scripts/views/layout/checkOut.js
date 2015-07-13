@@ -74,97 +74,333 @@ function( Backbone, Communicator, CheckoutTmpl  ) {
 			},
 			'149': {
 				best: ['T20 - T19 - D16']
-			},	
+			},
 			'148': {
 				best: ['T20 - T20 - D14', 'T19 - T17 - D20']
-			},			
+			},
 			'147': {
 				best: ['T20 - T17 - D18', 'T19 - T18 - D18']
-			},						
+			},
 			'146': {
 				best: ['T20 - T20 - D13', 'T20 - T18 - D16']
-			},									
+			},
 			'145': {
 				best: ['T20 - T19 - D14', 'T20 - T15 - D20']
-			},												
+			},
 			'144': {
 				best: ['T20 - T20 - D12', 'T19 - T19 - D20']
-			},	
+			},
 			'143': {
 				best: ['T20 - T17 - D16']
-			},							
+			},
 			'142': {
 				best: ['T20 - T20 - D11', 'T20 - T14 - D20']
-			},									
+			},
 			'141': {
 				best: ['T20 - T19 - D12', 'T17 - T18 - D18']
-			},									
+			},
 			'140': {
 				best: ['T20 - T20 - D10', 'T18 - T18 - D20']
-			},									
+			},
 			'139': {
 				best: ['T20 - T17 - D14', 'T20 - T13 - D20']
-			},									
+			},
 			'138': {
 				best: ['T20 - T18 - D12', 'T18 - T18 - D10']
-			},									
+			},
 			'137': {
 				best: ['T20 - T17 - D13', 'T20 - T15 - D16']
-			},									
+			},
 			'136': {
 				best: ['T20 - T20 - D8']
-			},												
+			},
 			'135': {
 				first: ['25'],
 				i: 'Den 1. Dart auf Bull, bei Single bleibt <b>110</b> Rest',
 				best: ['T20 - T17 - D12', 'D25 - T19 - D14']
+			},
+			'134': {
+				best: ['T20 - T14 - D16', 'T18 - T18 - D18']
+			},
+			'133': {
+				best: ['T20 - T19 - D8', 'T18 - T13 - D20']
 			},
 			'132': {
 				first: ['25'],
 				i: 'Den 1. Dart auf Bull, bei Single bleibt <b>107</b> Rest',
 				best: ['T20 - T16 - D12', 'T20 - T18 - D8', 'D25 - D25 - D16']
 			},
+			'131': {
+				best: ['T20 - T13 - D16']
+			},
 			'130': {
 				first: ['20'],
-				i: 'Den 1. Dart auf 20, bei Single bleibt <b>110</b> Rest'
+				i: 'Den 1. Dart auf 20, bei Single bleibt <b>110</b> Rest',
+				best: ['T20 - T20 - D10', 'T19 - T19 - D8']
 			},
 			'129': {
 				first: ['25', '19'],
-				i: 'Den 1. Dart auf Bull oder 19, bei Single bleibt ein 2 Dart Finish Rest (104, 110)'
+				i: 'Den 1. Dart auf Bull oder 19, bei Single bleibt ein 2 Dart Finish Rest (104, 110)<br>Trifft der 1. T20 ist mit Single Bull-Finish möglich',
+				best: ['D25 - T13 - D20', 'T19 - T16 - D12' , 'T20 - T19 - D6']
 			},
 			'128': {
 				first: ['18'],
-				i: 'Den 1. Dart auf 18, bei Single bleibt <b>110</b> Rest'
+				i: 'Den 1. Dart auf 18, bei Single bleibt <b>110</b> Rest<br>Trifft der 1. T20 ist mit Single Bull-Finish möglich',
+				best: ['T18 - T18 - D10', 'T20 - T20 - D4']
 			},
 			'127': {
 				first: ['20', '17'],
-				i: 'Den 1. Dart auf 20 oder 17, bei Single bleibt ein 2 Dart Finish Rest (110, 107)'
+				i: 'Den 1. Dart auf 20 oder 17, bei Single bleibt ein 2 Dart Finish Rest (110, 107)',
+				best: ['T20 - T17 - D8']
 			},
 			'126': {
 				first: ['25', '19', '16'],
-				i: 'Den 1. Dart auf 25, 19 oder 16, bei Single bleibt ein 2 Dart Finish Rest (110, 107, 101)'
+				i: 'Den 1. Dart auf 25, 19 oder 16, bei Single bleibt ein 2 Dart Finish Rest (110, 107, 101)',
+				best: ['T19 - T15 - D12']
+
 			},
 			'125': {
-				first: ['25'],
-				i: 'Den 1. Dart auf Bull, bei Single bleibt <b>100</b> Rest'
+				first: ['25', '18'],
+				i: 'Den 1. Dart auf Bull oder, bei Single bleibt ein 2 Dart Finish Rest (100, 107)',
+				best: ['D25 - T19 - D14', 'T18 - T13 - D16']
 			},
 			'124': {
 				first: ['20', '17'],
-				i: 'Den 1. Dart auf 20 oder 17, bei Single bleibt  ein 2 Dart Finish Rest (104, 107)'
+				i: 'Den 1. Dart auf 20 oder 17, bei Single bleibt  ein 2 Dart Finish Rest (104, 107)',
+				best: ['T20 - T20 - D2']
 			},
 			'123': {
 				first: ['25', '19'],
-				i: 'Den 1. Dart auf Bull oder 19, bei Single bleibt  ein 2 Dart Finish Rest (98, 104)'
+				i: 'Den 1. Dart auf Bull oder 19, bei Single bleibt  ein 2 Dart Finish Rest (98, 104)',
+				best: ['T19 - T10 - D18']
 			},
 			'122': {
 				first: ['25', '18'],
-				i: 'Den 1. Dart auf Bull oder 18, bei Single bleibt  ein 2 Dart Finish Rest (97, 104)'
+				i: 'Den 1. Dart auf Bull oder 18, bei Single bleibt  ein 2 Dart Finish Rest (97, 104)',
+				best: ['T18 - T20 - D4']
 			},
 			'121': {
 				first: ['25', '20', '17'],
-				i: 'Den 1. Dart auf Bull, 20 oder 17, bei Single bleibt  ein 2 Dart Finish Rest (96, 101, 104)'
-			}
-
+				i: 'Den 1. Dart auf Bull, 20 oder 17, bei Single bleibt  ein 2 Dart Finish Rest (96, 101, 104)',
+				best: ['T20 - 25 - D18', 'T17 - T10 - D20']
+			},
+			'120': {
+				best: ['T20 - 20 - D20']
+			},
+			'119': {
+				first: ['19'],
+				best: ['T19 - T12 - D13', 'T19 - T10 - D16'],
+				i: 'Den 1. Dart auf 19, bei Single bleibt <b>100</b> Rest<br>Achtung: Single 20 wär fatal...'
+			},
+			'118': {
+				first: ['18'],
+				best: ['T20 - 18 - D20'],
+				i: 'Den 1. Dart auf 18, bei Single bleibt <b>100</b> Rest'
+			},
+			'117': {
+				best: ['T20 - 18 - D20'],
+			},
+			'116': {
+				best: ['T20 - 16 - D20', 'T20 - 20 - D18'],
+			},
+			'115': {
+				best: ['T20 - 15 - D20'],
+			},
+			'114': {
+				best: ['T20 - 14 - D20'],
+			},
+			'113': {
+				best: ['T20 - 13 - D20'],
+			},
+			'112': {
+				best: ['T20 - 20 - D16', 'T20 - 12 - D20', 'T19 - 15 - D20'],
+			},
+			'111': {
+				best: ['T20 - 11 - D20', 'T20 - 19 - D16'],
+			},
+			'110': {
+				best: ['T20 - D25'],
+			},
+			'109': {
+				first: ['20'],
+				i: 'Den 1. Dart auf 20, bei Single 5 bleibt ein 2 Dart Finish <b>104</b> Rest',
+				best: ['T20 - 17 - D16', 'T20 - 9 - D20'],
+			},
+			'108': {
+				first: ['19', '18'],
+				i: 'Den 1. Dart auf 19 oder 18, bei Single 7, 5 bleibt ein 2 Dart Finish <b>(101, 104)</b> Rest',
+				best: ['T19 - 19 - D16', 'T18 - 18 - D18'],
+			},
+			'107': {
+				first: ['19'],
+				i: 'Den 1. Dart auf 19, bei Single 7, 3 bleibt ein 2 Dart Finish <b>(100, 104)</b> Rest',
+				best: ['T19 - D25']
+			},
+			'106': {
+				first: ['20', '16'],
+				i: 'Den 1. Dart auf 20 oder 16, bei Single 5, 8 bleibt ein 2 Dart Finish <b>(101, 98)</b> Rest',
+				best: ['T20 - 14 - D16', 'T16 - 18 - D20']
+			},
+			'105': {
+				first: ['20'],
+				i: 'Den 1. Dart auf 20, bei Single 5, 1 bleibt ein 2 Dart Finish <b>(101, 104)</b> Rest',
+				best: ['T20 - 5 - D20']
+			},
+			'104': {
+				first: ['19'],
+				i: 'Den 1. Dart auf 19, bei Single 7, 3 bleibt ein 2 Dart Finish <b>(97, 101)</b> Rest',
+				best: ['T19 - 15 - D16']
+			},
+			'103': {
+				first: ['19'],
+				i: 'Den 1. Dart auf 19, bei Single 7, 3 bleibt ein 2 Dart Finish <b>(96, 100)</b> Rest',
+				best: ['T19 - 14 - D16']
+			},
+			'102': {
+				first: ['20'],
+				i: 'Den 1. Dart auf 20, bei Single 5, 1 bleibt ein 2 Dart Finish <b>(97, 101)</b> Rest',
+				best: ['T20 - 10 - D16']
+			},
+			'101': {
+				first: ['20'],
+				i: 'Den 1. Dart auf 20, bei Single 5, 1 bleibt ein 2 Dart Finish <b>(96, 100)</b> Rest<br>Bei T17 ist Single 2 fatal...',
+				best: ['T17 - D25', 'T20 - 1 - D20']
+			},
+			'100': {
+				best: ['T20 - D20']
+			},
+			'99': {
+				best: ['T19 - 12 - D20', 'D25 - 17 - D16']
+			},
+			'98': {
+				best: ['T20 - D19']
+			},
+			'97': {
+				best: ['T19 - D20']
+			},
+			'96': {
+				best: ['T20 - D18']
+			},
+			'95': {
+				best: ['T19 - D19']
+			},
+			'94': {
+				best: ['T18 - D20']
+			},
+			'93': {
+				best: ['T19 - D18']
+			},
+			'92': {
+				best: ['T20 - D16']
+			},
+			'91': {
+				best: ['T17 - D20']
+			},
+			'90': {
+				first: ['20'],
+				i: 'Den 1. Dart auf 20, bei Single 20, Single 20 = Bull Finish',
+				best: ['T18 - D18', 'T20 - D15']
+			},
+			'89': {
+				best: ['T19 - D16']
+			},
+			'88': {
+				first: ['20'],
+				i: 'Den 1. Dart auf 20, bei Single 20, Single 18 = Bull Finish',
+				best: ['T20 - D14', 'T16 - D20']
+			},
+			'87': {
+				best: ['T17 - D18']
+			},
+			'86': {
+				best: ['T18 - D16']
+			},
+			'85': {
+				best: ['T19 - D14', 'T15 - D20']
+			},
+			'84': {
+				best: ['T20 - D12']
+			},
+			'83': {
+				best: ['T17 - D16']
+			},
+			'82': {
+				first: ['25'],
+				i: 'Den 1. Dart auf Bull, bei Single 25, Single 17 = D20',
+				best: ['T14 - D20', 'D25 - D16']
+			},
+			'81': {
+				best: ['T19 - D12']
+			},
+			'80': {
+				first: ['20'],
+				i: 'Den 1. Dart auf 20, bei Single 20, Single 20 = D20',
+				best: ['T16 - D16', 'T20 - D15']
+			},
+			'79': {
+				first: ['19'],
+				i: 'Den 1. Dart auf 19, bei Single 20, Single 20 = D20',
+				best: ['T13 - D20', 'T19 - D22']
+			},
+			'78': {
+				first: ['18'],
+				i: 'Den 1. Dart auf 18, bei Single 20, Single 20 = D20',
+				best: ['T18 - D12']
+			},
+			'77': {
+				best: ['T15 - D16', 'T19 - D10']
+			},
+			'76': {
+				best: ['T20 - D8']
+			},
+			'75': {
+				best: ['T17 - D12', 'T13 - D18']
+			},
+			'74': {
+				best: ['T14 - D16']
+			},
+			'73': {
+				best: ['T19 - D8']
+			},
+			'72': {
+				best: ['T16 - D12', 'T12 - D18']
+			},
+			'71': {
+				best: ['T13 - D16']
+			},
+			'70': {
+				best: ['T18 - D8', 'T10 - D20']
+			},
+			'69': {
+				best: ['T15 - D12']
+			},
+			'68': {
+				best: ['T20 - D4']
+			},
+			'67': {
+				best: ['T17 - D8']
+			},
+			'66': {
+				best: ['T10 - D18']
+			},
+			'65': {
+				best: ['25 - D20', 'T19 - D4']
+			},
+			'64': {
+				best: ['T20 - D2']
+			},
+			'63': {
+				best: ['T13 - D12']
+			},
+			'62': {
+				best: ['T20 - D1', 'T10 - D16']
+			},
+			'61': {
+				best: ['25 - D18', 'T15 - D8', 'T19 - D2']
+			},
+			'60': {
+				best: ['20 - D20']
+			},
 		},
 
 		interval: null,
@@ -277,8 +513,8 @@ function( Backbone, Communicator, CheckoutTmpl  ) {
 			var thrownDarts = 0;
 
 			var theField = [];
-			var theWay = null;
-			var afterFirstRest = null;
+			var theWay = '';
+			var afterFirstRest = -1;
 
 			_.each(this.ui.resultButton, function (btn) {
 				var txt = $(btn).text();
