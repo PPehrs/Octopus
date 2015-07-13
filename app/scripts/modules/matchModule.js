@@ -325,7 +325,6 @@ function(App, Communicator) {
 
 			var activeLeg = this.match.activeLeg;
 
-			debugger
 			activeLeg.entries[activeLeg.entries.length -1].oCkd = true;
 
 			activeLeg.entries.push(entry);

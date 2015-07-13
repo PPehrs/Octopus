@@ -136,10 +136,16 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
 
 		onClickMissButton: function(e) {
 			var value = this.ui.scoreInput.val();
-			var missedDarts = $(e.target).data('id');
-			this.triggerMethod('scoreItem:new:score', value, missedDarts);
-			this.ui.scoreInput.val('');
-			this.focusInput();
+			if(value || !this._parentLayoutView().missNeedsValue()) {
+				var missedDarts = $(e.target).data('id');
+				this.triggerMethod('scoreItem:new:score', value, missedDarts);
+				this.ui.scoreInput.val('');
+				this.focusInput();
+			} else {
+				this.ui.scoreInput.val('0?');
+				this.ui.scoreInput.focus();
+				this.ui.scoreInput.select();
+			}
 		},
 
 		onClickEnterButton: function() {

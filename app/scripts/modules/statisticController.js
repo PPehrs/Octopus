@@ -28,12 +28,15 @@ function(App, Communicator, PlayerModel) {
 			newCol.push({rest: (501 * legCount)});
 			var lastRest = 501;
 			var totalScore = 0;
+			var totalDarts = 0;
 			var checks = 0;
 			var misses = 0;
 			var dblThrows = 0;
 			var checkMisses = 0;
 			var round = 1;
 			_.each(entries, function (c) {
+				totalDarts += 3;
+
 				if (c.value >= 60 && c.value < 100) {
 					specialData.s += 1;
 				} else if (c.value >= 100 && c.value < 140) {
@@ -43,7 +46,6 @@ function(App, Communicator, PlayerModel) {
 				} else if (c.value >= 180) {
 					specialData.h8 += 1;
 				}
-				console.log(c.value)
 				if(c.check) {
 					checks += 1;
 					dblThrows += 1;
@@ -51,8 +53,10 @@ function(App, Communicator, PlayerModel) {
 					var tDarts = round * 3;
 					if(c.check === '1.') {
 						tDarts -= 2;
+						totalDarts -= 2;
 					} else if(c.check === '2.') {
 						tDarts -= 1;
+						totalDarts -= 1;
 					}
 					specialData.dartsVal.push(tDarts);
 					round = 0;
@@ -72,11 +76,12 @@ function(App, Communicator, PlayerModel) {
 					round = 0;
 				}
 
+
 				round += 1;
 			});
 
 			if(newCol.length > 1) {
-				specialData.ave = (totalScore / (newCol.length-1)).toFixed(2);
+				specialData.ave = ((totalScore / totalDarts) * 3).toFixed(2);
 			}
 
 			if(checks) {
@@ -115,7 +120,9 @@ function(App, Communicator, PlayerModel) {
 
 			if (match.activeLeg)  {
 				legCount += 1;
-				entries.push(match.activeLeg.entries)
+				if(match.activeLeg.entries) {
+					entries.push(match.activeLeg.entries)
+				}
 			}
 
 			entries = _.flatten(entries);

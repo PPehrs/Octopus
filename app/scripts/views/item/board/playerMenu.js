@@ -21,6 +21,9 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
     		SwitchPlayernames: '.switchPlayernames',
     		Alert: '.bb-alert',
     		AlertText: '.bb-alert span',
+			StatisticCheck: '.match-statistic-check',
+			StatisticAvg: '.match-statistic-avg',
+			StatisticDarts: '.match-statistic-darts'
     	},
 
 		/* Ui events hash */
@@ -29,6 +32,12 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
 			'click @ui.SwitchPlayernames': '_onClickSwitchPlayernames',
 			'click @ui.WonLegs': '_onClickWonLegs',
 			'focusout @ui.WonLegsEdit':  '_onLostFocusWonLegsEdit'
+		},
+
+		setStats : function (tDarts, ave, dbl) {
+			this.ui.StatisticDarts.text(tDarts);
+			this.ui.StatisticAvg.text(Number(ave).toFixed(1));
+			this.ui.StatisticCheck.text(Number(dbl).toFixed(1) + '%');
 		},
 
 		_onClickWonLegs: function () {

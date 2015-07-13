@@ -37,12 +37,14 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			MatchRunningAlert: '#octopus_matchInfo',
 			MatchInfo: '#octopus_matchInfo .fa-info-circle',
 			MatchStatistic: '#octopus_matchInfo .fa-line-chart',
-			MatchResultQuickInfo: '#octopus_matchInfo .match-result-quickInfo'
+			MatchResultQuickInfo: '#octopus_matchInfo .match-result-quickInfo',
+			ButtonUndoLegWon: '.undo-leg-won'
 		},
 
 		/* Ui events hash */
 		events: {
-			'click @ui.ButtonNewMatch': '_onClickNewMatch'
+			'click @ui.ButtonNewMatch': '_onClickNewMatch',
+			'click @ui.ButtonUndoLegWon': '_onClickUndoLegWon'
 		},
 
 		childEvents: {
@@ -61,6 +63,10 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			'playerScore:change:value': function (child, value, uid) {
 				this._onChangeScore(value, uid);
 			},
+		},
+
+		_onClickUndoLegWon: function () {
+			this._onUndoScore();
 		},
 
 		_onActivatePlayer: function (isLeft) {
@@ -95,6 +101,14 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			var score = playerView.collection.at(0);
 			var rest = score.get('score');
 
+
+			var match = App.module('MatchModule').match;
+			if(!_.isEmpty(match)) {
+				var res = App.module('StatisticController').calculateTotal(match);
+				this._PlayerLeftView().stats(res.lData);
+				this._PlayerRightView().stats(res.rData);
+			}
+
 			this.ScoreRegion.currentView.canCheck(this.matchModule.possibleCheckWith(rest));
 		},
 
@@ -116,6 +130,22 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 				setTimeout(function () {
 					self._startNewMatch();
 				});
+			}
+		},
+
+		missNeedsValue: function() {
+			var isPlayerLeftActive = this.matchModule.match.state.isPlayerLeftActive;
+			var score = 0;
+			if(isPlayerLeftActive) {
+				score = this._PlayerScoresLeftView().collection.at(0).get('score');
+			} else {
+				score = this._PlayerScoresRightView().collection.at(0).get('score');
+			}
+
+			if(score === 50 || (score <= 40 && score % 2 === 0 ) ) {
+				return false;
+			} else {
+				return true;
 			}
 		},
 

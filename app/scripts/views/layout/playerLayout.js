@@ -83,6 +83,12 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores, Play
 			});
 		},
 
+		stats : function (res) {
+			var col = this.PlayerScoresRegion.currentView.collection.length;
+			var tDarts = (col - 1) * 3;
+			this.PlayerMenuRegion.currentView.setStats(tDarts, res.ave, res.dbl);
+		},
+
 		_sum: function (obj) {
 			if (!$.isArray(obj) || obj.length == 0) {
 				return 0;

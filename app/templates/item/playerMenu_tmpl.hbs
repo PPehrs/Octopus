@@ -2,7 +2,7 @@
     <span></span>
 </div>
 
-<div style="font-size: 1.5em;height:30px">
+<div class="clearfix" style="font-size: 1.5em;height:30px">
     {{#if isLeft}}
 
 <div style="margin-top:-140px;float:left">
@@ -12,21 +12,34 @@
 	</div>
  	<div class="fz-2" style="margin-top: -10px;">Legs</div>
 </div>
-
+        <i class="fz-1 m-r-vs" style="margin-top: -10px;float:left;color:darkgray;">Darts</i>
+        <i class="match-statistic-darts fz-1 m-r-vs" style="margin-top: -10px;border-radius:5px;padding:0px 5px;float:left;background:darkgray;color:white">0</i>
+        <i class="fz-1 m-r-vs" style="margin-top: -10px;float:left;color:darkgray;">&sum; Avg</i>
+        <i class="match-statistic-avg fz-1 m-r-vs" style="margin-top: -10px;float:left;border-radius:5px;padding:0px 5px;background:darkgray;color:white">0.0</i>
+        <i class="fz-1 m-r-vs" style="margin-top: -10px;float:left;color:darkgray;">Check</i>
+        <i class="match-statistic-check fz-1 m-r-vs" style="margin-top: -10px;float:left;border-radius:5px;padding:0px 5px;background:darkgray;color:white">0%</i>
     	<i class="c-p switchPlayernames fa fa-arrow-circle-right text-success" style="float:right"></i>
 		<i class="c-p activePlayer fa fa-bullseye text-success m-r-s" style="float:right"></i>
   {{else}}
+
+        <div style="margin-top:-140px;float:right">
+            <div>
+                <div class="wonLegs fz-5 fw-9" style="line-height: 90px;">0</div>
+                <input class="wonLegsEdit fz-3" maxlength="3" tabindex="-1" style="margin-top: 3rem;width:5rem;margin-top: 3rem;width:5rem;margin-top: 3vw;width:5vw;text-align:center;display:none">
+            </div>
+            <div class="fz-2" style="margin-top: -10px;">Legs</div>
+        </div>
+
 		<i class="c-p switchPlayernames fa fa-arrow-circle-left text-success" style="float:left"></i>
 		<i class="c-p activePlayer fa fa-bullseye text-success m-l-s" style="float:left"></i>
+        <i class="fz-1 m-r-vs" style="margin-top: -10px;float:right;color:darkgray;">Darts</i>
+        <i class="match-statistic-darts fz-1 m-r-vs" style="margin-top: -10px;border-radius:5px;padding:0px 5px;float:right;background:darkgray;color:white">0</i>
+        <i class="fz-1 m-r-vs" style="margin-top: -10px;float:right;color:darkgray;">&sum; Avg</i>
+        <i class="match-statistic-avg fz-1 m-r-vs" style="margin-top: -10px;float:right;border-radius:5px;padding:0px 5px;background:darkgray;color:white">0.0</i>
+        <i class="fz-1 m-r-vs" style="margin-top: -10px;float:right;color:darkgray;">Check</i>
+        <i class="match-statistic-check fz-1 m-r-vs" style="margin-top: -10px;float:right;border-radius:5px;padding:0px 5px;background:darkgray;color:white">0%</i>
 
 
-<div style="margin-top:-140px;float:right">
-    <div>
-        <div class="wonLegs fz-5 fw-9" style="line-height: 90px;">0</div>
-        <input class="wonLegsEdit fz-3" maxlength="3" tabindex="-1" style="margin-top: 3rem;width:5rem;margin-top: 3rem;width:5rem;margin-top: 3vw;width:5vw;text-align:center;display:none">
-    </div>
- <div class="fz-2" style="margin-top: -10px;">Legs</div>
-</div>
 
   {{/if}}
 </div>

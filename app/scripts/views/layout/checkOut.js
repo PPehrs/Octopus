@@ -198,7 +198,7 @@ function( Backbone, Communicator, CheckoutTmpl  ) {
 				i: 'Den 1. Dart auf 18, bei Single bleibt <b>100</b> Rest'
 			},
 			'117': {
-				best: ['T20 - 18 - D20'],
+				best: ['T20 - 17 - D20'],
 			},
 			'116': {
 				best: ['T20 - 16 - D20', 'T20 - 20 - D18'],
@@ -518,8 +518,8 @@ function( Backbone, Communicator, CheckoutTmpl  ) {
 
 			_.each(this.ui.resultButton, function (btn) {
 				var txt = $(btn).text();
-				theWay += (theWay?' - ':'') + txt;
 				if(txt.indexOf('-') === -1) {
+					theWay += (theWay?' - ':'') + txt;
 					thrownDarts += 1;
 					if(txt[0] === 'T') {
 						var subTxt = txt.substr(1, txt.length);
@@ -592,7 +592,7 @@ function( Backbone, Communicator, CheckoutTmpl  ) {
 						text += '<div>' + this.bestWay[score].i + addP + '</div>';
 					}
 					if(this.bestWay[score].best) {
-						text += '<div>Best: ' + this.bestWay[score].best.join() + addB + '</div>';
+						text += '<div>Best: ' + this.bestWay[score].best.join(' / ') + addB + '</div>';
 					}
 				}
 				if(score >= 111) {
@@ -616,8 +616,8 @@ function( Backbone, Communicator, CheckoutTmpl  ) {
 			} else {
 				text = '<div><i class="fa fa-ban text-danger"></i></div>';
 				text += '<div>Fehler, ' + txt + ' wurde nicht gecheckt</div>';
-				if(this.bestWay[score]) {
-					text += '<div><b>' + this.bestWay[score].i + '</b></div>';
+				if(this.bestWay[txt]) {
+					text += '<div><b>' + this.bestWay[txt].best.join(' / ') + '</b></div>';
 				}
 				this.error += 1;
 				if(this.error === 3 && this.level !== 8) {

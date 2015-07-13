@@ -179,6 +179,12 @@
     padding-bottom: 15px;
 }
 
+.one-line {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 .mm-h-200 {
 	min-height: 200px;
 	max-height: 200px;
@@ -392,7 +398,7 @@
   border-radius: 200px;
   background-color: #337ab7;
   color: white;
-  padding: 2rem;  
+  padding: 2rem;
   padding: 2vw;
   text-align: center;
 }
