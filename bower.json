@@ -30,7 +30,8 @@
     "bootstrap-select": "~1.7.2",
     "moment": "~2.10.3",
     "chartjs": "~1.0.2",
-    "fantasyname": "~1.0.0"
+    "fantasyname": "~1.0.0",
+    "awesome-bootstrap-checkbox": "~0.3.4"
   },
   "directory": "bower_components"
 }
