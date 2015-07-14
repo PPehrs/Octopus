@@ -7,11 +7,12 @@ define([
 	'hbs!tmpl/layout/boardLayout_tmpl',
 	'./boardPanelLayout',
 	'./encounterPanelLayout',
+	'./computerOpponent_layout',
 	'./playerLayout',
 	'../item/board/scoreItem',
 	'modules/matchModule'
 ],
-function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutTmpl, BoardPanel, EncounterPanel, PlayerLayout, ScoreItem, MatchModule  ) {
+function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutTmpl, BoardPanel, EncounterPanel, ComputerOpponent, PlayerLayout, ScoreItem, MatchModule  ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -27,24 +28,28 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
     		PlayerLeftRegion: '#octopus_playerLeft',
     		PlayerRightRegion: '#octopus_playerRight',
     		BoardPanelRegion: '#octopus_boardPanel',
-    		EncounterPanelRegion: '#octopus_encounterPanel'
+    		EncounterPanelRegion: '#octopus_encounterPanel',
+			ComputerPanelRegion: '#octopus_computerPanel'
     	},
 
     	/* ui selector cache */
     	ui: {
 			CheckBoxTransmit: '#chkTransmit',
 			ButtonNewMatch:  '#btnNewMatch',
+			ComputerOpponentMatch:  '#btnComputerMatch',
 			MatchRunningAlert: '#octopus_matchInfo',
 			MatchInfo: '#octopus_matchInfo .fa-info-circle',
 			MatchStatistic: '#octopus_matchInfo .fa-line-chart',
 			MatchResultQuickInfo: '#octopus_matchInfo .match-result-quickInfo',
-			ButtonUndoLegWon: '.undo-leg-won'
+			ButtonUndoLegWon: '.undo-leg-won',
+			ButtonsEncounter: '.encounter-buttons'
 		},
 
 		/* Ui events hash */
 		events: {
 			'click @ui.ButtonNewMatch': '_onClickNewMatch',
-			'click @ui.ButtonUndoLegWon': '_onClickUndoLegWon'
+			'click @ui.ButtonUndoLegWon': '_onClickUndoLegWon',
+			'click @ui.ComputerOpponentMatch': '_onClickComputerOpponent'
 		},
 
 		childEvents: {
@@ -63,6 +68,43 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			'playerScore:change:value': function (child, value, uid) {
 				this._onChangeScore(value, uid);
 			},
+		},
+
+
+		_onClickComputerOpponent: function () {
+			this.BoardPanelRegion.$el.hide();
+			this.EncounterPanelRegion.$el.hide();
+
+			this.ComputerPanelRegion.show(new ComputerOpponent({
+				parent: this
+			}));
+		},
+
+		startCompGame: function (comp) {
+			var self = this;
+			if(this.matchModule.started && this.matchModule.match && this.matchModule.match.started) {
+				Bootbox.confirm('Aktuelles Match verwerfen und neues starten?', function (result) {
+					if (result) {
+						self.matchModule.stop();
+						self._startNewComputerMatch(comp);
+						setTimeout(function () {
+							self._startNewComputerMatch(comp);
+						});
+
+					}
+				});
+			} else {
+				self._startNewComputerMatch(comp);
+				setTimeout(function () {
+					self._startNewComputerMatch(comp);
+				});
+			}
+		},
+
+		hideComputerOpponent: function () {
+			this.ComputerPanelRegion.empty();
+			this.BoardPanelRegion.$el.show();
+			this.EncounterPanelRegion.$el.show();
 		},
 
 		_onClickUndoLegWon: function () {
@@ -424,6 +466,17 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			this.matchModule.start();
 		},
 
+		_startNewComputerMatch: function (comp) {
+			this.ui.MatchRunningAlert.fadeOut();
+			if(this.matchModule.started) {
+				this.matchModule.stop();
+			}
+
+			this.matchModule.encounterUid = null;
+			this.matchModule.start();
+			App.module('PlayerController').onSetPlayerNameComputerAutomatic(this._PlayerLeftView(), comp);
+		},
+
 		initialize: function() {
 			this.listenTo(Communicator.mediator, 'load:match', this._loadMatch);
 			this.listenTo(Communicator.mediator, 'encounterMatch:match:start', this._startNewMatch);
@@ -439,8 +492,10 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			//---------------------------------------------
 
 			this.ScoreRegion.show(new ScoreItem({}));
-			this.BoardPanelRegion.show(new BoardPanel({}));
-			this.EncounterPanelRegion.show(new EncounterPanel({}));
+			this.boardPanel = new BoardPanel({});
+			this.BoardPanelRegion.show(this.boardPanel);
+			this.encounterPanel = new EncounterPanel({});
+			this.EncounterPanelRegion.show(this.encounterPanel);
 
 			this.ui.MatchInfo.tooltipster({
             	content: $(

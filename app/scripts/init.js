@@ -87,8 +87,6 @@ require.config({
 		moment: '../bower_components/moment/min/moment-with-locales.min',
 
 		chart: '../bower_components/chartjs/Chart.min',
-
-		fantasyname: '../bower_components/fantasyname/namegen'
     },
 
     hbs: {
