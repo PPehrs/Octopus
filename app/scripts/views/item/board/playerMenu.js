@@ -12,6 +12,14 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
 
     	template: PlayermenuTmpl,
 
+		initialize: function () {
+			this.model.set({
+				tDarts: 0,
+				ave: 0.0,
+				dbl: 0.0
+			})
+		},
+
 
     	/* ui selector cache */
     	ui: {
@@ -35,9 +43,12 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
 		},
 
 		setStats : function (tDarts, ave, dbl) {
-			this.ui.StatisticDarts.text(tDarts);
-			this.ui.StatisticAvg.text(Number(ave).toFixed(1));
-			this.ui.StatisticCheck.text(Number(dbl).toFixed(1) + '%');
+			this.model.set({
+				tDarts: tDarts,
+				ave: Number(ave).toFixed(1),
+				dbl: Number(dbl).toFixed(1)
+			})
+			this.render();
 		},
 
 		_onClickWonLegs: function () {
