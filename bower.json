@@ -29,7 +29,8 @@
     "backbone-validation": "~0.11.5",
     "bootstrap-select": "~1.7.2",
     "moment": "~2.10.3",
-    "chartjs": "~1.0.2"
+    "chartjs": "~1.0.2",
+    "fantasyname": "~1.0.0"
   },
   "directory": "bower_components"
 }
