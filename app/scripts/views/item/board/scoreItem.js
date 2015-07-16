@@ -1,9 +1,10 @@
 define([
 	'backbone',
 	'tooltipster',
+	'communicator',
 	'hbs!tmpl/item/scoreItem_tmpl'
 ],
-function( Backbone, Tooltip, ScoreitemTmpl  ) {
+function( Backbone, Tooltip, Communicator, ScoreitemTmpl  ) {
     'use strict';
 
 	/* Return a ItemView class definition */
@@ -101,6 +102,8 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
 				}
 				this.ui.confirmScoreButtons.show();
 			} else {
+				this.check = false;
+				this.miss = 0;
 				this.hideConfirmButton();
 			}
 		},
@@ -216,6 +219,49 @@ function( Backbone, Tooltip, ScoreitemTmpl  ) {
 				e.target.value = null;
 				return;
 			}
+		},
+
+		initialize: function () {
+			this.listenTo(Communicator.mediator, 'comp:score:new', this.onCompNewScore);
+		},
+
+		onCompNewScore: function (val, comp) {
+			var _self = this;
+			this.ui.scoreInput.val(val);
+			var missedDarts = null;
+			var checkDart = null;
+
+			if(this.miss > 0) {
+				var damnMiss = Math.floor((Math.random() * 3) + 1);
+				if(damnMiss <= damnMiss) {
+					checkDart = '3.';
+				} else {
+					missedDarts = this.miss;
+				}
+			}
+
+			if(checkDart == '3.') {
+				if(this.miss == 3) {
+					missedDarts = 2;
+				}
+				else if(this.miss == 2) {
+					missedDarts = 1;
+				}
+			}
+			else if(checkDart == '2.') {
+				if(this.miss == 3) {
+					missedDarts = 1;
+				}
+			}
+
+			setTimeout(function() {
+				if(checkDart) {
+					_self.triggerMethod('scoreItem:new:score', 0, missedDarts, checkDart);
+				} else {
+					_self.triggerMethod('scoreItem:new:score', val);
+				}
+				_self.ui.scoreInput.val(null);
+			}, 1000)
 		},
 
 		/* on render callback */

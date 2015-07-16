@@ -110,8 +110,6 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores, Play
 			resultInfo.load = true;
 			resultInfo.scores = scores;
 			return this.loadPlayerScores();
-			//return rest;
-			//this.PlayerScoresRegion.currentView.render();
 		},
 
 		loadPlayerScores: function() {
@@ -153,8 +151,6 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores, Play
 
 		/* on render callback */
 		onRender: function() {
-			console.log(this.model.toJSON())
-
 			var resultModel = _.extend({}, this.model.get('resultInfo'), {isLeft:this.model.get('isLeft')})
 			this.PlayerMenuRegion.show(new PlayerMenu({
 				model: new Backbone.Model(resultModel)
