@@ -286,18 +286,50 @@ function( Backbone, Tooltip, Communicator, ScoreitemTmpl  ) {
 			this.listenTo(Communicator.mediator, 'comp:score:new', this.onCompNewScore);
 		},
 
+		tries : 0,
+
 		onCompNewScore: function (val, comp) {
+
+			var activePlayerRest = App.module('MatchModule').activePlayerRest;
+			var afterActivePlayerRest =  activePlayerRest - val;
+			if(afterActivePlayerRest <= 1) {
+				val = 0;
+			}
+
+			var checkModi = 1;
+
+			if(activePlayerRest <= 170) {
+				this.tries += ((9 - comp)/100);
+			} else {
+				this.tries = 0;
+			}
+
+			if(activePlayerRest >= 100) {
+				checkModi += (comp + ((5- this.tries<=0)?1:5- this.tries)) * (comp - this.tries<=0?1:comp - this.tries);
+			}
+
+			if(activePlayerRest >= 50) {
+				checkModi += (comp + ((3- this.tries<=0)?1:3- this.tries))  * (comp - this.tries<=0?1:comp - this.tries);
+			}
+
+			if(activePlayerRest <= 50) {
+				checkModi += (comp + ((2- this.tries<=0)?1:2- this.tries))   * (comp - this.tries<=0?1:comp - this.tries);
+			}
+
+
 			var _self = this;
 			this.ui.scoreInput.val(val);
 			var missedDarts = null;
 			var checkDart = null;
 
 			if(this.miss > 0) {
-				var damnMiss = Math.floor((Math.random() * 3) + 1);
-				if(damnMiss <= damnMiss) {
-					checkDart = '3.';
+				var damnMiss = Math.floor((Math.random() * checkModi) + 1);
+				if(damnMiss <= this.miss) {
+					checkDart = damnMiss + '.';
 				} else {
-					missedDarts = this.miss;
+					if((afterActivePlayerRest <= 40 || afterActivePlayerRest === 50) && afterActivePlayerRest % 2 === 0) {
+						missedDarts = Math.floor((Math.random() * this.miss));
+					}
 				}
 			}
 

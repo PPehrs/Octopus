@@ -56,6 +56,8 @@ function(App, Communicator) {
 			4,
 			3];
 
+		CompController.cT = 0,
+
 
 		CompController.buildPro = function () {
 			var comp = [];
@@ -66,10 +68,10 @@ function(App, Communicator) {
 				comp = comp.concat(this.s2);
 			}
 			for (var i = 0; i < 5; i++) {
-				comp = comp.concat(this.s1);
+				comp = comp.concat(this.s3);
 			}
 			for (var i = 0; i < 1; i++) {
-				comp = comp.concat(this.s1);
+				comp = comp.concat(this.s4);
 			}
 
 			var score = Math.floor((Math.random() * comp.length));
@@ -85,10 +87,10 @@ function(App, Communicator) {
 				comp = comp.concat(this.s2);
 			}
 			for (var i = 0; i < 10; i++) {
-				comp = comp.concat(this.s1);
+				comp = comp.concat(this.s3);
 			}
 			for (var i = 0; i < 3; i++) {
-				comp = comp.concat(this.s1);
+				comp = comp.concat(this.s4);
 			}
 
 			var score = Math.floor((Math.random() * comp.length));
@@ -104,10 +106,10 @@ function(App, Communicator) {
 				comp = comp.concat(this.s2);
 			}
 			for (var i = 0; i < 25; i++) {
-				comp = comp.concat(this.s1);
+				comp = comp.concat(this.s3);
 			}
 			for (var i = 0; i < 5; i++) {
-				comp = comp.concat(this.s1);
+				comp = comp.concat(this.s4);
 			}
 
 			var score = Math.floor((Math.random() * comp.length));
@@ -123,10 +125,10 @@ function(App, Communicator) {
 				comp = comp.concat(this.s2);
 			}
 			for (var i = 0; i < 20; i++) {
-				comp = comp.concat(this.s1);
+				comp = comp.concat(this.s3);
 			}
 			for (var i = 0; i < 10; i++) {
-				comp = comp.concat(this.s1);
+				comp = comp.concat(this.s4);
 			}
 
 			var score = Math.floor((Math.random() * comp.length));
@@ -142,10 +144,10 @@ function(App, Communicator) {
 				comp = comp.concat(this.s2);
 			}
 			for (var i = 0; i < 30; i++) {
-				comp = comp.concat(this.s1);
+				comp = comp.concat(this.s3);
 			}
 			for (var i = 0; i < 20; i++) {
-				comp = comp.concat(this.s1);
+				comp = comp.concat(this.s4);
 			}
 
 			var score = Math.floor((Math.random() * comp.length));
@@ -161,10 +163,10 @@ function(App, Communicator) {
 				comp = comp.concat(this.s2);
 			}
 			for (var i = 0; i < 40; i++) {
-				comp = comp.concat(this.s1);
+				comp = comp.concat(this.s3);
 			}
 			for (var i = 0; i < 30; i++) {
-				comp = comp.concat(this.s1);
+				comp = comp.concat(this.s4);
 			}
 
 			var score = Math.floor((Math.random() * comp.length));
@@ -183,7 +185,6 @@ function(App, Communicator) {
 			} else if(comp === 4) {
 				score = this.buildP3();
 			}
-
 
 			setTimeout(function () {
 				Communicator.mediator.trigger('comp:score:new', score, comp);
