@@ -151,6 +151,7 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 				this._PlayerRightView().stats(res.rData);
 			}
 
+			App.module('MatchModule').activePlayerRest = rest;
 			this.ScoreRegion.currentView.canCheck(this.matchModule.possibleCheckWith(rest));
 		},
 

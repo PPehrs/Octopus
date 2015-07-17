@@ -215,6 +215,15 @@
 	}
 }
 
+.oo_btn_miss {
+	&:hover {
+		color: black;
+		cursor: pointer;
+		background-color: lightpink;
+		border: 1px solid pink;
+	}
+}
+
 .xx_btn {
   &:hover {
     color: black;

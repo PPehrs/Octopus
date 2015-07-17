@@ -1,12 +1,13 @@
 define([
 	'backbone',
+	'communicator',
 	'hbs!tmpl/layout/playerLayout_tmpl',
 	'../item/board/playerMenu',
 	'../item/board/playerName',
 	'../composite/board/playerScores',
 	'models/player'
 ],
-function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores, PlayerModel ) {
+function( Backbone, Communicator, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores, PlayerModel ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -145,6 +146,7 @@ function( Backbone, PlayerlayoutTmpl, PlayerMenu, PlayerName, PlayerScores, Play
 			this.PlayerScoresRegion.show(new PlayerScores({
 				collection: collection
 			}));
+
 
 			return topRest;
 		},

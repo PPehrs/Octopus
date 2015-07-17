@@ -19,6 +19,8 @@ function( Backbone, Tooltip, Communicator, ScoreitemTmpl  ) {
 			F3: false
 		},
 
+		checkDart: -1,
+
 		scoreInputOldValue: '',
 
     	template: ScoreitemTmpl,
@@ -76,6 +78,14 @@ function( Backbone, Tooltip, Communicator, ScoreitemTmpl  ) {
 		},
 
 		canCheck: function(canCheck) {
+			this.ui.CheckText.html('Check<i class="m-l-vs fa fa-info-circle"></i>');
+			this.checkDart = -1;
+			$(this.ui.checkButton[0]).text('1.');
+			$(this.ui.checkButton[1]).text('2.');
+			$(this.ui.checkButton[2]).text('3.');
+			this.ui.checkButton.removeClass('oo_btn_miss');
+
+
 			if(canCheck) {
 				this.check = true;
 				this.miss = 0;
@@ -116,25 +126,76 @@ function( Backbone, Tooltip, Communicator, ScoreitemTmpl  ) {
 		},
 
 		onClickCheckButton: function(e) {
-			var value = this.ui.scoreInput.val();
-			var checkDart = $(e.target).data('id');
-			var missedDarts = 0;
-			if(checkDart == '3.') {
-				if(this.miss == 3) {
-					missedDarts = 2;
+			var txt = this.ui.CheckText.text();
+
+			var activePlayerRest = App.module('MatchModule').activePlayerRest;
+
+			if(txt[0] === 'M') {
+				var value = this.ui.scoreInput.val();
+				var missedDarts = Number($(e.target).text());
+				this.triggerMethod('scoreItem:new:score', value, missedDarts, this.checkDart);
+				this.ui.scoreInput.val('');
+				this.focusInput();
+			} else {
+
+				var value = this.ui.scoreInput.val();
+				var checkDart = $(e.target).data('id');
+				var missedDarts = 0;
+				var trigger = false;
+				if (checkDart === '3.') {
+					if (this.miss === 1) {
+						trigger = true;
+					} else if (this.miss === 3) {
+						if((activePlayerRest <= 40 && activePlayerRest >= 2) || activePlayerRest === 50) {
+							if((activePlayerRest % 2) === 0) {
+								missedDarts = 2;
+								trigger = true;
+							} else {
+								missedDarts = 1;
+								trigger = true;
+							}
+						}
+					}
 				}
-				else if(this.miss == 2) {
-					missedDarts = 1;
+				else if (checkDart === '2.') {
+					if (this.miss === 2) {
+						trigger = true;
+					} else if (this.miss === 3) {
+						if((activePlayerRest <= 40 && activePlayerRest >= 2) || activePlayerRest === 50) {
+							if((activePlayerRest % 2) === 0) {
+								missedDarts = 1;
+								trigger = true;
+							} else {
+								missedDarts = 0;
+								trigger = true;
+							}
+						}
+					}
+				}
+				else if (checkDart == '1.') {
+					trigger = true;
+				}
+
+				if (trigger) {
+					this.triggerMethod('scoreItem:new:score', value, missedDarts, checkDart);
+					this.ui.scoreInput.val('');
+					this.focusInput();
+				} else {
+					this.checkDart = checkDart;
+					this.ui.CheckText.html('Miss<i class="m-l-vs fa fa-info-circle"></i>');
+					this.ui.checkButton.addClass('oo_btn_miss');
+
+					if (this.miss === 3) {
+						$(this.ui.checkButton[0]).text('0');
+						$(this.ui.checkButton[1]).text('1');
+						$(this.ui.checkButton[2]).text('2');
+					}
+					if (this.miss === 2) {
+						$(this.ui.checkButton[1]).text('0');
+						$(this.ui.checkButton[2]).text('1');
+					}
 				}
 			}
-			else if(checkDart == '2.') {
-				if(this.miss == 3) {
-					missedDarts = 1;
-				}
-			}
-			this.triggerMethod('scoreItem:new:score', value, missedDarts, checkDart);
-			this.ui.scoreInput.val('');
-			this.focusInput();
 		},
 
 		onClickMissButton: function(e) {
