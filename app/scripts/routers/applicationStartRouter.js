@@ -7,9 +7,10 @@ define([
 	'../views/layout/encounterInfo',
 	'../views/layout/profileLayout',
 	'../views/layout/checkOut',
-	'../views/layout/liveEncountersOverview'
+	'../views/layout/liveEncountersOverview',
+	'../views/layout/compAnalyse'
 ],
-function(Backbone, Marionette, App, BoardLayout, MatchInfo, EncounterInfo, ProfileLayout, CheckOut, LiveOverview){
+function(Backbone, Marionette, App, BoardLayout, MatchInfo, EncounterInfo, ProfileLayout, CheckOut, LiveOverview, ComputerAnalyse){
     'use strict';
 
 	return Backbone.Marionette.AppRouter.extend({
@@ -24,11 +25,16 @@ function(Backbone, Marionette, App, BoardLayout, MatchInfo, EncounterInfo, Profi
 			'profile/:id': 'showProfile',
 			'board': 'showBoard',
 			'live': 'showLive',
+			'comp': 'showComputerAnalyse',
 			'check': 'showCheckOutBattle',
 			'*notFound': 'notFound',
 			':notFound': 'notFound',
 			'/*notFound': 'notFound',
 			'!/*notFound': 'notFound'
+		},
+
+		showComputerAnalyse: function() {
+			App.mainRegion.show(new ComputerAnalyse());
 		},
 
 		showLive: function () {

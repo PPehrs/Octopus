@@ -16,7 +16,9 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
 			this.model.set({
 				tDarts: 0,
 				ave: 0.0,
-				dbl: 0.0
+				dbl: 0.0,
+				isShowInfo: false,
+				wonWithText: ''
 			})
 		},
 
@@ -120,10 +122,13 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
 			this.ui.WonLegs.text(legsWon);
 
 			if(showInfo) {
+				this.model.set('isShowInfo', true);
 				var self = this;
-				this.ui.AlertText.text(wonWith + " Darts");
+				this.model.set('wonWithText', wonWith + " Darts");
 				this.ui.Alert.fadeIn('slow','swing',function() {
 					setTimeout(function() {
+						self.model.set('wonWithText', '');
+						self.model.set('isShowInfo', false);
 						self.ui.Alert.fadeOut('slow', 'swing');
 					}, 5000);
 

@@ -26,7 +26,6 @@ function(App, Communicator, PlayerModel) {
 
 		PlayerController.savePlayer = function (player, isOnGetFromStorage) {
 			if(typeof player.isLeft === 'undefined') {
-				debugger
 				return
 			}
 			if(_.isEmpty(this.players)) {
@@ -64,8 +63,8 @@ function(App, Communicator, PlayerModel) {
 				uid: _.uniqueId('u_')
 			}
 			if(lm.isLoggedIn) {
-				p1.name = lm.loggedInUserName;
-				p1.fkUser = lm.loggedInUserId;
+				p1.name = lm.loggedInUserName();
+				p1.fkUser = lm.loggedInUserId();
 			}
 			var p2 = {
 				legs: 0,
@@ -115,6 +114,15 @@ function(App, Communicator, PlayerModel) {
 			this.savePlayer(p2);
 
 		};
+
+		PlayerController.unsetComp =  function(isLeft) {
+			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+			var f = _.filter(octopusStore.players, function(w) {return w.comp > 0});
+			if(!_.isEmpty(f)) {
+				delete f[0].comp;
+				localStorage.setItem('octopus', JSON.stringify(octopusStore));
+			}
+		},
 
 		PlayerController.getPlayerFromStorage =  function(isLeft) {
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));

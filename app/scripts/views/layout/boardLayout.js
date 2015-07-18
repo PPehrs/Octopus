@@ -160,6 +160,7 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			if(this.matchModule.started && this.matchModule.match && this.matchModule.match.started) {
 				Bootbox.confirm('Aktuelles Match verwerfen und neues starten?', function (result) {
 					if (result) {
+						App.module('PlayerController').unsetComp();
 						self.matchModule.stop();
 						self._startNewMatch();
 						setTimeout(function () {
@@ -169,6 +170,7 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 					}
 				});
 			} else {
+				App.module('PlayerController').unsetComp();
 				self._startNewMatch();
 				setTimeout(function () {
 					self._startNewMatch();

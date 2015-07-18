@@ -90,7 +90,9 @@ function(App, Bootbox, Tooltip, Communicator) {
 						view.afterConfirm();
 					}
 
-					socketAction = eval('App.module("SocketModule").' + socketAction);
+					if(typeof socketAction === 'string') {
+						socketAction = eval('App.module("SocketModule").' + socketAction);
+					}
 					socketAction(view.model, self.showConfirmSocketResult, self );
 
 					return false;
