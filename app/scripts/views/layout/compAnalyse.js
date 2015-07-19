@@ -47,13 +47,11 @@ function( Backbone, CompanalyseTmpl  ) {
 			return missIn;
 		},
 
-		_onClickCheck: function() {
+		_onClickCheckR: function(nameIn, compC, countMax, btnC) {
 			var cc = App.module('CompController');
 			var $c = this.ui.Content;
-			$c.empty();
 
-			//PRO *************************************************************************
-			$c.append('<div class="fz3 btn-primary">Analyse Profi - 111 Check-Versuche</div>');
+			$c.append('<div class="m-t fz3 ' +  btnC + '">Analyse ' + nameIn + ' - 111 Check-Versuche</div>');
 
 			var $a1 = $c.append('<div id="analyse1"></div>');
 			var totalMiss = 0;
@@ -68,7 +66,7 @@ function( Backbone, CompanalyseTmpl  ) {
 				var yo = {};
 				var countTT = 0;
 				do {
-					yo = cc.setCheck(1, da, missIn, scoreIn);
+					yo = cc.setCheck(compC, da, missIn, scoreIn);
 					missU += yo.miss;
 					countTT += 1;
 					if(yo.check) {
@@ -91,14 +89,28 @@ function( Backbone, CompanalyseTmpl  ) {
 				} while(!yo.check);
 
 				var qout = ( (1/(missU + 1)) * 100).toFixed(2);
-				if(countTT > 2) {
+				if(countTT > countMax) {
 					$c.append('<span style="background-color:red;color:white">' + missU + ' / ' + qout + '% ||</span>');
 				} else {
 					$c.append('<span style="background-color:black;color:white">' + missU + ' / ' + qout + '% ||</span>');					
 				}
 			}		
 			var qoute = ( (totalCheck/(totalMiss + totalCheck)) * 100).toFixed(2);
-			$c.append('<div class="fz3 btn-primary">Profi Check-Qoute: <span style="background-color:darkred">'+ qoute + '%<span><span class="m-l-s" style="background-color:orange">'+ totalCheck + ' / ' + totalMiss + '<span></div>');
+			$c.append('<div class="fz3 ' +  btnC + '">' + nameIn + ' Check-Qoute: <span style="background-color:darkred">'+ qoute + '%<span><span class="m-l-s" style="background-color:orange">'+ totalCheck + ' / ' + totalMiss + '<span></div>');
+
+		},
+
+		_onClickCheck: function() {
+			var cc = App.module('CompController');
+			var $c = this.ui.Content;
+			$c.empty();
+
+			//PRO *************************************************************************
+			this._onClickCheckR('Profi', 1, 2, 'btn-primary');
+			this._onClickCheckR('Spielstärke 1', 2, 3, 'btn-success');
+			this._onClickCheckR('Spielstärke 2', 3, 4, 'btn-primary');
+			this._onClickCheckR('Spielstärke 3', 4, 5, 'btn-success');
+			this._onClickCheckR('Anfänger', 5, 6, 'btn-primary');
 		},		
 
 		_onClickStart: function() {

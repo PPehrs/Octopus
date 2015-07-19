@@ -14,14 +14,19 @@ function(App, Communicator) {
 		CompController.under = -1;
 
 		CompController.c1 = [2, 4, 6, 8, 10, 12, 14];
+		CompController.c11 = [3, 6, 9, 12, 15, 18, 21];
 		CompController.c2 = [4, 8, 12, 16, 20, 24, 28];
 		CompController.c3 = [6, 12, 18, 24, 30, 36, 42];
 		CompController.c4 = [8, 16, 24, 32, 40, 48, 56];
 		CompController.c5 = [10, 20, 30, 40, 50, 60, 70];
 
 		CompController.cm1 = [0, 0, 0, 0, 0, 0, 1, 1, 1, 2];
+		CompController.cm2 = [0, 0, 0, 0, 1, 1, 2];
+		CompController.cm3 = [0, 0, 0, 1, 1, 1, 2];
+		CompController.cm4 = [0, 0, 0, 1, 1, 1, 2, 2, 2];
+		CompController.cm5 = [0, 1, 1, 2, 2, 2];
 
-		CompController.douts = [50, 40, 38, 36, 34, 32, 30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 6, 4, 2];
+		CompController.douts = [50, 40, 40, 40, 40, 38, 36, 36, 36, 36, 34, 32, 32, 32, 32, 32, 32, 32, 32, 30, 28, 26, 24, 22, 20, 18, 16, 16, 16, 16, 14, 12, 10, 8, 6, 4, 2];
 
 		CompController.s10 = [180,
 			135,
@@ -67,7 +72,8 @@ function(App, Communicator) {
 			62,
 			78,
 			76,
-			66];
+			66,
+			60];
 
 		CompController.s3 = [60, 50,
 			45,
@@ -275,13 +281,13 @@ function(App, Communicator) {
 			if(comp === 1) {
 				l = CompController.c1;
 			} else if(comp === 2) {
-				l = CompController.c2;
+				l = CompController.c1;
 			} else if(comp === 3) {
-				l = CompController.c3;
+				l = CompController.c2;
 			} else if(comp === 4) {
-				l = CompController.c4;
+				l = CompController.c3;
 			} else if(comp > 4) {
-				l = CompController.c5;
+				l = CompController.c4;
 			} 
 
 			pos = pos - CompController.possi  >= 0 ? pos - CompController.possi : 0;
@@ -300,7 +306,7 @@ function(App, Communicator) {
 		};
 
 		CompController.getCheckMiss = function(l) {
-			return CompController.cm1[Math.floor((Math.random() * CompController.cm1.length))];
+			return l[Math.floor((Math.random() * l.length))];
 		};		
 
 		CompController.isDouble = function(rest) {
@@ -312,6 +318,9 @@ function(App, Communicator) {
 		}
 
 		CompController.setCheck = function (comp, rest, missIn, scoreIn) {
+			if(comp === 6) {
+				comp = Math.floor((Math.random() * 4) + 1)
+			}
 			var newRest = rest;
 			var miss = missIn;
 			var score = scoreIn;
@@ -345,6 +354,10 @@ function(App, Communicator) {
 				canC = CompController.setCheckR(comp, 1, miss);
 			}
 
+			if(comp === 1) {
+				canDPos = 0;
+			}
+
 			if(!canC) {
 				var canD = CompController.setCheckR(comp, canDPos, canDMiss);
 				if(canD) {
@@ -365,6 +378,14 @@ function(App, Communicator) {
 				if(miss === 3) {
 					if(comp === 1) {
 						miss = CompController.getCheckMiss(CompController.cm1);
+					} else if(comp === 2) {
+						miss = CompController.getCheckMiss(CompController.cm2);
+					} else if(comp === 3) {
+						miss = CompController.getCheckMiss(CompController.cm3);
+					} else if(comp === 4) {
+						miss = CompController.getCheckMiss(CompController.cm4);
+					} else if(comp === 5) {
+						miss = CompController.getCheckMiss(CompController.cm5);
 					}
 				}
 			}
@@ -386,6 +407,31 @@ function(App, Communicator) {
 
 		CompController.setScore = function (comp) {
 			var score = CompController.buildP5;
+			if(comp === 6) {
+				var lastS = App.module('MatchModule').lastScore;
+				if(lastS) {
+					var nS = Number(lastS);
+					var listOf = this.s4;
+					if(nS >= 100) {
+						listOf = this.s1;
+					}
+					else if(nS >= 60) {
+						listOf = this.s2;
+					}
+					else if(nS >= 26) {
+						listOf = this.s3;
+					}
+					score = listOf[Math.floor((Math.random() * listOf.length))];
+				} else {
+					score = this.buildP2();
+				}
+				setTimeout(function () {
+					Communicator.mediator.trigger('comp:score:new', score, comp);
+				}, 1000)
+				return;
+			}
+			//ende comp 6
+
 			if(comp === 1) {
 				score = this.buildPro();
 			} else if(comp === 2) {

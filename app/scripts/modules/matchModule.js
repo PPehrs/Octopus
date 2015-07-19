@@ -367,6 +367,7 @@ function(App, Communicator) {
 					entries: []
 				}
 			}
+			this.lastScore = value;
 
 			var entry = {
 				value: value,
