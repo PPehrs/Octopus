@@ -44,7 +44,7 @@ function( Backbone, ComputeropponentLayoutTmpl  ) {
 		_onClickButtonStart: function () {
 			this.options.parent.startCompGame(
 			{
-				comp: 3,
+				comp: Number($('input[name=radio2]:checked').val().replace('option', '')),
 				name: NameGen.compile('m Mi').toString()
 			})
 		},

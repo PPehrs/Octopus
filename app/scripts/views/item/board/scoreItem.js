@@ -289,69 +289,41 @@ function( Backbone, Tooltip, Communicator, ScoreitemTmpl  ) {
 		tries : 0,
 
 		onCompNewScore: function (val, comp) {
+			var cc = App.module('CompController');
 
 			var activePlayerRest = App.module('MatchModule').activePlayerRest;
 			var afterActivePlayerRest =  activePlayerRest - val;
-			if(afterActivePlayerRest <= 1) {
-				val = 0;
-			}
 
-			var checkModi = 1;
-
-			if(activePlayerRest <= 170) {
-				this.tries += ((9 - comp)/100);
-			} else {
-				this.tries = 0;
-			}
-
-			if(activePlayerRest >= 100) {
-				checkModi += (comp + ((5- this.tries<=0)?1:5- this.tries)) * (comp - this.tries<=0?1:comp - this.tries);
-			}
-
-			if(activePlayerRest >= 50) {
-				checkModi += (comp + ((3- this.tries<=0)?1:3- this.tries))  * (comp - this.tries<=0?1:comp - this.tries);
-			}
-
-			if(activePlayerRest <= 50) {
-				checkModi += (comp + ((2- this.tries<=0)?1:2- this.tries))   * (comp - this.tries<=0?1:comp - this.tries);
-			}
-
-
-			var _self = this;
-			this.ui.scoreInput.val(val);
+			var yo = {};
 			var missedDarts = null;
 			var checkDart = null;
 
-			if(this.miss > 0) {
-				var damnMiss = Math.floor((Math.random() * checkModi) + 1);
-				if(damnMiss <= this.miss) {
-					checkDart = damnMiss + '.';
-				} else {
-					if((afterActivePlayerRest <= 40 || afterActivePlayerRest === 50) && afterActivePlayerRest % 2 === 0) {
-						missedDarts = Math.floor((Math.random() * this.miss));
+			if(activePlayerRest > 170) {
+				cc.possi = 0;
+			} else {
+				yo = cc.setCheck(comp, activePlayerRest, this.miss, val);
+				missedDarts = yo.miss;
+				val = yo.score;
+				if(yo.check) {
+					if(this.miss === 3) {
+						checkDart = (yo.miss + 1) + '.';
+					} else if(this.miss === 2) {
+						checkDart = (yo.miss + 2) + '.';
+					} else {
+						checkDart = '3.';
 					}
 				}
 			}
 
-			if(checkDart == '3.') {
-				if(this.miss == 3) {
-					missedDarts = 2;
-				}
-				else if(this.miss == 2) {
-					missedDarts = 1;
-				}
-			}
-			else if(checkDart == '2.') {
-				if(this.miss == 3) {
-					missedDarts = 1;
-				}
-			}
 
+			this.ui.scoreInput.val(val);
+
+			var _self = this;
 			setTimeout(function() {
 				if(checkDart) {
 					_self.triggerMethod('scoreItem:new:score', 0, missedDarts, checkDart);
 				} else {
-					_self.triggerMethod('scoreItem:new:score', val);
+					_self.triggerMethod('scoreItem:new:score', val, missedDarts);
 				}
 				_self.ui.scoreInput.val(null);
 			}, 1000)
