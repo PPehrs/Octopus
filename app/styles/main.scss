@@ -531,3 +531,28 @@
 		}
 	}
 }
+
+.check-out-box {
+  float: left;
+  margin: 10px 5px;
+  background-color: lightyellow;
+  border: 1px solid #888888;
+  border-radius: 52px;
+  overflow: hidden;
+  margin-top: -5px;
+  padding: 4px;
+  &:hover {
+	  box-shadow: 0px 0px 43px 7px #888888;
+  }
+  div {
+  	span:first-child {
+  	  border-radius: 35px 0px 0px 0px !important;
+  	}
+  	span:last-child {
+  	  border-radius: 0px 35px 0px 0px !important;
+  	}
+  	span.single-d {
+		border-radius: 35px 35px 0px 0px !important;
+  	}
+  }
+}
