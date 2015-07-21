@@ -13,13 +13,15 @@ function( Backbone, ComputeropponentLayoutTmpl  ) {
 			ButtonStart: '.octopus_computer_opponoment_start',
 			ButtonClose: '.octopus_computer_opponoment_close',
 			ButtonAnalyse: '.octopus_computer_opponoment_analyse',
+			Compos: '.compo'
 		},
 
 		/* Ui events hash */
 		events: {
 			'click @ui.ButtonStart': '_onClickButtonStart',
 			'click @ui.ButtonClose': '_onClickButtonClose',
-			'click @ui.ButtonAnalyse': '_onClickButtonAnalyse'
+			'click @ui.ButtonAnalyse': '_onClickButtonAnalyse',
+			'click @ui.Compos': '_onClickCompos'
 		},
 
 		initialize: function() {
@@ -31,6 +33,11 @@ function( Backbone, ComputeropponentLayoutTmpl  ) {
 
     	/* Layout sub regions */
     	regions: {},
+
+		_onClickCompos: function (e) {
+			this.ui.Compos.removeClass('sel');
+			$(e.currentTarget).addClass('sel');
+		},
 
     	_onClickButtonAnalyse: function() {
 			var router = new Backbone.Router();
@@ -44,7 +51,7 @@ function( Backbone, ComputeropponentLayoutTmpl  ) {
 		_onClickButtonStart: function () {
 			this.options.parent.startCompGame(
 			{
-				comp: Number($('input[name=radio2]:checked').val().replace('option', '')),
+				comp: Number(this.ui.Compos.parent().find('.sel').data('id')),
 				name: NameGen.compile('m Mi').toString()
 			})
 		},

@@ -411,3 +411,123 @@
   padding: 2vw;
   text-align: center;
 }
+
+.compo {
+	cursor: pointer;
+	padding: 10px;
+	&:hover {
+		background-color: lightgreen;
+	}
+	img {
+		float:left;
+		margin-right: 5px;
+	}
+	.btn-div {
+		display: none;
+		text-align: center;
+		padding-top: 15px;
+		padding-bottom: 15px;
+	}
+	.compo-header {
+		font-size: 20px;
+		font-weight: bold;
+		margin-top: 5px;
+	}
+	&.no1 {
+		img {
+			content:url('../images/comp6.png');
+		}
+		&:hover {
+			img {
+				content: url('../images/comp6-sel.png');
+			}
+		}
+	}
+	&.no2 {
+		img {
+			content:url('../images/comp2.png');
+		}
+		&:hover {
+			img {
+				content: url('../images/comp2-sel.png');
+			}
+		}
+	}
+	&.no3 {
+		img {
+			content:url('../images/comp4.png');
+		}
+		&:hover {
+			img {
+				content: url('../images/comp4-sel.png');
+			}
+		}
+	}
+	&.no4 {
+		img {
+			content:url('../images/comp3.png');
+		}
+		&:hover {
+			img {
+				content: url('../images/comp3-sel.png');
+			}
+		}
+	}
+	&.no5 {
+		img {
+			content:url('../images/comp7.png');
+		}
+		&:hover {
+			img {
+				content: url('../images/comp7-sel.png');
+			}
+		}
+	}
+	&.no6 {
+		img {
+			content:url('../images/comp1.png');
+		}
+		&:hover {
+			img {
+				content: url('../images/comp1-sel.png');
+			}
+		}
+	}
+	&.sel {
+		background-color: darkgreen;
+		color: white;
+		.btn-div {
+			display: block;
+		}
+		&.no1 {
+			img {
+				content: url('../images/comp6-sel.png');
+			}
+		}
+		&.no2 {
+			img {
+				content: url('../images/comp2-sel.png');
+			}
+		}
+		&.no3 {
+			img {
+				content: url('../images/comp4-sel.png');
+			}
+		}
+		&.no4 {
+			img {
+				content: url('../images/comp3-sel.png');
+			}
+		}
+		&.no5 {
+			img {
+				content: url('../images/comp7-sel.png');
+			}
+		}
+		&.no6 {
+			img {
+				content: url('../images/comp1-sel.png');
+			}
+		}
+	}
+}

@@ -340,7 +340,7 @@ function(App, Communicator) {
 
 			//--> fire
 			Communicator.mediator.trigger('matchModule:check', this.match);
-			this.syncMatch();
+			this.syncMatch(true);
 		};
 
 		MatchModule.changeScore  = function(value, uid) {
@@ -402,6 +402,11 @@ function(App, Communicator) {
 				return;
 			}
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+			var compMatch = _.find(this.match.players, function(p) { return p.comp > 0 } );
+			if(!_.isEmpty(compMatch)) {
+				Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
+			}
+
 			if(_.isEmpty(octopusStore.activeEncounter)) {
 				return;
 			}
