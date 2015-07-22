@@ -30,9 +30,30 @@ function( Backbone, InfoboardTmpl, InfoBoardScores  ) {
 
 		initialize: function () {
 			var data = this.model.toJSON();
+			this.model.set('isLive', false);
 
-			var l = _.where(data.activeLeg.entries, {isLeft: true});
-			var r = _.where(data.activeLeg.entries, {isLeft: false});
+			var l = [];
+			var r = [];
+
+			if(data.activeLeg) {
+				this.model.set('isLive', true);
+				l = _.where(data.activeLeg.entries, {isLeft: true});
+				r = _.where(data.activeLeg.entries, {isLeft: false});
+
+				if(data.p1) {
+					if (data.p1.isLeft) {
+						this.lData.player = data.p1;
+						this.rData.player = data.p2;
+					} else {
+						this.lData.player = data.p2;
+						this.rData.player = data.p1;
+					}
+				}
+
+			} else {
+				l = _.where(data.entries, {isLeft: true});
+				r = _.where(data.entries, {isLeft: false});
+			}
 
 			this.lData = {
 				entries: l
@@ -40,24 +61,17 @@ function( Backbone, InfoboardTmpl, InfoBoardScores  ) {
 			this.rData = {
 				entries: r
 			};
-
-			if(data.p1.isLeft) {
-				this.lData.player = data.p1;
-				this.rData.player = data.p2;
-			} else {
-				this.lData.player = data.p2;
-				this.rData.player = data.p1;
-			}
-
 		},
 
 		/* on render callback */
 		onRender: function() {
 			this.PlayerLeft.show(new InfoBoardScores({
+				live: this.model.get('isLive'),
 				model: new Backbone.Model(this.lData.player),
 				collection: new Backbone.Collection(this.lData.entries)
 			}))
 			this.PlayerRight.show(new InfoBoardScores({
+				live: this.model.get('isLive'),
 				model: new Backbone.Model(this.rData.player),
 				collection: new Backbone.Collection(this.rData.entries)
 			}))

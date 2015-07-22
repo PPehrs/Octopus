@@ -433,6 +433,12 @@
 		font-weight: bold;
 		margin-top: 5px;
 	}
+
+	body:before {
+		content: url('../images/comp1.png') url('../images/comp1-sel.png') url('../images/comp2.png') url('../images/comp2-sel.png') url('../images/comp3.png') url('../images/comp3-sel.png') url('../images/comp4.png') url('../images/comp4-sel.png') url('../images/comp6.png') url('../images/comp6-sel.png') url('../images/comp7.png') url('../images/comp7-sel.png');
+		display:none;
+	}
+
 	&.no1 {
 		img {
 			content:url('../images/comp6.png');

@@ -397,13 +397,14 @@ function(App, Communicator) {
 			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', data);
 		};
 
-		MatchModule.syncMatch = function () {
+		MatchModule.syncMatch = function (check) {
 			if(!App.module('LoginModule').isLoggedIn()) {
 				return;
 			}
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 			var compMatch = _.find(this.match.players, function(p) { return p.comp > 0 } );
-			if(!_.isEmpty(compMatch)) {
+			if(!_.isEmpty(compMatch) && check) {
+				this.match.fkUser = App.module('LoginModule').loggedInUserId();
 				Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
 			}
 

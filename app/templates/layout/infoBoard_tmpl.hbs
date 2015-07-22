@@ -1,5 +1,9 @@
 <div style="padding-left:2rem; padding-right:2rem;padding-left:2vw; padding-right:2vw">
-	<div class="h3 btn-success" style="text-align:center">LIVE</div>
+	{{#if isLive}}
+		<div class="h3 btn-success" style="text-align:center">LIVE</div>
+	{{else}}
+        <div class="h2 btn-primary" style="text-align:left;padding:5px"><i class="fa fa-chevron-circle-right"></i></div>
+	{{/if}}
 	<div class="flex">
     	<div class="infoBoard-p-left" style="width:50%"></div>
     	<div class="infoBoard-p-right" style="width:50%"></div>

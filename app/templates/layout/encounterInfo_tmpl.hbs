@@ -1,6 +1,7 @@
 {{#if loaded}}
 
 <div class="well fz-2">
+	<b>
     <div class="flex" style="text-align: center;">
         <div>{{home}}</div>
         <div class="m-l-s m-r-s">vs.</div>
@@ -9,7 +10,17 @@
         <div>:</div>
         <div>{{guestSets}}</div>
     </div>
+    </b>
+    <div class="m-l flex clearfix" style="font-size:1.5rem;font-size:1.5vw;font-weight: normal;margin-bottom: 5px;">
+		{{#if start}}
+            <span class="border-5 btn-success m-r">Startzeit</span>
+        	<span>{{start}}</span>
+		{{/if}}
+        <span class="m-l"><i>{{description}}</i></span>
+        <span class="m-l"><i>(erstellt: {{date}})</i></span>
+    </div>
 </div>
+
 
 
 <div class="well fz-3">

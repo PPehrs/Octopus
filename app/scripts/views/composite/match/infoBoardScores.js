@@ -10,9 +10,14 @@ function( Backbone, InfoboardscoresTmpl, BoardScore  ) {
 	return Backbone.Marionette.CompositeView.extend({
 
 		initialize: function() {
+
 			var res = App.module('StatisticController').calculateActiveLeg(this.collection.toJSON());
 			this.model.set(res.specialData);
-			this.collection = new Backbone.Collection(res.newCollection.reverse());
+			if(this.options.live) {
+				this.collection = new Backbone.Collection(res.newCollection.reverse());
+			} else {
+				this.collection = new Backbone.Collection(res.newCollection);
+			}
 		},
 
 

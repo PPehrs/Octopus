@@ -20,7 +20,9 @@ function( Backbone ) {
 				matchesWon: 0
 			},
 			uid: '',
-			description: ''
+			description: '',
+			start: '',
+			saved: ''
 		},
 
 		validation: function() {

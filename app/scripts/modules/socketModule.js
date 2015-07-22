@@ -166,6 +166,7 @@ function(App, SocketIo, Communicator) {
 		},
 
 		SocketModule.UpdateOrCreateEncounter = function (model, callback, self) {
+			debugger
 			var socketIo = App.module('SocketModule').socketIo;
 			socketIo.emit('update-or-create-encounter', model.attributes, function (data) {
 				//callback(data, self);

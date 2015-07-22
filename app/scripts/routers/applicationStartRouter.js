@@ -4,13 +4,14 @@ define([
 	'application',
 	'../views/layout/boardLayout',
 	'../views/layout/matchInfo',
+	'../views/layout/matchInfoFull',
 	'../views/layout/encounterInfo',
 	'../views/layout/profileLayout',
 	'../views/layout/checkOut',
 	'../views/layout/liveEncountersOverview',
 	'../views/layout/compAnalyse'
 ],
-function(Backbone, Marionette, App, BoardLayout, MatchInfo, EncounterInfo, ProfileLayout, CheckOut, LiveOverview, ComputerAnalyse){
+function(Backbone, Marionette, App, BoardLayout, MatchInfo, MatchInfoFull, EncounterInfo, ProfileLayout, CheckOut, LiveOverview, ComputerAnalyse){
     'use strict';
 
 	return Backbone.Marionette.AppRouter.extend({
@@ -50,7 +51,7 @@ function(Backbone, Marionette, App, BoardLayout, MatchInfo, EncounterInfo, Profi
 		},
 
 		showMatch: function(id) {
-			App.mainRegion.show(new MatchInfo({matchUid: id}));
+			App.mainRegion.show(new MatchInfoFull({matchUid: id}));
 		},
 
 		showEncounter: function(id) {

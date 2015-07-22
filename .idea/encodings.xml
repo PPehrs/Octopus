@@ -45,8 +45,10 @@
     <file url="file://$PROJECT_DIR$/app/scripts/views/layout/checkOut.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/layout/computerOpponent_layout.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/layout/dialogTeam.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/views/layout/encounterInfo.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/layout/encounterPanelLayout.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/layout/homeLayout.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/views/layout/infoBoard.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/layout/matchInfo.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/layout/playerLayout.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/scripts/views/layout/profileLayout.js" charset="UTF-8" />

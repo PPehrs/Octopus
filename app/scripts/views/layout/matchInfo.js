@@ -10,6 +10,19 @@ function( Backbone, Communicator, MatchinfoTmpl, InfoBoard  ) {
 	/* Return a Layout class definition */
 	return Backbone.Marionette.LayoutView.extend({
 
+		ui: {
+			buttonOpenMatch: '#octopus__open_match'
+		},
+
+		events: {
+			'click @ui.buttonOpenMatch': '_onClickOpenMatch'
+		},
+
+		_onClickOpenMatch: function () {
+			var router = new Backbone.Router();
+			router.navigate('match/' + this.options.matchUid, {trigger: true});
+		},
+
 		initialize: function() {
 			if(!this.options.matchUid) {
 				this.options.matchUid = this.model.get('fkMatch');

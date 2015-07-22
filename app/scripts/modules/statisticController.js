@@ -151,7 +151,9 @@ function(App, Communicator, PlayerModel) {
 			newCol.push({rest: 501});
 			var lastRest = 501;
 			var totalScore = 0;
+			var count = 0;
 			_.each(entriesCollection, function (c) {
+				count += 1;
 				if (c.value >= 60 && c.value < 100) {
 					specialData.s += 1;
 				} else if (c.value >= 100 && c.value < 140) {
@@ -167,7 +169,12 @@ function(App, Communicator, PlayerModel) {
 				if(rest <= 1) {
 					rest = lastRest;
 				}
-				newCol.push({rest: rest, value: c.value});
+				if(c.check) {
+					var ada = (count * 3) - (3 - Number(c.check[0]));
+					newCol.push({rest: rest, value: c.value, isCheck: true, check: c.check, darts: ada});
+				} else {
+					newCol.push({rest: rest, value: c.value});
+				}
 				lastRest = rest;
 			});
 

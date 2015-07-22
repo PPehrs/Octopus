@@ -16,17 +16,20 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 
     	template: DialogencounterTmpl,
 
+		encounters: null,
 
 		bindings: {
 			'#form_home_teamname': 'h',
 			'#form_guest_teamname': 'g',
-			'#form__description': 'description'
+			'#form__description': 'description',
+			'#form__start': 'start'
 		},
 
     	/* ui selector cache */
     	ui: {
 			GuestSelectpicker: '.form_guest_selectpicker',
 			HomeSelectpicker: '.form_home_selectpicker',
+			SavedSelectpicker: '.form__saved_selectpicker',
 			ButtonToggleHome: '.btn-home-selectpicker',
 			ButtonToggleGuest: '.btn-guest-selectpicker',
 			P1Toggle: '.p1_toggle',
@@ -40,14 +43,33 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 
 			'change @ui.GuestSelectpicker' : '_onClickGuestSelectpicker',
 			'change @ui.HomeSelectpicker' : '_onClickHomeSelectpicker',
+			'change @ui.SavedSelectpicker' : '_onClickSavedSelectpicker',
 		},
 
+		_onClickSavedSelectpicker: function () {
+			var _id = this.ui.SavedSelectpicker.val();
+			var encounter = _.findWhere(this.encounters, {_id: _id});
+			debugger
+			if(encounter) {
+				this.model.set({
+					uid: encounter.uid,
+					h: encounter.home.name,
+					home: encounter.home,
+					g: encounter.guest.name,
+					guest: encounter.guest,
+					description: encounter.description,
+					start: encounter.start
+				})
+				this.render();
+			}
+		},
 
 		afterConfirm: function () {
 			Communicator.mediator.trigger('dialogEncounter:encounter:confirmed');
 		},
 
 		validate: function () {
+			debugger
 			var validationText = this.model.validate();
 			if(validationText) {
 				return validationText;
@@ -65,8 +87,8 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 
 			this.model.get('home').name = this.model.get('h');
 			this.model.get('guest').name = this.model.get('g');
-			this.model.get('home').fkTeam = this.model.get('home').fkTeam;
-			this.model.get('guest').fkTeam = this.model.get('guest').fkTeam;
+			//this.model.get('home').fkTeam = this.model.get('home').fkTeam;
+			//this.model.get('guest').fkTeam = this.model.get('guest').fkTeam;
 			this.model.unset('h');
 			this.model.unset('g');
 
@@ -74,7 +96,8 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 				uid: this.model.get('uid'),
 				home: teamHome,
 				guest: teamGuest,
-				description: this.model.get('description')
+				description: this.model.get('description'),
+				start:  this.model.get('start')
 			}
 
 			localStorage.setItem('octopus', JSON.stringify(octopusStore));
@@ -119,7 +142,7 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 				uid: octopus.uuid()
 			});
 
-			_.bindAll(this, '_onTeamsLoaded');
+			_.bindAll(this, '_onTeamsLoaded', '_onEncountersLoaded');
 		},
 
 		/* on render callback */
@@ -137,7 +160,24 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 				size: 4
 			});
 
+			this.ui.SavedSelectpicker.selectpicker({
+				style: 'btn-info',
+				size: 4
+			});
+
 			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'get-teams', null, this._onTeamsLoaded)
+			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'get-encounters', null, this._onEncountersLoaded)
+		},
+
+		_onEncountersLoaded: function (encounters) {
+			var self = this;
+			self.encounters = encounters;
+			self.ui.SavedSelectpicker.append('<option value="" disabled selected>...eine Begegnung ausw&auml;hlen</option>');
+			_.each(encounters, function (encounter) {
+				var htmlval = _.template('<option value="<%= _id %>" data-subtext="<%= start %>"><%= home %> vs <%= guest %></option>', { _id: encounter._id, start: encounter.createdDateTime, home: encounter.home.name, guest: encounter.guest.name});
+				self.ui.SavedSelectpicker.append(htmlval);
+			})
+			self.ui.SavedSelectpicker.selectpicker('refresh');
 		},
 
 		_onTeamsLoaded: function (teams) {

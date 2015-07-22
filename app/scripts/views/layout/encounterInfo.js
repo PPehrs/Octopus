@@ -1,10 +1,11 @@
 define([
 	'backbone',
 	'communicator',
+	'moment',
 	'hbs!tmpl/layout/encounterInfo_tmpl',
 	'../composite/matchInfoContainer'
 ],
-function( Backbone, Communicator, EncounterinfoTmpl, MatchInfoContainer  ) {
+function( Backbone, Communicator, Moment, EncounterinfoTmpl, MatchInfoContainer  ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -63,7 +64,11 @@ function( Backbone, Communicator, EncounterinfoTmpl, MatchInfoContainer  ) {
 				home: data.home.name,
 				guest: data.guest.name,
 				homeSets: data.home.matchesWon,
-				guestSets: data.guest.matchesWon
+				guestSets: data.guest.matchesWon,
+				description: data.description,
+				date: new Moment(data.createdDateTime).locale("de").format('LLL'),
+				startInfo: new Moment(data.createdDateTime).locale("de").fromNow(true),
+				start: data.start
 			}
 
 			this.model.set(m);

@@ -12,7 +12,7 @@ function( Backbone, MatchinfocontainerTmpl, MatchInfo  ) {
     	template: MatchinfocontainerTmpl,
 
 		emptyView: Backbone.Marionette.ItemView.extend({
-			template: _.template('<div><i class="fa fa-spin fa-spinner m-r"></i>Die Begegnung ist gestartet. Die Seite aktualisiert sich sobald neue Match-Daten vorhanden sind...</div>')
+			template: _.template('<div class="fz-15"><i class="fa fa-info-circle m-r"></i>Die Begegnung wurde angelegt. Es sind noch keine Informationen vorhanden. Die Seite aktualisiert sich sobald weitere Informationen eingegeben wurden.</div>')
 		}),
 
     	/* ui selector cache */
