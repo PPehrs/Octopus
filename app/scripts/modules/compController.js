@@ -45,7 +45,7 @@ function(App, Communicator) {
 			100,
 			100,
 			100,
-			100];			
+			100];
 
 		CompController.s1 = [180,
 			140,
@@ -102,7 +102,7 @@ function(App, Communicator) {
 			41,
 			45,
 			41,
-			40,			
+			40,
 			30,
 			26,
 			24,
@@ -111,7 +111,7 @@ function(App, Communicator) {
 			38,
 			36,
 			28,
-			26];			
+			26];
 
 		CompController.s4 = [35,
 			33,
@@ -157,7 +157,7 @@ function(App, Communicator) {
 				}
 				else if(CompController.lastFrom < 2) {
 					from = Math.floor((Math.random() * 3) + 2);
-				}			
+				}
 
 				if(CompController.under > 2) {
 					CompController.under = 0;
@@ -177,7 +177,7 @@ function(App, Communicator) {
 				if(from <= 2) {
 					CompController.under += 1;
 				}
-			} 
+			}
 
 
 			CompController.lastFrom = from;
@@ -191,7 +191,7 @@ function(App, Communicator) {
 					score = CompController.s10[pos];
 				} else if(theComp  === 2) {
 					var pos = Math.floor((Math.random() * CompController.s11.length));
-					score = CompController.s11[pos];					
+					score = CompController.s11[pos];
 				}
 				else {
 					var pos = Math.floor((Math.random() * CompController.s1.length));
@@ -207,7 +207,7 @@ function(App, Communicator) {
 				} else {
 					var pos = Math.floor((Math.random() * CompController.s3.length));
 					score = CompController.s3[pos];
-				}				
+				}
 			} else if ( from === 4) {
 				var pos = Math.floor((Math.random() * CompController.s4.length));
 				score = CompController.s4[pos];
@@ -288,7 +288,7 @@ function(App, Communicator) {
 				l = CompController.c3;
 			} else if(comp > 4) {
 				l = CompController.c4;
-			} 
+			}
 
 			pos = pos - CompController.possi  >= 0 ? pos - CompController.possi : 0;
 
@@ -307,7 +307,7 @@ function(App, Communicator) {
 
 		CompController.getCheckMiss = function(l) {
 			return l[Math.floor((Math.random() * l.length))];
-		};		
+		};
 
 		CompController.isDouble = function(rest) {
 			if((rest <= 40 && rest % 2 === 0) || rest === 50) {
@@ -326,10 +326,10 @@ function(App, Communicator) {
 			var score = scoreIn;
 
 			if(rest - scoreIn < 2) {
-				score = 0;	
+				score = 0;
 				score = Math.floor((Math.random() * (rest-1)) + 2);
 				if(rest - score < 2) {
-					score = 0;	
+					score = 0;
 				}
 			}
 
@@ -440,6 +440,13 @@ function(App, Communicator) {
 				score = this.buildP2();
 			} else if(comp === 4) {
 				score = this.buildP3();
+			}  else if(comp === 5) {
+				var w = Math.floor((Math.random() * 2))
+				if(w) {
+					score = this.buildP4();
+				} else {
+					score = this.buildP5();
+				}
 			}
 
 			setTimeout(function () {

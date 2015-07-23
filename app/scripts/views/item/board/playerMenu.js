@@ -129,7 +129,9 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
 					setTimeout(function() {
 						self.model.set('wonWithText', '');
 						self.model.set('isShowInfo', false);
-						self.ui.Alert.fadeOut('slow', 'swing');
+						if(typeof self.ui.Alert.fadeOut === 'function') {
+							self.ui.Alert.fadeOut('slow', 'swing');
+						}
 					}, 5000);
 
 				});

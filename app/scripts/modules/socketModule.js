@@ -39,6 +39,9 @@ function(App, SocketIo, Communicator) {
 			this.socketIo.on('user-logged-in', function(data){
 				Communicator.mediator.trigger('APP:SOCKET:USER-LOGGED-IN', data);
 			});
+			this.socketIo.on('new-chat-message', function(data){
+				Communicator.mediator.trigger('APP:SOCKET:NEW-CHAT-MESSAGE', data);
+			});
 			this.socketIo.on('encounter-updated', function(data){
 				Communicator.mediator.trigger('APP:SOCKET:ENCOUNTER-UPDATED', data);
 				Communicator.mediator.trigger('APP:SOCKET:ENCOUNTER-UPDATED:' + data, data);
@@ -175,6 +178,10 @@ function(App, SocketIo, Communicator) {
 			if(callback) {
 				callback(null, self);
 			}
+		},
+
+		SocketModule.SendChatMessage = function (data, callback) {
+			this.emit('send-chat-message', data, callback);
 		},
 
 		SocketModule.GetTeams = function (callback) {

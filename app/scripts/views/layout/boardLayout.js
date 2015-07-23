@@ -8,11 +8,12 @@ define([
 	'./boardPanelLayout',
 	'./encounterPanelLayout',
 	'./computerOpponent_layout',
+	'./onlineChallange_layout',
 	'./playerLayout',
 	'../item/board/scoreItem',
 	'modules/matchModule'
 ],
-function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutTmpl, BoardPanel, EncounterPanel, ComputerOpponent, PlayerLayout, ScoreItem, MatchModule  ) {
+function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutTmpl, BoardPanel, EncounterPanel, ComputerOpponent, OnlineChallange, PlayerLayout, ScoreItem, MatchModule  ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -29,13 +30,14 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
     		PlayerRightRegion: '#octopus_playerRight',
     		BoardPanelRegion: '#octopus_boardPanel',
     		EncounterPanelRegion: '#octopus_encounterPanel',
-			ComputerPanelRegion: '#octopus_computerPanel'
+			ComputerPanelRegion: '#octopus_computerPanel',
     	},
 
     	/* ui selector cache */
     	ui: {
 			CheckBoxTransmit: '#chkTransmit',
 			ButtonNewMatch:  '#btnNewMatch',
+			ButtonOnlineMatch: '#btnOnlineMatch',
 			ComputerOpponentMatch:  '#btnComputerMatch',
 			MatchRunningAlert: '#octopus_matchInfo',
 			MatchInfo: '#octopus_matchInfo .fa-info-circle',
@@ -47,6 +49,7 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 
 		/* Ui events hash */
 		events: {
+			'click @ui.ButtonOnlineMatch': '_onClickOnlineMatch',
 			'click @ui.ButtonNewMatch': '_onClickNewMatch',
 			'click @ui.ButtonUndoLegWon': '_onClickUndoLegWon',
 			'click @ui.ComputerOpponentMatch': '_onClickComputerOpponent'
@@ -70,6 +73,14 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			},
 		},
 
+		_onClickOnlineMatch: function () {
+			this.BoardPanelRegion.$el.hide();
+			this.EncounterPanelRegion.$el.hide();
+
+			this.ComputerPanelRegion.show(new OnlineChallange({
+				parent: this
+			}));
+		},
 
 		_onClickComputerOpponent: function () {
 			this.BoardPanelRegion.$el.hide();
