@@ -40,6 +40,18 @@ function(App, SocketIo, Communicator) {
 				Communicator.mediator.trigger('APP:SOCKET:USER-LOGGED-IN', data);
 			});
 			this.socketIo.on('new-chat-message', function(data){
+				var gc = localStorage.getItem('chat');
+				if(gc) {
+					gc = JSON.parse(gc);
+					gc.push(data);
+					if(gc.length > 50) {
+						gc.shift();
+					}
+				} else {
+					gc = [];
+					gc.push(data);
+				}
+				localStorage.setItem('chat', JSON.stringify(gc));
 				Communicator.mediator.trigger('APP:SOCKET:NEW-CHAT-MESSAGE', data);
 			});
 			this.socketIo.on('encounter-updated', function(data){

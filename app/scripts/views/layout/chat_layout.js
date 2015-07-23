@@ -70,6 +70,20 @@ function( Backbone, Communicator, OnlineChallangeLayoutTmpl  ) {
 
 		},
 
+		onRender: function () {
+			var gc = localStorage.getItem('chat');
+			if(gc) {
+				gc = JSON.parse(gc);
+				for(var g in gc) {
+					this._onNewChatMessage(gc[g]);
+				}
+			}
+		},
+
+		onShow: function () {
+			this.ui.ChatBody.animate({ scrollTop: this.ui.ChatBody.offset().top }, 'fast');
+		},
+
 		_onNewChatMessage: function (data) {
 			var lm = App.module('LoginModule');
 			if(data.fkUser === lm.loggedInUserId()) {
