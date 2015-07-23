@@ -1,9 +1,10 @@
 define([
 	'backbone',
 	'communicator',
-	'hbs!tmpl/layout/chat_layout_tmpl'
+	'hbs!tmpl/layout/chat_layout_tmpl',
+	'bootbox'
 ],
-function( Backbone, Communicator, OnlineChallangeLayoutTmpl  ) {
+function( Backbone, Communicator, OnlineChallangeLayoutTmpl, Bootbox  ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -23,11 +24,25 @@ function( Backbone, Communicator, OnlineChallangeLayoutTmpl  ) {
 		initialize: function () {
 			_.bindAll(this,'_onSuccess');
 			this.listenTo(Communicator.mediator, 'APP:SOCKET:NEW-CHAT-MESSAGE', this._onNewChatMessage);
+			this.listenTo(Communicator.mediator, 'onlinePlayer:selected', this._onPlayerClick);
 		},
 
     	template: OnlineChallangeLayoutTmpl,
 
 		disabled: false,
+
+		_onPlayerClick: function (p) {
+			debugger
+			var d = '<div>Es wird eine Match-Anfrage zu <b>' + p.username + '</b> gesendet.</div>' +
+					'<div class="m-t" style="color:gray"><i class="fa fa-info-circle m-r-s"></i>Bitte Match-Anfragen nicht wahrlos versenden. Im Zweifel vorher im Chat anfragen ob Interesse besteht.</div>' +
+					'<div class="m-t">Match-Anfrage zu <b>' + p.username + '</b> jetzt senden?</div>';
+
+			Bootbox.confirm(d, function (result) {
+				if (result) {
+
+				}
+			});
+		},
 
 		_onKeypressInputMessage: function (e) {
 			if(e.keyCode === 13) {
