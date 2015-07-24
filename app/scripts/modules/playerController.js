@@ -50,6 +50,41 @@ function(App, Communicator, PlayerModel) {
 			this.savePlayer(player);
 		};
 
+		PlayerController.onSetPlayerNameOnlineAutomatic = function(playerLayout, data) {
+			var p1View = playerLayout.PlayerNameRegion.currentView;
+			var p2View = playerLayout.otherPlayer.PlayerNameRegion.currentView;
+
+			var p1 = {
+				legs: 0,
+				name: data.nameFrom,
+				fkUser: data.fkUserFrom,
+				isLeft: true,
+				isPlayerActive: true,
+				uid: _.uniqueId('u_')
+			}
+
+			var p2 = {
+				legs: 0,
+				name: data.username,
+				fkUser: data.fkUser,
+				isLeft: false,
+				isPlayerActive: false,
+				uid: _.uniqueId('u_')
+			}
+
+			p1View.model = new PlayerModel(p1);
+			p2View.model = new PlayerModel(p2);
+
+			p1View.render();
+			p2View.render();
+
+			delete p1.isPlayerActive;
+			delete p2.isPlayerActive;
+
+			this.savePlayer(p1);
+			this.savePlayer(p2);
+		};
+
 		PlayerController.onSetPlayerNameComputerAutomatic = function(playerLayout, comp) {
 			var p1View = playerLayout.PlayerNameRegion.currentView;
 			var p2View = playerLayout.otherPlayer.PlayerNameRegion.currentView;

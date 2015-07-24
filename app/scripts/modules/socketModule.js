@@ -37,6 +37,9 @@ function(App, SocketIo, Communicator) {
 				Communicator.mediator.trigger('APP:SOCKET:ENCOUNTER-UPDATED:' + data, data);
 			});
 			this.socketIo.on('user-logged-in', function(data){
+				self.socketIo.on('challenge-request-' + data.fkUser, function(data){
+					Communicator.mediator.trigger('CHALLENGE:REQUEST', data);
+				});
 				Communicator.mediator.trigger('APP:SOCKET:USER-LOGGED-IN', data);
 			});
 			this.socketIo.on('new-chat-message', function(data){
@@ -108,6 +111,39 @@ function(App, SocketIo, Communicator) {
 		SocketModule.SetCheckBattleScore = function (data, callback, self) {
 			var socketIo = App.module('SocketModule').socketIo;
 			socketIo.emit('set-check-battle-score', data);
+		},
+
+		SocketModule.ChallangeRequest = function (data) {
+			var socketIo = App.module('SocketModule').socketIo;
+			socketIo.on('challenge-refuse-' + data.uid, function(data){
+				Communicator.mediator.trigger('CHALLENGE:REFUSE', data);
+			});
+			socketIo.on('challenge-accept-' + data.uid, function(data){
+				Communicator.mediator.trigger('CHALLENGE:ACCEPT', data);
+			});
+			socketIo.on('online-match-' + data.uid, function(data){
+				Communicator.mediator.trigger('ONLINE:MATCH:START', data);
+			});
+			socketIo.on('online-match-updated-' + data.fkUser, function (data) {
+				debugger
+			});
+			socketIo.emit('send-challenge-request', data);
+		},
+
+		SocketModule.ChallengeRefuse = function (data) {
+			var socketIo = App.module('SocketModule').socketIo;
+			socketIo.emit('challenge-refuse', data);
+		},
+
+		SocketModule.ChallengeAccept = function (data) {
+			var socketIo = App.module('SocketModule').socketIo;
+			socketIo.on('online-match-updated-' + data.fkUserFrom, function (data) {
+				debugger
+			});
+			socketIo.on('online-match-' + data.uid, function(data){
+				Communicator.mediator.trigger('ONLINE:MATCH:START', data);
+			});
+			socketIo.emit('challenge-accept', data);
 		},
 
 		SocketModule.GetCheckBattleHighscore = function (data, callback, self) {

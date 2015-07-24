@@ -27,17 +27,28 @@ var teamSchema = mongoose.Schema({
 	createdDateTime: { type: Date, default: Date.now },
 	name: String,
 	captain: String,
-	members: []
+	members: [],
+	userUid: String
 });
 var encounterSchema = mongoose.Schema({
 	createdDateTime: { type: Date, default: Date.now },
 	uid: String,
 	home: Object,
 	guest: Object,
+	description: String,
+	start: String,
+	fkUser: String
+});
+
+var checkSchema = mongoose.Schema({
+	userName: String,
+	userUid: String,
+	score: Number
 });
 
 var matchSchema = mongoose.Schema({
 	teams: String,
+	fkUser: String,
 	fkEncounter: String,
 	uid: String,
 	startDateTime: { type: Date, default: Date.now },
@@ -65,6 +76,7 @@ var Login = null;
 	User = mongoose.model('User', userSchema);
 	Encounter = mongoose.model('Encounter', encounterSchema);  
 	Login = mongoose.model('Login', loginSchema);  
+	Check = mongoose.model('Check', checkSchema);  
 
 
 var db = mongoose.connection;
@@ -118,6 +130,11 @@ io.on('connection', function(socket){
 	});
   });
 
+  socket.on('send-chat-message', function(data, fn){
+	io.emit('new-chat-message', data);
+	fn('success');
+  });  
+
 
   /*
    * match-data
@@ -167,6 +184,9 @@ io.on('connection', function(socket){
     query.exec(function(err, match) {
 		 if (!err) {
 			if(_.isEmpty(match)) {
+				if(data.fkEncounter) {
+						io.emit('encounter-updated', data.fkEncounter);
+				}
 		 		var matchIn = new Match(data);	
 		 		matchIn.save(function (err, match) {
 				if (!err) {
@@ -182,6 +202,58 @@ io.on('connection', function(socket){
 		}	
 	});
   });
+
+  /*
+   * check
+   */
+  socket.on('get-check-battle-highscore', function(data, fn){   
+  	var query = Check.find({}).sort({score : -1}).limit(1);
+  	console.log(data)
+  	query.exec(function(err, check){
+	if(!err) {
+			if(data.userId) {
+			var query = Check.find({userUid: data.userId});
+			query.exec(function(err, checkUser){
+				if(!err) {
+					fn({
+						high: check,
+						user: checkUser
+					});
+				}
+			});		
+			} else {
+				fn({
+					high: check,
+				});
+			}
+		}
+    });
+  });
+
+  socket.on('set-check-battle-score', function(data, fn){   
+  	var query = Check.find({userUid: data.userUid});
+  	query.exec(function(err, check){
+		if(!err) {
+			if(_.isEmpty(check)) {
+		 		var checkIn = new Check(data);	
+		 		checkIn.save(function (err, check) {
+				if (!err) {
+					io.emit('check-battle-updated');
+				}
+			});
+		 	} else {
+		 		if(data.score > check[0].score) {
+			    	Check.findById(check[0]._id, function (err,checkById) {
+    					checkById.update(data).exec(function(){
+    						io.emit('check-battle-updated');
+    					});
+					});
+				}
+		    } 				
+		}
+    });
+  });
+
 
   /*
    * register-user

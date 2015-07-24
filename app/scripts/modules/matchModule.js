@@ -11,6 +11,7 @@ function(App, Communicator) {
 		MatchModule.match = {};
 		MatchModule.encounterUid = null;
 		MatchModule.encounterMatchStarted = false;
+		MatchModule.isOnlineGame = false;
 
 		MatchModule.startWithParent = false;
 
@@ -406,6 +407,12 @@ function(App, Communicator) {
 			if(!_.isEmpty(compMatch) && check) {
 				this.match.fkUser = App.module('LoginModule').loggedInUserId();
 				Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
+			}
+
+			if(this.isOnlineGame) {
+				var lm = App.module('LoginModule');
+				this.match.fkUserUpdatedBy = lm.loggedInUserId();
+				Communicator.mediator.trigger('APP:SOCKET:EMIT', 'online-match-data', this.match);
 			}
 
 			if(_.isEmpty(octopusStore.activeEncounter)) {
