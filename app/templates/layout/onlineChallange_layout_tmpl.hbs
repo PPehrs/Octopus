@@ -1,27 +1,29 @@
 <div style="margin-top: 20px;margin-bottom: 15px;margin-left: 25px;">
     <button class="btn btn-default octopus_computer_opponoment_close">Schließen</button>
+    <button class="btn btn-warning octopus_online_challenge_close" sytle="display:none">Online-Match beenden</button>
 </div>
 
 <div class="m-l">
 
-    <div class="panel panel-default" style="margin-right:5px">
+    <div id="octopus-callenge-video" class="panel panel-default" style="margin-right:5px;display:none">
         <div class="panel-heading">Video-Chat starten</div>
         <div class="panel-body mm-h-300">
 			<div>Bei Online-Matches eine Video Konferenz starten:</div>
-            <a href="https://vline.com/">Free, simple video chat</a>
+            <a href="https://vline.com/" target="_blank">Free, simple video chat</a>
             <br>
-            <a href="https://plus.google.com/hangouts">Google Hangout</a>
+            <br>
+            <div>Ein Spieler klickt den Link 'Free, simple Video Chat' und postet hier den Link im 'Private Chat'.</div>
         </div>
     </div>
 
-    <div class="panel panel-default" style="margin-right:5px">
+    <div id="octopus-callenge-private-chat" class="panel panel-success" style="margin-right:5px;display:none">
         <div class="panel-heading">Private Chat</div>
         <div class="panel-body mm-h-300">
             <div id="panelPrivateChat"></div>
         </div>
     </div>
 
-    <div class="panel panel-default" style="margin-right:5px">
+    <div id="octopus-callenge-online-players" class="panel panel-default" style="margin-right:5px">
         <div class="panel-heading">Online</div>
         <div class="panel-body mm-h-600">
             <div id="panelPlayerOnlineRegion"></div>

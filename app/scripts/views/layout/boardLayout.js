@@ -509,6 +509,7 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			var self = this;
 			self._startNewMatch();
 			App.module('OnlineController').save(data);
+			self._onClickOnlineMatch();
 			setTimeout(function () {
 				self._startNewOnlineMatchTwice(data);
 			});
@@ -547,6 +548,10 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
             		'<span>Klick hier f&uuml;r die Match-Statistik.</span>'
             	)
         	});
+
+			if(App.module('OnlineController').get()) {
+				this._onClickOnlineMatch();
+			}
 		},
 
 

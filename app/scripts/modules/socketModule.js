@@ -124,6 +124,9 @@ function(App, SocketIo, Communicator) {
 			socketIo.on('online-match-' + data.uid, function(data){
 				Communicator.mediator.trigger('ONLINE:MATCH:START', data);
 			});
+			socketIo.on('new-chat-message-' + data.uid, function(data){
+				Communicator.mediator.trigger('APP:SOCKET:PRIVATE-CHAT-MESSAGE', data);
+			});
 			socketIo.on('online-match-updated-' + data.fkUser, function (data) {
 				App.module('OnlineController').newScore(data);
 			});
@@ -139,6 +142,9 @@ function(App, SocketIo, Communicator) {
 			var socketIo = App.module('SocketModule').socketIo;
 			socketIo.on('online-match-updated-' + data.fkUserFrom, function (data) {
 				App.module('OnlineController').newScore(data);
+			});
+			socketIo.on('new-chat-message-' + data.uid, function(data){
+				Communicator.mediator.trigger('APP:SOCKET:PRIVATE-CHAT-MESSAGE', data);
 			});
 			socketIo.on('online-match-' + data.uid, function(data){
 				Communicator.mediator.trigger('ONLINE:MATCH:START', data);
@@ -229,6 +235,10 @@ function(App, SocketIo, Communicator) {
 
 		SocketModule.SendChatMessage = function (data, callback) {
 			this.emit('send-chat-message', data, callback);
+		},
+
+		SocketModule.SendChatMessageTo = function (data, callback) {
+			this.emit('send-chat-message-to', data, callback);
 		},
 
 		SocketModule.GetTeams = function (callback) {

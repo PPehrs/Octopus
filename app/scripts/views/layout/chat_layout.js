@@ -23,8 +23,12 @@ function( Backbone, Communicator, OnlineChallangeLayoutTmpl, Bootbox  ) {
 
 		initialize: function () {
 			_.bindAll(this,'_onSuccess');
-			this.listenTo(Communicator.mediator, 'APP:SOCKET:NEW-CHAT-MESSAGE', this._onNewChatMessage);
-			this.listenTo(Communicator.mediator, 'onlinePlayer:selected', this._onPlayerClick);
+			if(this.options.onlineMatch) {
+				this.listenTo(Communicator.mediator, 'APP:SOCKET:PRIVATE-CHAT-MESSAGE', this._onNewChatMessage);
+			} else {
+				this.listenTo(Communicator.mediator, 'APP:SOCKET:NEW-CHAT-MESSAGE', this._onNewChatMessage);
+				this.listenTo(Communicator.mediator, 'onlinePlayer:selected', this._onPlayerClick);
+			}
 		},
 
     	template: OnlineChallangeLayoutTmpl,
@@ -89,7 +93,12 @@ function( Backbone, Communicator, OnlineChallangeLayoutTmpl, Bootbox  ) {
 					fkUser: lm.loggedInUserId(),
 					name: lm.loggedInUserName()
 				}
-				sm.SendChatMessage(data, this._onSuccess);
+				if(this.options.onlineMatch) {
+					_.extend(data, {uid:this.options.onlineMatch.uid})
+					sm.SendChatMessageTo(data, this._onSuccess);
+				} else {
+					sm.SendChatMessage(data, this._onSuccess);
+				}
 			}
 		},
 
@@ -104,24 +113,26 @@ function( Backbone, Communicator, OnlineChallangeLayoutTmpl, Bootbox  ) {
 		},
 
 		onRender: function () {
-			var gc = localStorage.getItem('chat');
-			var lm = App.module('LoginModule');
-			if(gc) {
-				gc = JSON.parse(gc);
-				var txt = ''
-				for(var g in gc) {
-					var data = gc[g];
-					var d = '';
-					if(data.fkUser === lm.loggedInUserId()) {
-						d = '<div style="margin-left: 10px;"><div><span class="border-5 btn-info">' + data.name + '</span></div>' +
-							'<div class="m-t-s m-b m-r-vb">' + data.t + '</div></div>'
-					} else {
-						d = '<div class="clearfix" style="text-align:right;margin-right: 20px;"><div><span class="border-5 btn-warning">' + data.name + '</span></div>' +
-							'<div class="m-t-s m-b m-l-vb">' + data.t + '</div></div>'
+			if(!this.options.onlineMatch) {
+				var gc = localStorage.getItem('chat');
+				var lm = App.module('LoginModule');
+				if (gc) {
+					gc = JSON.parse(gc);
+					var txt = ''
+					for (var g in gc) {
+						var data = gc[g];
+						var d = '';
+						if (data.fkUser === lm.loggedInUserId()) {
+							d = '<div style="margin-left: 10px;"><div><span class="border-5 btn-info">' + data.name + '</span></div>' +
+								'<div class="m-t-s m-b m-r-vb">' + data.t + '</div></div>'
+						} else {
+							d = '<div class="clearfix" style="text-align:right;margin-right: 20px;"><div><span class="border-5 btn-warning">' + data.name + '</span></div>' +
+								'<div class="m-t-s m-b m-l-vb">' + data.t + '</div></div>'
+						}
+						txt += d;
 					}
-					txt += d;
+					this.ui.ChatBody.append(txt);
 				}
-				this.ui.ChatBody.append(txt);
 			}
 		},
 

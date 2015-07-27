@@ -23,11 +23,23 @@ function(App, Communicator) {
 				socketIo.on('online-match-updated-' + listenTo, function (data) {
 					App.module('OnlineController').newScore(data);
 				});
+				socketIo.on('new-chat-message-' + onlineMatch.uid, function(data){
+					Communicator.mediator.trigger('APP:SOCKET:PRIVATE-CHAT-MESSAGE', data);
+				});
 			}
 		};
 
 		OnlineController.save = function (data) {
 			localStorage.setItem('om', JSON.stringify(data));
+		};
+
+		OnlineController.get = function (data) {
+			var om =  localStorage.getItem('om');
+			if(om) {
+				return JSON.parse(om);
+			} else {
+				return null;
+			}
 		};
 
 		OnlineController.newScore = function (match) {
