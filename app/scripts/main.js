@@ -17,6 +17,7 @@ require([
 	'modules/encounterController',
 	'modules/statisticController',
 	'modules/compController',
+	'modules/onlineController',
 	'./global'
 ],
 function ( $, _, Backbone, Marionette, Stickit, App, Communicator, ApplicationStartRouter, ApplicationStartController) {

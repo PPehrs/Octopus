@@ -11,7 +11,6 @@ function(App, Communicator) {
 		MatchModule.match = {};
 		MatchModule.encounterUid = null;
 		MatchModule.encounterMatchStarted = false;
-		MatchModule.isOnlineGame = false;
 
 		MatchModule.startWithParent = false;
 
@@ -147,6 +146,15 @@ function(App, Communicator) {
 			}
 			this.started = true;
 		});
+
+		MatchModule.reloadMatch = function () {
+			var result = this.wonLegsAndSets();
+			var activeLeg = this.match.activeLeg;
+
+			var isPlayerLeftActive = this.match.state.isPlayerLeftActive;
+
+			Communicator.mediator.trigger('load:match', isPlayerLeftActive, result, activeLeg);
+		};
 
 		MatchModule.matchReset = function(octopusStore) {
 				var players = [];
@@ -409,7 +417,7 @@ function(App, Communicator) {
 				Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
 			}
 
-			if(this.isOnlineGame) {
+			if(this.match.onlineUid) {
 				var lm = App.module('LoginModule');
 				this.match.fkUserUpdatedBy = lm.loggedInUserId();
 				Communicator.mediator.trigger('APP:SOCKET:EMIT', 'online-match-data', this.match);

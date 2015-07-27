@@ -125,7 +125,7 @@ function(App, SocketIo, Communicator) {
 				Communicator.mediator.trigger('ONLINE:MATCH:START', data);
 			});
 			socketIo.on('online-match-updated-' + data.fkUser, function (data) {
-				debugger
+				App.module('OnlineController').newScore(data);
 			});
 			socketIo.emit('send-challenge-request', data);
 		},
@@ -138,7 +138,7 @@ function(App, SocketIo, Communicator) {
 		SocketModule.ChallengeAccept = function (data) {
 			var socketIo = App.module('SocketModule').socketIo;
 			socketIo.on('online-match-updated-' + data.fkUserFrom, function (data) {
-				debugger
+				App.module('OnlineController').newScore(data);
 			});
 			socketIo.on('online-match-' + data.uid, function(data){
 				Communicator.mediator.trigger('ONLINE:MATCH:START', data);
@@ -217,7 +217,6 @@ function(App, SocketIo, Communicator) {
 		},
 
 		SocketModule.UpdateOrCreateEncounter = function (model, callback, self) {
-			debugger
 			var socketIo = App.module('SocketModule').socketIo;
 			socketIo.emit('update-or-create-encounter', model.attributes, function (data) {
 				//callback(data, self);
