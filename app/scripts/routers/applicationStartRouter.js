@@ -9,9 +9,10 @@ define([
 	'../views/layout/profileLayout',
 	'../views/layout/checkOut',
 	'../views/layout/liveEncountersOverview',
-	'../views/layout/compAnalyse'
+	'../views/layout/compAnalyse',
+	'../views/layout/impressumLayout'
 ],
-function(Backbone, Marionette, App, BoardLayout, MatchInfo, MatchInfoFull, EncounterInfo, ProfileLayout, CheckOut, LiveOverview, ComputerAnalyse){
+function(Backbone, Marionette, App, BoardLayout, MatchInfo, MatchInfoFull, EncounterInfo, ProfileLayout, CheckOut, LiveOverview, ComputerAnalyse, Impressum){
     'use strict';
 
 	return Backbone.Marionette.AppRouter.extend({
@@ -26,12 +27,17 @@ function(Backbone, Marionette, App, BoardLayout, MatchInfo, MatchInfoFull, Encou
 			'profile/:id': 'showProfile',
 			'board': 'showBoard',
 			'live': 'showLive',
+			'impressum': 'showImpressum',
 			'comp': 'showComputerAnalyse',
 			'check': 'showCheckOutBattle',
 			'*notFound': 'notFound',
 			':notFound': 'notFound',
 			'/*notFound': 'notFound',
 			'!/*notFound': 'notFound'
+		},
+
+		showImpressum: function () {
+			App.mainRegion.show(new Impressum());
 		},
 
 		showComputerAnalyse: function() {

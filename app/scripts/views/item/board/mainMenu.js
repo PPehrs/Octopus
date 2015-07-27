@@ -35,6 +35,7 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 			MainMenuRegister: '#mmRegister',
 			MainMenuLogout: '#mmLogout',
 			MainMenuCheckout: '#mmCheckout',
+			MainMenuImpressum: '#mmImpressum',
 			ChallengeRequestTimer: '.challenge-request-timer',
 			ChallengeRequestRefuse: '.challenge-request-refuse',
 			ChallengeRequestAccept: '.challenge-request-accept'
@@ -42,6 +43,7 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 
 		/* Ui events hash */
 		events: {
+			'click @ui.MainMenuImpressum': 'onClickMainMenuImpressum',
 			'click @ui.MainMenuStartside': 'onClickMainMenuStartside',
 			'click @ui.MainMenuDartscorer': 'onClickMainMenuDartscorer',
 			'click @ui.MainMenuLogin': '_onClickButtonLoginPlayer',
@@ -95,7 +97,7 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 
 		_onChallengeRefuse: function (data) {
 			this.ui.ChallengeAction.hide();
-			this.ui.ChallengeRequestInfo.html(data.username + '<div>Abgelehnt <i class="fa fa-ban"></i></div>');
+			this.ui.ChallengeRequestInfo.html(data.username + '<div>Abgelehnt <i style="color:red" class="fa fa-ban"></i></div>');
 			this.ui.GlobalAlert.show();
 			var _self = this;
 			setTimeout(function () {
@@ -105,7 +107,7 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 
 		_onChallengeAccept: function (data) {
 			this.ui.ChallengeAction.hide();
-			this.ui.ChallengeRequestInfo.html(data.username + '<div>Angenommen <i class="fa fa-info-circle"></i></div>');
+			this.ui.ChallengeRequestInfo.html(data.username + '<div>Angenommen <i style="color:green" class="fa fa-check-circle"></i></div>');
 			this.ui.GlobalAlert.show();
 			var _self = this;
 			setTimeout(function () {
@@ -183,6 +185,11 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 		onClickMainMenuDartscorer: function () {
 			var router = new Backbone.Router();
 			router.navigate('board', {trigger: true});
+		},
+
+		onClickMainMenuImpressum: function () {
+			var router = new Backbone.Router();
+			router.navigate('impressum', {trigger: true});
 		},
 
 		onClickMainMenuStartside: function() {

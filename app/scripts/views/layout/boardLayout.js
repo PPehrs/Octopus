@@ -492,8 +492,7 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 		},
 
 
-		_startNewOnlineMatch: function (data) {
-			App.module('OnlineController').save(data);
+		_startNewOnlineMatchTwice: function (data) {
 			this.ui.MatchRunningAlert.fadeOut();
 			if(this.matchModule.started) {
 				this.matchModule.stop();
@@ -503,6 +502,16 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			this.matchModule.start();
 			this.matchModule.match.onlineUid = data.uid;
 			App.module('PlayerController').onSetPlayerNameOnlineAutomatic(this._PlayerLeftView(), data);
+		},
+
+		_startNewOnlineMatch: function (data) {
+			this.matchModule.stop();
+			var self = this;
+			self._startNewMatch();
+			App.module('OnlineController').save(data);
+			setTimeout(function () {
+				self._startNewOnlineMatchTwice(data);
+			});
 		},
 
 		initialize: function() {
