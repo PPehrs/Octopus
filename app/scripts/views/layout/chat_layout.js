@@ -33,6 +33,11 @@ function( Backbone, Communicator, OnlineChallangeLayoutTmpl, Bootbox  ) {
 
 		_onPlayerClick: function (p) {
 			var lm = App.module('LoginModule');
+			if(lm.onWaitForAnswer) {
+				var d = '<div><i class="fa fa-ban m-r-s"></i>Zur Zeit nicht möglich.</div>';
+				Bootbox.alert(d);
+				return;
+			}
 			if(lm.loggedInUserId() === p.fkUser) {
 				var d = '<div>Wenn du mit dir selber spielen willst, dann tu es einfach.</div>';
 				Bootbox.alert(d);
@@ -46,12 +51,13 @@ function( Backbone, Communicator, OnlineChallangeLayoutTmpl, Bootbox  ) {
 			var _self = this;
 			Bootbox.confirm(d, function (result) {
 				if (result) {
+					lm.onWaitForAnswer = true;
+					Communicator.mediator.trigger('CHALLENGE:ANSWER:WAIT', p);
 					var sm = App.module('SocketModule');
 					p.uid = octopus.uuid();
 					p.fkUserFrom = lm.loggedInUserId();
 					p.nameFrom = lm.loggedInUserName();
 					sm.ChallangeRequest(p);
-					_self.listenToOnce(Communicator.mediator, 'CHALLENGE:ANSWER:' + p.uid);
 				}
 			});
 		},

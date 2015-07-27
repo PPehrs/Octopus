@@ -17,6 +17,7 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 			this.listenTo(Communicator.mediator, 'CHALLENGE:ACCEPT', this._onChallengeAccept);
 			this.listenTo(Communicator.mediator, 'CHALLENGE:REFUSE', this._onChallengeRefuse);
 			this.listenTo(Communicator.mediator, 'ONLINE:MATCH:START',  this._onStartOnlineMatch);
+			this.listenTo(Communicator.mediator, 'CHALLENGE:ANSWER:WAIT',  this._onWaitForAnswer);
 		},
 
     	template: MainmenueTmpl,
@@ -62,6 +63,25 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 			window.clearInterval(_self.interval);
 		},
 
+		_onWaitForAnswer: function (data) {
+			var lm = App.module('LoginModule');
+			if(lm.onWaitForAnswer) {
+				this.ui.ChallengeRequestInfo.html('<div style="font-size:14px">Warte auf Antwort von ' + data.username + '</div><div><b>90</b></div>');
+				this.ui.ChallengeAction.hide();
+				this.ui.GlobalAlert.show();
+				var _self = this;
+				var t = 90;
+				this.interval = setInterval(function () {
+					if(t === -1) {
+						_self._onChallengeRefuse(data);
+					} else {
+						_self.ui.ChallengeRequestInfo.html('<div style="font-size:14px">Warte auf Antwort von ' + data.username + '</div><div><b>' + t + '</b></div>');
+						t = t-1;
+					}
+				}, 1000);
+			}
+		},
+
 		_onStartOnlineMatch: function (data) {
 			if(Backbone.history.location.href.indexOf('#board') === -1) {
 				var router = new Backbone.Router();
@@ -96,6 +116,10 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 		},
 
 		_onChallengeRefuse: function (data) {
+			var lm = App.module('LoginModule');
+			lm.onWaitForAnswer = false;
+			window.clearInterval(this.interval);
+
 			this.ui.ChallengeAction.hide();
 			this.ui.ChallengeRequestInfo.html(data.username + '<div>Abgelehnt <i style="color:red" class="fa fa-ban"></i></div>');
 			this.ui.GlobalAlert.show();
@@ -106,6 +130,10 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 		},
 
 		_onChallengeAccept: function (data) {
+			var lm = App.module('LoginModule');
+			lm.onWaitForAnswer = false;
+			window.clearInterval(this.interval);
+
 			this.ui.ChallengeAction.hide();
 			this.ui.ChallengeRequestInfo.html(data.username + '<div>Angenommen <i style="color:green" class="fa fa-check-circle"></i></div>');
 			this.ui.GlobalAlert.show();
@@ -116,6 +144,11 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 		},
 
 		_onChallengeRequest: function (data) {
+			var lm = App.module('LoginModule');
+			if(lm.onWaitForAnswer) {
+				return;
+			}
+
 			this.ui.ChallengeAction.show();
 			if(this.challengeData ) {
 				return;
