@@ -478,7 +478,6 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 			this.matchModule.encounterUid = encounterUid;
 
 			this.matchModule.start();
-			this.matchModule.isOnlineGame = false;
 		},
 
 		_startNewComputerMatch: function (comp) {
@@ -489,12 +488,12 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 
 			this.matchModule.encounterUid = null;
 			this.matchModule.start();
-			this.matchModule.isOnlineGame = false;
 			App.module('PlayerController').onSetPlayerNameComputerAutomatic(this._PlayerLeftView(), comp);
 		},
 
 
 		_startNewOnlineMatch: function (data) {
+			App.module('OnlineController').save(data);
 			this.ui.MatchRunningAlert.fadeOut();
 			if(this.matchModule.started) {
 				this.matchModule.stop();
@@ -502,7 +501,6 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 
 			this.matchModule.encounterUid = null;
 			this.matchModule.start();
-			this.matchModule.isOnlineGame = true;
 			this.matchModule.match.onlineUid = data.uid;
 			App.module('PlayerController').onSetPlayerNameOnlineAutomatic(this._PlayerLeftView(), data);
 		},
