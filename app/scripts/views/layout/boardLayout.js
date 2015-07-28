@@ -517,6 +517,7 @@ function( Backbone, Marionette, Communicator, Bootbox, Tooltipster, BoardlayoutT
 
 		initialize: function() {
 			this.listenTo(Communicator.mediator, 'load:match', this._loadMatch);
+			this.listenTo(Communicator.mediator, 'start:match', this._startNewMatch);
 			this.listenTo(Communicator.mediator, 'encounterMatch:match:start', this._startNewMatch);
 
 			this.listenTo(Communicator.mediator, 'ONLINE:MATCH:START:ONBOARD', this._startNewOnlineMatch);

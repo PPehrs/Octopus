@@ -20,6 +20,22 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
 				isShowInfo: false,
 				wonWithText: ''
 			})
+
+			this.listenTo(Communicator.mediator, 'playerName:change:name:direct', this._render);
+		},
+
+		_render: function () {
+			this.model.set('isRegisteredUser', false);
+			this.model.set('isComp', false);
+			var p = _.findWhere(App.module('PlayerController').players, {isLeft: this.model.get('isLeft')});
+			if(p) {
+				if (p.fkUser) {
+					this.model.set('isRegisteredUser', true);
+				} else if (p.comp) {
+					this.model.set('isComp', true);
+				}
+			}
+			this.render();
 		},
 
 
@@ -33,7 +49,9 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
     		AlertText: '.bb-alert span',
 			StatisticCheck: '.match-statistic-check',
 			StatisticAvg: '.match-statistic-avg',
-			StatisticDarts: '.match-statistic-darts'
+			StatisticDarts: '.match-statistic-darts',
+			RegisteredUser: '.registeredUser',
+			CompUser: '.compUser'
     	},
 
 		/* Ui events hash */
@@ -98,6 +116,18 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
             	)
         	});
 
+			this.ui.RegisteredUser.tooltipster({
+				content: $(
+					'<span>Registrierter Spieler</span>'
+				)
+			});
+
+			this.ui.CompUser.tooltipster({
+				content: $(
+					'<span>Computer-Gegner</span>'
+				)
+			});
+
 			var isLeft = this.model.get('isLeft');
 			var countLegs = this.model.get('countLegs');
 
@@ -143,6 +173,16 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
                 		'<span><strong>' + totalWon.join(', ') + '</strong> Darts</span>'
                 	)
             	});
+			}
+			this.model.set('isRegisteredUser', false);
+			this.model.set('isComp', false);
+			var p = _.findWhere(App.module('PlayerController').players, {isLeft: this.model.get('isLeft')});
+			if(p) {
+				if (p.fkUser) {
+					this.model.set('isRegisteredUser', true);
+				} else if (p.comp) {
+					this.model.set('isComp', true);
+				}
 			}
 		}
 	});

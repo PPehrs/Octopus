@@ -1,9 +1,10 @@
 define([
 	'backbone',
 	'communicator',
-	'hbs!tmpl/item/playerName_tmpl'
+	'hbs!tmpl/item/playerName_tmpl',
+	'./dialogPlayer'
 ],
-function( Backbone, Communicator, PlayerNameTmpl  ) {
+function( Backbone, Communicator, PlayerNameTmpl, DialogPlayer  ) {
     'use strict';
 
 	/* Return a ItemView class definition */
@@ -13,16 +14,38 @@ function( Backbone, Communicator, PlayerNameTmpl  ) {
 
     	/* ui selector cache */
     	ui: {
-			InputPlayerName: '.playerName'
+			InputPlayerName: '.playerName',
+			EditUser: '.editUser'
 		},
 
 		/* Ui events hash */
 		events: {
-			'focusout @ui.InputPlayerName': '_onFocusOutInputPlayerName'
+			'focusout @ui.InputPlayerName': '_onFocusOutInputPlayerName',
+			'click @ui.EditUser': '_onClickEditUser'
 		},
 
 		initialize: function () {
 			this.model.set('isComp', false);
+			_.bindAll(this, '_refreshPlayer');
+		},
+
+		_onClickEditUser: function () {
+			if(App.module('LoginModule').isLoggedIn) {
+				var name = App.module('LoginModule').loggedInUserName();
+				App.module('DialogModule').showDialog('Spieler auswählen', DialogPlayer, name, this._refreshPlayer, 'CheckPw');
+			} else {
+				App.module('DialogModule').showConfirm('Spieler auswählen', DialogPlayer, this._refreshPlayer);
+			}
+		},
+
+		_refreshPlayer: function (player) {
+			this.model.set('name', player.name);
+			this.model.set('fkUser', player.fkUser);
+			this.model.unset('comp');
+			var playerNameModel = this.model.toJSON();
+			delete playerNameModel.isPlayerActive;
+			Communicator.mediator.trigger('playerName:change:name:direct', playerNameModel);
+			this.render();
 		},
 
 		_onFocusOutInputPlayerName: function () {

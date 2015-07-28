@@ -69,7 +69,6 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 		},
 
 		validate: function () {
-			debugger
 			var validationText = this.model.validate();
 			if(validationText) {
 				return validationText;

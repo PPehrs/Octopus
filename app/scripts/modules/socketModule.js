@@ -186,6 +186,17 @@ function(App, SocketIo, Communicator) {
 			}
 		};
 
+		SocketModule.CheckPw = function (model, callback, self) {
+			var o = model.toJSON();
+			var socketIo = App.module('SocketModule').socketIo;
+			if(o._id) {
+				socketIo.emit('check-pw', o, function (data) {
+					callback(data, self);
+				});
+			} else {
+				callback(o, self);
+			}
+		},
 
 
 		SocketModule.LoginUser = function (model, callback, self) {

@@ -182,7 +182,7 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 		_onClickButtonPlayerProfile: function () {
 			if(App.module('LoginModule').isLoggedIn()) {
 				var router = new Backbone.Router();
-				var userId = App.module('LoginModule').loggedInUserId()
+				var userId = App.module('LoginModule').loggedInUserId();
 				router.navigate('profile/' + userId, {trigger: true});
 			}
 		},

@@ -40,6 +40,7 @@ function( Backbone, OnlineChallangeLayoutTmpl, OnlinePlayers, Chat  ) {
 			this.ui.CloseMatch.hide();
 			this.ui.Video.hide();
 			this.ui.PrivateChat.hide();
+			App.module('PlayerController').removeOther();
 		},
 
 		/* on render callback */

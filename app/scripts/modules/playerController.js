@@ -24,6 +24,17 @@ function(App, Communicator, PlayerModel) {
 			localStorage.setItem('octopus', JSON.stringify(octopusStore));
 		};
 
+		PlayerController.removeOther = function () {
+			debugger
+			var userId = App.module('LoginModule').loggedInUserId();
+			var playerSelf = _.findWhere(this.players, {fkUser: userId});
+			this.players = [playerSelf];
+			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+			octopusStore.players = this.players;
+			localStorage.setItem('octopus', JSON.stringify(octopusStore));
+			Communicator.mediator.trigger('start:match');
+		},
+
 		PlayerController.savePlayer = function (player, isOnGetFromStorage) {
 			if(typeof player.isLeft === 'undefined') {
 				return

@@ -180,6 +180,10 @@ function(App, Communicator) {
 					players: players
 				}
 
+				if(App.module('OnlineController').get()) {
+					this.match.onlineUid = App.module('OnlineController').get().uid;
+				}
+
 				_.extend(octopusStore, {match: this.match});
 				localStorage.setItem('octopus', JSON.stringify(octopusStore));
 

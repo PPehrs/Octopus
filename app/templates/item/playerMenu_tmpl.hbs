@@ -20,6 +20,13 @@
         <i class="match-statistic-check fz-1 m-r-vs" style="margin-top: -10px;float:left;border-radius:5px;padding:0px 5px;background:darkgray;color:white">{{dbl}}%</i>
     	<i class="c-p switchPlayernames fa fa-arrow-circle-right text-success" style="float:right"></i>
 		<i class="c-p activePlayer fa fa-bullseye text-success m-r-s" style="float:right"></i>
+	{{#if isRegisteredUser}}
+        <i class="c-p registeredUser fa fa-globe panel-success m-r-s" style="float:right"></i>
+	{{/if}}
+	{{#if isComp}}
+		<i class="c-p compUser fa fa-reddit panel-success m-r-s" style="float:right"></i>
+	{{/if}}
+
   {{else}}
 
         <div style="margin-top:-140px;float:right">
@@ -32,6 +39,12 @@
 
 		<i class="c-p switchPlayernames fa fa-arrow-circle-left text-success" style="float:left"></i>
 		<i class="c-p activePlayer fa fa-bullseye text-success m-l-s" style="float:left"></i>
+		{{#if isRegisteredUser}}
+            <i class="c-p registeredUser fa fa-globe panel-success m-l-s" style="float:left"></i>
+		{{/if}}
+		{{#if isComp}}
+            <i class="c-p compUser fa fa-reddit panel-success m-l-s" style="float:left"></i>
+		{{/if}}
         <i class="fz-1 m-r-vs" style="margin-top: -10px;float:right;color:darkgray;">Darts</i>
         <i class="match-statistic-darts fz-1 m-r-vs" style="margin-top: -10px;border-radius:5px;padding:0px 5px;float:right;background:darkgray;color:white">{{tDarts}}</i>
         <i class="fz-1 m-r-vs" style="margin-top: -10px;float:right;color:darkgray;">Avg</i>
