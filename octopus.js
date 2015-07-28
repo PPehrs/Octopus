@@ -62,6 +62,25 @@ var matchSchema = mongoose.Schema({
 	activeLeg: Object,
 	sets: []
 });
+
+var onlineMatchSchema = mongoose.Schema({
+	teams: String,
+	fkUser: String,
+	fkEncounter: String,
+	fkUserUpdatedBy: String,
+	uid: String,
+	onlineUid: String,
+	startDateTime: { type: Date, default: Date.now },
+	endDateTime: { type: Date },
+	activeSet: Number,
+	leg: Number,
+	state: [],
+	started: Boolean,
+	closed: Boolean,
+	players: [],
+	activeLeg: Object,
+	sets: []
+});
 //--------------------------------------------------
 
 var Match = null;
@@ -73,6 +92,7 @@ var Login = null;
 
   	Team = mongoose.model('Team', teamSchema);
 	Match = mongoose.model('Match', matchSchema);
+	OnlineMatch = mongoose.model('OnlineMatch', onlineMatchSchema);
 	User = mongoose.model('User', userSchema);
 	Encounter = mongoose.model('Encounter', encounterSchema);  
 	Login = mongoose.model('Login', loginSchema);  
@@ -135,6 +155,31 @@ io.on('connection', function(socket){
 	fn('success');
   });  
 
+  socket.on('send-chat-message-to', function(data, fn){
+  	console.log(data)
+	io.emit('new-chat-message-' + data.uid, data);
+	fn('success');
+  });    
+
+  socket.on('send-challenge-request', function(data){
+  	var s = _.findWhere(io.sockets.sockets, {id: data.socketId});
+  	data.socketIdFrom = socket.id;
+	s.emit('challenge-request-' + data.fkUser, data);
+  });  
+
+  socket.on('challenge-refuse', function(data){
+  	var s = _.findWhere(io.sockets.sockets, {id: data.socketIdFrom});
+	s.emit('challenge-refuse-' + data.uid, data);
+  });    
+
+  socket.on('challenge-accept', function(data){
+  	var p1 = _.findWhere(io.sockets.sockets, {id: data.socketIdFrom});
+  	var p2 = _.findWhere(io.sockets.sockets, {id: data.socketId});
+	p1.emit('challenge-accept-' + data.uid, data);
+	
+	p1.emit('online-match-' + data.uid, data);
+	p2.emit('online-match-' + data.uid, data);
+  });      
 
   /*
    * match-data
@@ -176,6 +221,30 @@ io.on('connection', function(socket){
 			}	
 		}
     });
+  });
+
+socket.on('online-match-data', function(data, fn){
+	var query = OnlineMatch.findOne({uid: data.uid});
+console.log('OLM', data)
+    query.exec(function(err, match) {
+		 if (!err) {
+			if(_.isEmpty(match)) {
+		 		var matchIn = new OnlineMatch(data);	
+		 		matchIn.save(function (err, match) {
+				if (!err) {
+					console.log('NEW==> ', data)
+					io.emit('online-match-updated-' + data.fkUserUpdatedBy, data);
+				}
+			});
+		 	} else {
+			    OnlineMatch.findById(match._id, function (err, matchById) {
+    				matchById.update(data).exec();
+    				console.log('UPDATE==> ', data)
+    				io.emit('online-match-updated-' + data.fkUserUpdatedBy, data);
+				});
+		    } 		 	
+		}	
+	});
   });
 
   socket.on('match-data', function(data, fn){

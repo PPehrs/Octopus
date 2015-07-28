@@ -121,7 +121,7 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 			window.clearInterval(this.interval);
 
 			this.ui.ChallengeAction.hide();
-			this.ui.ChallengeRequestInfo.html(data.username + '<div>Abgelehnt <i style="color:red" class="fa fa-ban"></i></div>');
+			this.ui.ChallengeRequestInfo.html(data.username + '<div>abgelehnt <i style="color:red" class="fa fa-ban"></i></div>');
 			this.ui.GlobalAlert.show();
 			var _self = this;
 			setTimeout(function () {
@@ -135,7 +135,7 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 			window.clearInterval(this.interval);
 
 			this.ui.ChallengeAction.hide();
-			this.ui.ChallengeRequestInfo.html(data.username + '<div>Angenommen <i style="color:green" class="fa fa-check-circle"></i></div>');
+			this.ui.ChallengeRequestInfo.html(data.username + '<div>angenommen <i style="color:green" class="fa fa-check-circle"></i></div>');
 			this.ui.GlobalAlert.show();
 			var _self = this;
 			setTimeout(function () {
