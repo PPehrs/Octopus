@@ -37,11 +37,16 @@ function( Backbone, Tooltip, Communicator, ScoreitemTmpl  ) {
     		missButton: '.xx_btn',
     		enterButton: '#btnEnter',
     		confirmScoreButtons: '.confirmScoreButtons',
-    		confirmScoreCheckButtons: '.confirmScoreButtons.ooCheck'
+    		confirmScoreCheckButtons: '.confirmScoreButtons.ooCheck',
+			inputHelper: '.inputHelper',
+			secondInput: '#secondInput',
+			inputHelperInDiv: '.inputHelperIn div'
     	},
 
 		/* Ui events hash */
 		events: {
+			'click @ui.inputHelperInDiv': 'onClickInputHelperInDiv',
+			'click @ui.secondInput': 'onClickInputHelper',
 			'click @ui.checkButton': 'onClickCheckButton',
 			'click @ui.missButton': 'onClickMissButton',
 
@@ -51,6 +56,34 @@ function( Backbone, Tooltip, Communicator, ScoreitemTmpl  ) {
 			'keydown @ui.scoreInput': 'onKeyDownScoreInput',
 			'keypress @ui.scoreInput': 'onKeyPressScoreInput',
 			'keyup @ui.scoreInput': 'onKeyUpScoreInput'
+		},
+
+		onClickInputHelperInDiv: function (e) {
+			var txt = $(e.target).text();
+			var num = $.isNumeric(txt);
+			if(num) {
+				var itxt = this.ui.scoreInput.val();
+				this.ui.scoreInput.val(itxt + txt);
+			} else {
+				var ele = $(e.currentTarget).find('.fa-trash-o');
+				if(ele.length > 0) {
+					this.ui.scoreInput.val('');
+					return;
+				}
+				var ele = $(e.currentTarget).find('.fa-backward');
+				if(ele.length > 0) {
+					var txtT = this.ui.scoreInput.val();
+					if(txtT.length > 0) {
+						txtT = txtT.substring(0, txtT.length - 1);
+						this.ui.scoreInput.val(txtT);
+						return;
+					}
+				}
+			}
+		},
+
+		onClickInputHelper: function () {
+			this.ui.inputHelper.toggle('slow');
 		},
 
 		showCheckButton: function(pos) {

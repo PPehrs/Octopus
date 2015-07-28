@@ -140,12 +140,12 @@ function( Backbone, Communicator, CheckoutTmpl  ) {
 			},
 			'129': {
 				first: ['25', '19'],
-				i: 'Den 1. Dart auf Bull oder 19, bei Single bleibt ein 2 Dart Finish Rest (104, 110)<br>Trifft der 1. T20 ist mit Single Bull-Finish möglich',
+				i: 'Den 1. Dart auf Bull oder 19, bei Single bleibt ein 2 Dart Finish Rest (104, 110)<br>(alternative: Trifft der 1. T20 ist mit Single Bull-Finish möglich)',
 				best: ['D25 - T13 - D20', 'T19 - T16 - D12' , 'T20 - T19 - D6']
 			},
 			'128': {
 				first: ['18'],
-				i: 'Den 1. Dart auf 18, bei Single bleibt <b>110</b> Rest<br>Trifft der 1. T20 ist mit Single Bull-Finish möglich',
+				i: 'Den 1. Dart auf 18, bei Single bleibt <b>110</b> Rest<br>(alternative: Trifft der 1. T20 ist mit Single Bull-Finish möglich)',
 				best: ['T18 - T18 - D10', 'T20 - T20 - D4']
 			},
 			'127': {
