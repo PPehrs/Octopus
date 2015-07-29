@@ -18,6 +18,9 @@ function( Backbone, TeammembersTmpl, TeamMember, Member  ) {
 				});
 				this.collection.add(member);
 				this.render();
+			},
+			'teamMember:name:delete': function(child) {
+				this.collection.remove(child.model);
 			}
 		},
 

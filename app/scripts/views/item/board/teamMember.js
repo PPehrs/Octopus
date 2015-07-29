@@ -18,12 +18,18 @@ function( Backbone, Stickit, TeammembersTmpl  ) {
 
     	/* ui selector cache */
     	ui: {
-    		buttonSuccess: '.btn-success'
+    		buttonSuccess: '.btn-success',
+			buttonDefault: '.btn-default'
     	},
 
 		/* Ui events hash */
 		events: {
-			'click @ui.buttonSuccess': '_onClickButtonSuccess'
+			'click @ui.buttonSuccess': '_onClickButtonSuccess',
+			'click @ui.buttonDefault': '_onClickButtonDefault'
+		},
+
+		_onClickButtonDefault: function() {
+			this.triggerMethod('teamMember:name:delete');
 		},
 
 		_onClickButtonSuccess: function() {

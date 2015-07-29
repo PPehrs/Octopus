@@ -47,12 +47,27 @@ function( Backbone, Communicator, Stickit, Validation, DialogteamTmpl, TeamMembe
 
 		/* Ui events hash */
 		events: {
-			'click @ui.ButtonToggleTeam' : '_onClickButtonToggleTeam'
+			'click @ui.ButtonToggleTeam' : '_onClickButtonToggleTeam',
+			'change @ui.TeamSelectpicker': '_onClickTeamSelectpicker'
 		},
 
 		_onClickButtonToggleTeam: function () {
 			this.ui.P1Toggle.toggle();
 		},
+
+		_onClickTeamSelectpicker: function () {
+			var _id = this.ui.TeamSelectpicker.val();
+			var team = _.findWhere(this.teams, {_id: _id});
+			this.model.set(team);
+			var members = new Backbone.Collection(team.members)
+			members.add({
+				name: '',
+				fkUserId: -1
+			})
+			this.TeamMembersRegion.show(new TeamMembers({collection: members}))
+			this.ui.P1Toggle.toggle();
+		},
+
 
 		/* on render callback */
 		onRender: function() {
@@ -98,8 +113,17 @@ function( Backbone, Communicator, Stickit, Validation, DialogteamTmpl, TeamMembe
 				return validationText;
 			}
 
+			var last = this.TeamMembersRegion.currentView.collection.pop();
+			if(last.get('name')) {
+				this.TeamMembersRegion.currentView.collection.add(last);
+			}
+
 			var members = this.TeamMembersRegion.currentView.collection.toJSON();
+			if(!last.get('name')) {
+				this.TeamMembersRegion.currentView.collection.add(last);
+			}
 			var captain = this.model.get('captain');
+			debugger
 			if (_.isEmpty(_.findWhere(members, {'name': captain}))) {
 				members.push({
 					name: captain,
