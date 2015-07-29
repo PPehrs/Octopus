@@ -123,7 +123,7 @@ function( Backbone, Communicator, Stickit, Validation, DialogteamTmpl, TeamMembe
 				this.TeamMembersRegion.currentView.collection.add(last);
 			}
 			var captain = this.model.get('captain');
-			debugger
+
 			if (_.isEmpty(_.findWhere(members, {'name': captain}))) {
 				members.push({
 					name: captain,

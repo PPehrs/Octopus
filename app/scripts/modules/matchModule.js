@@ -411,29 +411,40 @@ function(App, Communicator) {
 		};
 
 		MatchModule.syncMatch = function (check) {
+			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+
 			if(!App.module('LoginModule').isLoggedIn()) {
 				return;
 			}
-			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+
 			var compMatch = _.find(this.match.players, function(p) { return p.comp > 0 } );
 			if(!_.isEmpty(compMatch) && check) {
 				this.match.fkUser = App.module('LoginModule').loggedInUserId();
 				Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
+				return;
 			}
 
 			if(this.match.onlineUid) {
 				var lm = App.module('LoginModule');
 				this.match.fkUserUpdatedBy = lm.loggedInUserId();
 				Communicator.mediator.trigger('APP:SOCKET:EMIT', 'online-match-data', this.match);
-			}
-
-			if(_.isEmpty(octopusStore.activeEncounter)) {
 				return;
 			}
 
-			if(!_.isEmpty(this.match.players)) {
-				Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
+			if(!_.isEmpty(octopusStore.activeEncounter)) {
+				if(!_.isEmpty(this.match.players)) {
+					Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
+					return;
+				}
 			}
+
+			if(this.match.players && (this.match.players[0].fkUser || this.match.players[1].fkUser)) {
+				if(check) {
+					Communicator.mediator.trigger('APP:SOCKET:EMIT', 'match-data', this.match);
+					return;
+				}
+			}
+
 		};
 	});
 });
