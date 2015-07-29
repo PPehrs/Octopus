@@ -18,6 +18,7 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 			this.listenTo(Communicator.mediator, 'CHALLENGE:REFUSE', this._onChallengeRefuse);
 			this.listenTo(Communicator.mediator, 'ONLINE:MATCH:START',  this._onStartOnlineMatch);
 			this.listenTo(Communicator.mediator, 'CHALLENGE:ANSWER:WAIT',  this._onWaitForAnswer);
+			this.listenTo(Communicator.mediator, 'ONLINE:MATCH:CANCELED', this._onOnlineMatchCanceled);
 		},
 
     	template: MainmenueTmpl,
@@ -113,6 +114,16 @@ function( Backbone, App, Communicator, MainmenueTmpl  ) {
 			var sm = App.module('SocketModule');
 			sm.ChallengeAccept(this.challengeData);
 			this.challengeData = null;
+		},
+
+		_onOnlineMatchCanceled: function () {
+			this.ui.ChallengeAction.hide();
+			this.ui.ChallengeRequestInfo.html('<div class="fz15">vom Gegner beendet <i style="color:red" class="fa fa-ban"></i></div>');
+			this.ui.GlobalAlert.show();
+			var _self = this;
+			setTimeout(function () {
+				_self.ui.GlobalAlert.hide();
+			}, 5000);
 		},
 
 		_onChallengeRefuse: function (data) {

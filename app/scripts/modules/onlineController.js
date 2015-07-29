@@ -9,7 +9,12 @@ function(App, Communicator) {
 
 		OnlineController.addInitializer(function() {
 			OnlineController.listenTo(Communicator.mediator, 'APP:SOCKET:CONNECTED', OnlineController.reconnected);
+			OnlineController.listenTo(Communicator.mediator, 'ONLINE:MATCH:CANCELED', OnlineController.canceled);
 		});
+
+		OnlineController.canceled = function () {
+			localStorage.removeItem('om');
+		},
 
 		OnlineController.reconnected = function () {
 			var om = localStorage.getItem('om');
@@ -22,6 +27,9 @@ function(App, Communicator) {
 				var socketIo = App.module('SocketModule').socketIo;
 				socketIo.on('online-match-updated-' + listenTo, function (data) {
 					App.module('OnlineController').newScore(data);
+				});
+				socketIo.on('challenge-canceled-' + data.uid + '-' + App.module('LoginModule').loggedInUserId(), function () {
+					Communicator.mediator.trigger('ONLINE:MATCH:CANCELED');
 				});
 				socketIo.on('new-chat-message-' + onlineMatch.uid, function(data){
 					Communicator.mediator.trigger('APP:SOCKET:PRIVATE-CHAT-MESSAGE', data);

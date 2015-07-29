@@ -130,6 +130,9 @@ function(App, SocketIo, Communicator) {
 			socketIo.on('online-match-updated-' + data.fkUser, function (data) {
 				App.module('OnlineController').newScore(data);
 			});
+			socketIo.on('challenge-canceled-' + data.uid + '-' + App.module('LoginModule').loggedInUserId(), function () {
+				Communicator.mediator.trigger('ONLINE:MATCH:CANCELED');
+			});
 			socketIo.emit('send-challenge-request', data);
 		},
 
@@ -138,10 +141,22 @@ function(App, SocketIo, Communicator) {
 			socketIo.emit('challenge-refuse', data);
 		},
 
+		SocketModule.ChallengeCanceled = function (data) {
+			var socketIo = App.module('SocketModule').socketIo;
+			data.fkUserSendCanceled = data.fkUser;
+			if(data.fkUserSendCanceled === App.module('LoginModule').loggedInUserId()) {
+				data.fkUserSendCanceled = data.fkUserFrom;
+			}
+			socketIo.emit('challenge-canceled', data);
+		},
+
 		SocketModule.ChallengeAccept = function (data) {
 			var socketIo = App.module('SocketModule').socketIo;
 			socketIo.on('online-match-updated-' + data.fkUserFrom, function (data) {
 				App.module('OnlineController').newScore(data);
+			});
+			socketIo.on('challenge-canceled-' + data.uid + '-' + App.module('LoginModule').loggedInUserId(), function () {
+				Communicator.mediator.trigger('ONLINE:MATCH:CANCELED');
 			});
 			socketIo.on('new-chat-message-' + data.uid, function(data){
 				Communicator.mediator.trigger('APP:SOCKET:PRIVATE-CHAT-MESSAGE', data);

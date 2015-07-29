@@ -1,10 +1,11 @@
 define([
 	'backbone',
+	'communicator',
 	'hbs!tmpl/layout/onlineChallange_layout_tmpl',
 	'../composite/home/onlinePlayers',
 	'./chat_layout'
 ],
-function( Backbone, OnlineChallangeLayoutTmpl, OnlinePlayers, Chat  ) {
+function( Backbone, Communicator, OnlineChallangeLayoutTmpl, OnlinePlayers, Chat  ) {
     'use strict';
 
 	/* Return a Layout class definition */
@@ -33,8 +34,18 @@ function( Backbone, OnlineChallangeLayoutTmpl, OnlinePlayers, Chat  ) {
 
     	template: OnlineChallangeLayoutTmpl,
 
+		initialize: function () {
+			this.listenTo(Communicator.mediator, 'ONLINE:MATCH:CANCELED', this._close);
+		},
+
 		_onClickMatchClose: function () {
+			var om = App.module('OnlineController').get();
 			localStorage.removeItem('om');
+			this._close();
+			App.module('SocketModule').ChallengeCanceled(om);
+		},
+
+		_close: function () {
 			this.ui.OnlinePlayers.show();
 			this.panelPlayerOnlineRegion.show(new OnlinePlayers());
 			this.ui.CloseMatch.hide();

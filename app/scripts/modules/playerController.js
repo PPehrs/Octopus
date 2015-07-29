@@ -25,7 +25,6 @@ function(App, Communicator, PlayerModel) {
 		};
 
 		PlayerController.removeOther = function () {
-			debugger
 			var userId = App.module('LoginModule').loggedInUserId();
 			var playerSelf = _.findWhere(this.players, {fkUser: userId});
 			this.players = [playerSelf];
