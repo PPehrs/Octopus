@@ -1,5 +1,6 @@
 define([
 	'backbone',
+	'communicator',
 	'backbone.stickit',
 	'backbone.validation',
 	'hbs!tmpl/layout/dialogTeam_tmpl',
@@ -7,14 +8,19 @@ define([
 	'models/team',
 	'models/member'
 ],
-function( Backbone, Stickit, Validation, DialogteamTmpl, TeamMembers, Team, Member  ) {
+function( Backbone, Communicator, Stickit, Validation, DialogteamTmpl, TeamMembers, Team, Member  ) {
     'use strict';
 
 	/* Return a Layout class definition */
 	return Backbone.Marionette.LayoutView.extend({
 
+		teams: null,
+
 		initialize: function() {
 			this.model = new Team();
+			this.model.set('fkUser', App.module('LoginModule').loggedInUserId());
+
+			_.bindAll(this, '_onTeamsLoaded');
 		},
 
     	template: DialogteamTmpl,
@@ -33,25 +39,61 @@ function( Backbone, Stickit, Validation, DialogteamTmpl, TeamMembers, Team, Memb
 
 
     	/* ui selector cache */
-    	ui: {},
+    	ui: {
+			ButtonToggleTeam: '.btn-team-selectpicker',
+			P1Toggle: '.p1_toggle',
+			TeamSelectpicker: '.form_team_selectpicker'
+		},
 
 		/* Ui events hash */
-		events: {},
+		events: {
+			'click @ui.ButtonToggleTeam' : '_onClickButtonToggleTeam'
+		},
+
+		_onClickButtonToggleTeam: function () {
+			this.ui.P1Toggle.toggle();
+		},
 
 		/* on render callback */
 		onRender: function() {
 			Backbone.Validation.bind(this);
 			this.stickit();
+
+			this.ui.TeamSelectpicker.selectpicker({
+				style: 'btn-info',
+				size: 4
+			});
+
 			var member = new Member({
 					name: '',
 					fkUserId: -1
 			});
 			var members = new Backbone.Collection([member])
 			this.TeamMembersRegion.show(new TeamMembers({collection: members}))
+
+			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'get-teams', {fkUser: App.module('LoginModule').loggedInUserId()}, this._onTeamsLoaded)
+		},
+
+		_onTeamsLoaded: function (teams) {
+			this.teams = teams;
+
+			var self = this;
+
+			self.ui.TeamSelectpicker.append('<option value="" disabled selected>...ein Team ausw&auml;hlen</option>');
+
+			_.each(teams, function (team) {
+				var htmlval = _.template('<option value="<%= _id %>" data-subtext="<%= captain %>"><%= name %></option>', { _id: team._id, captain: team.captain, name: team.name});
+				self.ui.TeamSelectpicker.append(htmlval);
+			})
+
+			self.ui.TeamSelectpicker.selectpicker('refresh');
 		},
 
 		validate: function () {
 			var validationText = this.model.validate();
+			if(!this.model.get('fkUser') || this.model.get('fkUser') <= 0) {
+				validationText = ["Nur eingeloggte Spieler können Teams speichern"];
+			}
 			if(validationText) {
 				return validationText;
 			}
@@ -61,7 +103,7 @@ function( Backbone, Stickit, Validation, DialogteamTmpl, TeamMembers, Team, Memb
 			if (_.isEmpty(_.findWhere(members, {'name': captain}))) {
 				members.push({
 					name: captain,
-					fkUser: this.model.get('fkUser')
+					fkUser: -1
 				})
 			}
 			this.model.set('members', members);

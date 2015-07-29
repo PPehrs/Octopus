@@ -164,7 +164,7 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 				size: 4
 			});
 
-			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'get-teams', null, this._onTeamsLoaded)
+			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'get-teams', {fkUser: App.module('LoginModule').loggedInUserId()}, this._onTeamsLoaded)
 			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'get-encounters', null, this._onEncountersLoaded)
 		},
 
