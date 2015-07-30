@@ -33,7 +33,8 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 			ButtonToggleHome: '.btn-home-selectpicker',
 			ButtonToggleGuest: '.btn-guest-selectpicker',
 			P1Toggle: '.p1_toggle',
-			P2Toggle: '.p2_toggle'
+			P2Toggle: '.p2_toggle',
+			SavedEncounterGroup: '.saved-encounter-group'
 		},
 
 		/* Ui events hash */
@@ -49,7 +50,6 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 		_onClickSavedSelectpicker: function () {
 			var _id = this.ui.SavedSelectpicker.val();
 			var encounter = _.findWhere(this.encounters, {_id: _id});
-			debugger
 			if(encounter) {
 				this.model.set({
 					uid: encounter.uid,
@@ -61,6 +61,22 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 					start: encounter.start
 				})
 				this.render();
+				Communicator.mediator.trigger('APP:SOCKET:EMIT', 'get-team', {fkTeam: encounter.home.fkTeam}, this._onTeamHomeLoaded)
+				Communicator.mediator.trigger('APP:SOCKET:EMIT', 'get-team', {fkTeam: encounter.guest.fkTeam}, this._onTeamGuestLoaded)
+			}
+		},
+
+		_onTeamHomeLoaded: function (data) {
+			var team = _.findWhere(this.teams, {_id: data._id});
+			if(!team) {
+				this.teams.push(data);
+			}
+		},
+
+		_onTeamGuestLoaded: function (data) {
+			var team = _.findWhere(this.teams, {_id: data._id});
+			if(!team) {
+				this.teams.push(data);
 			}
 		},
 
@@ -141,7 +157,7 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 				uid: octopus.uuid()
 			});
 
-			_.bindAll(this, '_onTeamsLoaded', '_onEncountersLoaded');
+			_.bindAll(this, '_onTeamsLoaded', '_onEncountersLoaded', '_onTeamHomeLoaded', '_onTeamGuestLoaded');
 		},
 
 		/* on render callback */
@@ -163,6 +179,10 @@ function( Backbone, Stickit, Validation, Communicator, DialogencounterTmpl, Mode
 				style: 'btn-info',
 				size: 4
 			});
+
+			if(!App.module('LoginModule').isLoggedIn()) {
+				this.ui.SavedEncounterGroup.hide();
+			}
 
 			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'get-teams', {fkUser: App.module('LoginModule').loggedInUserId()}, this._onTeamsLoaded)
 			Communicator.mediator.trigger('APP:SOCKET:EMIT', 'get-encounters', null, this._onEncountersLoaded)
