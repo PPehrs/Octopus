@@ -27,6 +27,19 @@ function( Backbone, Communicator, PlayerNameTmpl, DialogPlayer  ) {
 		initialize: function () {
 			this.model.set('isComp', false);
 			_.bindAll(this, '_refreshPlayer');
+			this.listenTo(Communicator.mediator, 'playerController:player:unset', this._unset);
+		},
+
+		_unset: function () {
+			this.model.set({
+				fkTeam: -1,
+				fkUserId: -1,
+				isComp: false,
+				name: "",
+				uid: ""
+			});
+			this.render();
+			Communicator.mediator.trigger('playerName:player:unset');
 		},
 
 		_onClickEditUser: function () {

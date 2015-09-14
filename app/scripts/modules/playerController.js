@@ -169,6 +169,14 @@ function(App, Communicator, PlayerModel) {
 			}
 		},
 
+		PlayerController.unsetPlayer =  function(isLeft) {
+			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
+			octopusStore.players = null;
+			PlayerController.players = [];
+			localStorage.setItem('octopus', JSON.stringify(octopusStore));
+			Communicator.mediator.trigger('playerController:player:unset');
+		},
+
 		PlayerController.getPlayerFromStorage =  function(isLeft) {
 			var octopusStore = JSON.parse (localStorage.getItem('octopus'));
 			if(octopusStore && !_.isEmpty(octopusStore.players)) {

@@ -37,10 +37,19 @@ function( Backbone, Communicator, Moment, EncounterinfoTmpl, MatchInfoContainer 
 		},
 
     	/* ui selector cache */
-    	ui: {},
+    	ui: {
+			liveLeg: '#octopus_liveLeg'
+		},
 
 		/* Ui events hash */
-		events: {},
+		events: {
+			'click @ui.liveLeg': '_onClickOpenMatch'
+		},
+
+		_onClickOpenMatch: function () {
+			var router = new Backbone.Router();
+			router.navigate('match/' + '-' + this.options.encounterUid, {trigger: true});
+		},
 
 		/* on render callback */
 		onShow: function () {
@@ -79,7 +88,7 @@ function( Backbone, Communicator, Moment, EncounterinfoTmpl, MatchInfoContainer 
 
 		_onShowMatches: function (data) {
 			this.ActiveMatches.show(new MatchInfoContainer({
-				collection: new Backbone.Collection(data.reverse())
+				collection: new Backbone.Collection(data)
 			}));
 		}
 

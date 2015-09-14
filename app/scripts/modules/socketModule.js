@@ -174,6 +174,17 @@ function(App, SocketIo, Communicator) {
 			});
 		},
 
+		SocketModule.GetPlayerMatches = function (callback, self) {
+			var data = {
+				fkUser: App.module('LoginModule').loggedInUserId()
+			};
+
+			var socketIo = App.module('SocketModule').socketIo;
+			socketIo.emit('get-player-matches', data, function (data) {
+				callback(data, self);
+			});
+		},
+
 		SocketModule.RegisterUser = function (model, callback, self) {
 			var socketIo = App.module('SocketModule').socketIo;
 			socketIo.emit('register-user', model.attributes, function (data) {
@@ -199,6 +210,28 @@ function(App, SocketIo, Communicator) {
 					Communicator.mediator.trigger('DialogModule:LOGGED-OUT');
 				});
 			}
+		};
+
+		SocketModule.UploadAvatar = function (lData, callback, self) {
+			var data = {
+				fkUser: App.module('LoginModule').loggedInUserId(),
+				avatar: lData.get('avatar')
+			};
+
+			var socketIo = App.module('SocketModule').socketIo;
+			socketIo.emit('upload-player-avatar', data, function (data) {
+				callback(data, self);
+			});
+		};
+
+		SocketModule.LoadAvatar = function (callback, self) {
+			var data = {
+				fkUser: App.module('LoginModule').loggedInUserId()
+			};
+			var socketIo = App.module('SocketModule').socketIo;
+			socketIo.emit('get-player-avatar', data, function (data) {
+				callback(data, self);
+			});
 		};
 
 		SocketModule.CheckPw = function (model, callback, self) {

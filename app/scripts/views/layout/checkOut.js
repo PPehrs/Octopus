@@ -674,7 +674,8 @@ function( Backbone, Communicator, CheckoutTmpl  ) {
 				if (isNum) {
 					$($toSetBtn).text($($toSetBtn).text().replace('-', value));
 				} else {
-					$($toSetBtn).text(value + '-');
+					var val = $(e.target.parentElement.parentElement).find('.btn-link').text();
+					$($toSetBtn).text(value + val);
 				}
 			}
 

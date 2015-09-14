@@ -22,6 +22,7 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
 			})
 
 			this.listenTo(Communicator.mediator, 'playerName:change:name:direct', this._render);
+			this.listenTo(Communicator.mediator, 'playerName:player:unset', this._unset);
 		},
 
 		_render: function () {
@@ -35,6 +36,19 @@ function( Backbone, Communicator, Tooltip, PlayermenuTmpl  ) {
 					this.model.set('isComp', true);
 				}
 			}
+			this.render();
+		},
+
+		_unset: function () {
+			this.model.set({
+				ave: "0.0",
+				dbl: "0.0",
+				isComp: false,
+				isRegisteredUser: false,
+				isShowInfo: false,
+				tDarts: 0,
+				wonWithText: ""
+			});
 			this.render();
 		},
 

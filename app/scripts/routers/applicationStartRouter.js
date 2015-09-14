@@ -5,6 +5,7 @@ define([
 	'../views/layout/boardLayout',
 	'../views/layout/matchInfo',
 	'../views/layout/matchInfoFull',
+	'../views/layout/matchInfoLiveLeg',
 	'../views/layout/encounterInfo',
 	'../views/layout/profileLayout',
 	'../views/layout/checkOut',
@@ -12,7 +13,7 @@ define([
 	'../views/layout/compAnalyse',
 	'../views/layout/impressumLayout'
 ],
-function(Backbone, Marionette, App, BoardLayout, MatchInfo, MatchInfoFull, EncounterInfo, ProfileLayout, CheckOut, LiveOverview, ComputerAnalyse, Impressum){
+function(Backbone, Marionette, App, BoardLayout, MatchInfo, MatchInfoFull, MatchInfoLiveLeg, EncounterInfo, ProfileLayout, CheckOut, LiveOverview, ComputerAnalyse, Impressum){
     'use strict';
 
 	return Backbone.Marionette.AppRouter.extend({
@@ -57,7 +58,11 @@ function(Backbone, Marionette, App, BoardLayout, MatchInfo, MatchInfoFull, Encou
 		},
 
 		showMatch: function(id) {
-			App.mainRegion.show(new MatchInfoFull({matchUid: id}));
+			if(id[0] === '-') {
+				App.mainRegion.show(new MatchInfoLiveLeg({encounterUid: id.substring(1, id.length)}));
+			} else {
+				App.mainRegion.show(new MatchInfoFull({matchUid: id}));
+			}
 		},
 
 		showEncounter: function(id) {

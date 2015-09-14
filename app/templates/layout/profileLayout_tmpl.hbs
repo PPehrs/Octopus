@@ -1,34 +1,34 @@
-<div class="flex fz-2">
-	<div style="margin:15px;min-height: 140px;height: 140px;width:140px;border: 1px solid gray;border-radius: 100px;">
-		<img style="max-height:100%; max-width:100%;" src="images/avatar.png" class="img-circle" alt="player avatar"></img>
+
+<div class="panel panel-success">
+    <div class="panel-body">
+        <div class="player-back">
+            <div class="octopus_player_avatar" style="cursor:pointer;margin:15px;min-height: 140px;height: 140px;width:140px;border: 1px solid gray;border-radius: 100px;">
+                <img width="140" height="140" id="octopus_selected_player_imageFile" style="max-height:100%; max-width:100%;" src="images/avatar.png" class="img-circle" alt="player avatar"></img>
+            </div>
+        </div>
 	</div>
-    <div class="flex m-t" style="margin-top: 45px;">
-		<div class="m-l">
-			<div>Name</div>
-			<div>-</div>
-		</div>
-		<div class="m-l">
-			<div>Benutzername</div>
-			<div>-</div>
-		</div>
-		<div class="m-l">
-			<div>Best Leg Average</div>
-			<div>-</div>
-		</div>
-		<div class="m-l">
-			<div>Total Average</div>
-			<div>-</div>
+</div>
+
+<div class="well">
+    <h2>Spieler Info</h2>
+   	<div id="octopus_playerStatistic_first"></div>
+</div>
+
+<div class="well">
+    <div class="fz-2">Anzahl Darts</div>
+    <div style="width:100%; height:400px">
+        <canvas id="octopus_formChart" width="1200" height="300"></canvas>
+    </div>
+</div>
+
+<div class="well">
+    <h2>Die letzten 10 Matches</h2>
+    <div class="panel panel-success">
+		<div class="panel-body">
+			<div id="octopus_playerMatches"></div>
 		</div>
     </div>
 </div>
 
-<div class="fz-2">Form-Kurve</div>
-<div style="width:100%; height:400px">
-    <canvas id="octopus_formChart" width="1200" height="300"></canvas>
-</div>
 
-<div class="fz-2">Gespielte Matches</div>
-<div style="width:100%; height:400px">
-	<canvas id="octopus_matchesChart" width="1200" height="300"></canvas>
-</div>
 
