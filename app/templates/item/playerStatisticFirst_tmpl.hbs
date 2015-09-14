@@ -1,0 +1,82 @@
+
+<div class="panel">
+    <div class="panel-heading">Hero Section</div>
+	<div style="white-space: nowrap;" class="fz-2">
+		<div class="fz-15 flex"  style="margin:auto;text-align:center;">
+			<div style="padding:5px 10px;" class="bg-success">
+				<b>
+				<div style="text-align: center">Bestes Leg</div>
+				<div class="fz-1" style="margin-bottom:4px;text-align: center"><i class="fa fa-info-circle"></i></div>
+				<div style="text-align: center">{{ shortestLeg}}</div>
+                </b>
+			</div>
+			<div style="padding:5px 10px;" class="bg-warning">
+				<div style="text-align: center">Bestes Match (Won)</div>
+				<div class="fz-1" style="margin-bottom:4px;text-align: center"><i class="fa fa-info-circle"></i></div>
+				<div style="text-align: center">{{#if bestAveWon }} {{ bestAveWon }} /  <a href="javascript:;" class="octopus-a-to-match" data-uid="{{ bestAveWonUid  }}"> {{ bestAveWonLegs  }} </a> {{else}}-{{/if}}</div>
+			</div>
+			<div style="padding:5px 10px;" class="bg-warning">
+				<div style="text-align: center">Bestes Match (Lost)</div>
+				<div class="fz-1" style="margin-bottom:4px;text-align: center"><i class="fa fa-info-circle"></i></div>
+				<div style="text-align: center">{{#if bestAveLost }} {{ bestAveLost }} / <a href="javascript:;" class="octopus-a-to-match" data-uid="{{ bestAveLostUid  }}">  {{ bestAveLostLegs  }} </a> {{else}}-{{/if}}</div>
+			</div>
+			<div style="padding:5px 10px;" class="bg-info">
+				<div style="margin:0 4px;text-align: center">Höchstes Finish</div>
+				<div class="fz-1" style="margin-bottom:4px;text-align: center;"><i>&nbsp;</i></div>
+				<div style="text-align: center">{{ bestFinish }}</div>
+			</div>
+            <div style="padding:5px 10px;" class="bg-info">
+                <div style="margin:0 4px;text-align: center">180</div>
+                <div class="fz-1" style="margin-bottom:4px;text-align: center;"><i>&nbsp;</i></div>
+                <div style="text-align: center">{{ h180 }}</div>
+            </div>
+            <div style="padding:5px 10px;">
+                <div style="margin:0 4px;text-align: center">Anzahl Matches / Won</div>
+                <div class="fz-1" style="margin-bottom:4px;text-align: center;"><i>&nbsp;</i></div>
+                <div style="text-align: center">{{ totalMatches  }} / {{ totalWonMatches  }}</div>
+            </div>
+            <div style="padding:5px 10px;">
+                <div style="margin:0 4px;text-align: center">Anzahl Legs / Won</div>
+                <div class="fz-1" style="margin-bottom:4px;text-align: center;"><i>&nbsp;</i></div>
+                <div style="text-align: center">{{ totalLegs  }} / {{ totalWonLegs  }}</div>
+            </div>
+		</div>
+	</div>
+</div>
+
+<br>
+
+<div class="panel">
+    <div class="panel-heading">Average & Check</div>
+	<div style="white-space: nowrap;" class="fz-2">
+		<div class="fz-15 flex"  style="margin:auto;text-align:center;">
+			<div style="padding:5px 10px;" class="bg-success">
+                <b>
+				<div style="margin:0 4px;text-align: center">Average</div>
+				<div class="fz-1" style="margin-bottom:4px;text-align: center;"><i class="fa fa-info-circle"></i></div>
+				<div style="text-align: center">{{ ave }}</div>
+                </b>
+			</div>
+			<div style="padding:5px 10px;"  class="bg-success">
+				<div style="margin:0 4px;text-align: center">First 9</div>
+				<div class="fz-1" style="margin-bottom:4px;text-align: center;"><i>&nbsp;</i></div>
+				<div style="text-align: center">{{ ave9 }}</div>
+			</div>
+			<div style="padding:5px 10px;"  class="bg-success">
+				<div style="margin:0 4px;text-align: center">3 Dart Tounament</div>
+				<div class="fz-1" style="margin-bottom:4px;text-align: center"><i class="fa fa-info-circle"></i></div>
+				<div style="text-align: center">{{ ave3Tour }}</div>
+			</div>
+			<div style="padding:5px 10px;"  class="bg-warning">
+				<div style="margin:0 4px;text-align: center">Doppel</div>
+				<div class="fz-1" style="margin-bottom:4px;text-align: center;"><i>&nbsp;</i></div>
+				<div style="text-align: center">{{ dbl }}% {{ checks }}/{{ dblThrows }}</div>
+			</div>
+			<div style="padding:5px 10px;" class="bg-warning">
+				<div style="margin:0 4px;text-align: center">Check Doppel mit 3</div>
+				<div class="fz-1" style="margin-bottom:4px;text-align: center"><i class="fa fa-info-circle"></i></div>
+				<div style="text-align: center">{{ checks3 }}/{{ dbl3 }}</div>
+			</div>
+		</div>
+	</div>
+</div>

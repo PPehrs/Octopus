@@ -1,0 +1,100 @@
+<div class="well octopus_liveLegHeader" style="background:black;color:white">
+    <div class="flex fz-15" style="text-align: center;">
+        <i class="fa fa-info-circle m-r-s" style="margin-top: auto;margin-bottom: auto"></i>Sobald Daten von einem Spiel vorhanden sind werden diese hier angezeigt...
+	</div>
+</div>
+
+<div class="well fz-3">
+	<div class="flex" style="text-align: center;">
+		<div style="width:50%">{{p1Name}}</div>
+		<div style="width:50%">{{p2Name}}</div>
+	</div>
+
+    <div class="flex" style="text-align: center;">
+        <div style="width:50%">{{p1Legs}}</div>
+        <div style="width:50%">{{p2Legs}}</div>
+    </div>
+
+	{{#if hasLegs }}
+		<div style="background:white;color:darkgray" class="fz-2 optional-flex">
+			<div style="width:50%" class="fz-2 flex">
+				<div style="background:black;color:lightgray">
+					<div style="margin:0 4px;text-align: center">Average</div>
+					<div style="text-align: center">{{ lData.ave }}</div>
+				</div>
+				<div style="background:darkgray;color:white">
+					<div style="margin:0 4px;text-align: center">Doppel</div>
+					<div style="text-align: center">{{ lData.dbl }}% {{ lData.checks }}/{{ lData.dblThrows }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">60+</div>
+					<div style="text-align: center">{{ lData.s }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">100+</div>
+					<div style="text-align: center">{{ lData.t }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">140+</div>
+					<div style="text-align: center">{{ lData.t4 }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">180</div>
+					<div style="text-align: center">{{ lData.h8 }}</div>
+				</div>
+			</div>
+			<div style="width:50%" style="background:white;color:darkgray" class="fz-2 flex">
+				<div style="background:black;color:lightgray">
+					<div style="margin:0 4px;text-align: center">Average</div>
+					<div style="text-align: center">{{ rData.ave }}</div>
+				</div>
+                <div style="background:darkgray;color:white">
+					<div style="margin:0 4px;text-align: center">Doppel</div>
+					<div style="text-align: center">{{ rData.dbl }}% {{ rData.checks }}/{{ rData.dblThrows }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">60+</div>
+					<div style="text-align: center">{{ rData.s }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">100+</div>
+					<div style="text-align: center">{{ rData.t }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">140+</div>
+					<div style="text-align: center">{{ rData.t4 }}</div>
+				</div>
+				<div>
+					<div style="margin:0 4px;text-align: center">180</div>
+					<div style="text-align: center">{{ rData.h8 }}</div>
+				</div>
+			</div>
+		</div>
+		<div class="flex">
+	    	<div style="width:50%;background-color:beige;color:gray;" class="fz-2">
+				{{#if lData.hasCheckVals}}
+	                <div><i><span>Checks: </span>{{ lData.ckdValText }}</i></div>
+				{{/if}}
+			</div>
+	    	<div style="width:50%;background-color:beige;color:gray;" class="fz-2">
+				{{#if rData.hasCheckVals}}
+	                <div><i><span>Checks: </span>{{ rData.ckdValText }}</i></div>
+				{{/if}}
+	        </div>
+        </div>
+        <div class="flex">
+            <div style="width:50%;background-color:beige;color:gray;" class="fz-2">
+				{{#if lData.hasCheckVals}}
+                    <div><i><span>Darts: </span>{{ lData.dartsValText }}</i></div>
+				{{/if}}
+            </div>
+            <div style="width:50%;background-color:beige;color:gray;" class="fz-2">
+				{{#if rData.hasCheckVals}}
+                    <div><i><span>Darts: </span>{{ rData.dartsValText }}</i></div>
+				{{/if}}
+            </div>
+        </div>
+	{{/if}}
+    <div class="octopus_matchInfoScoresActiveLeg" style="background-color: azure;"></div>
+    <div class="octopus_matchInfoScoresSets" style="display:none;background-color: azure;"></div>
+</div>
